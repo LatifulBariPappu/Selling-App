@@ -1,0 +1,57 @@
+package com.example.testapi;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.testapi.databinding.ActivityFirstBinding;
+
+public class FirstActivity extends AppCompatActivity{
+
+    ActivityFirstBinding binding;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityFirstBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        checkExistence();
+
+        binding.distributor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sp = getSharedPreferences("login_as",MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("user","Distributor");
+                editor.apply();
+                startActivity(new Intent(FirstActivity.this, LoginActivity.class));
+                finish();
+            }
+        });
+        binding.retailer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sp = getSharedPreferences("login_as",MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("user","Retailer");
+                editor.apply();
+                startActivity(new Intent(FirstActivity.this, LoginActivity.class));
+                finish();
+            }
+        });
+
+    }
+
+    private void checkExistence() {
+        SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
+        if(sp.contains("logged")){
+            startActivity(new Intent(FirstActivity.this, Dashboard.class));
+            finish();
+        }
+    }
+
+}
