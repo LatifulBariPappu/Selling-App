@@ -1,31 +1,21 @@
-package com.example.testapi;
-
+package com.example.testapi.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.testapi.api.MyApi;
 import com.example.testapi.controller.ApiController;
 import com.example.testapi.databinding.ActivityLoginBinding;
 import com.example.testapi.models.RetailerModel;
 import com.example.testapi.models.model;
-
 import java.util.Objects;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
-
 
     ActivityLoginBinding binding;
     @Override
@@ -34,15 +24,11 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        String username=binding.edt1.getText().toString();
-        String password=binding.edt2.getText().toString();
-
-
-//        String username="01620925191";
-//        String password="12345678";
         binding.loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String username=binding.edt1.getText().toString();
+                String password=binding.edt2.getText().toString();
                 processlogin(username, password);
             }
         });
@@ -50,15 +36,15 @@ public class LoginActivity extends AppCompatActivity {
 
     private void processlogin(String username, String password) {
 
-        //call distributor login api
         SharedPreferences sp = getSharedPreferences("login_as",MODE_PRIVATE);
         String userCategory = sp.getString("user","");
 
         if(userCategory.equals("Distributor")){
-            Call<model> call = ApiController
+
+            //call distributor login api
+            Call<model> call=ApiController
                     .getInstance()
-                    .getapi()
-                    .distributorLogin(username,password);
+                    .getapi().distributorLogin(username, password);
 
             call.enqueue(new Callback<model>() {
                 @Override
@@ -81,11 +67,16 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }
+
+
         if(userCategory.equals("Retailer")){
+
+            //call Retailer login api
             Call<RetailerModel> call = ApiController
                     .getInstance()
                     .getapi()
                     .retailerLogin(username,password);
+
             call.enqueue(new Callback<RetailerModel>() {
                 @Override
                 public void onResponse(Call<RetailerModel> call, Response<RetailerModel> response) {
@@ -103,11 +94,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<RetailerModel> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(),t.toString(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"wrong credentials, try again",Toast.LENGTH_SHORT).show();
                 }
             });
         }
-
 
     }
 }

@@ -1,7 +1,6 @@
 package com.example.testapi.controller;
 
 import com.example.testapi.api.MyApi;
-
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

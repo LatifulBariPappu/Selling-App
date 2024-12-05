@@ -2,5 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="my_primary">#6B1BB6</color>
+    <color name="my_primary">#8692f7</color>
+    //#6B1BB6
 </resources>

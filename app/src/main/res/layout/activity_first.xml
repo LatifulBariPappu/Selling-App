@@ -6,12 +6,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".FirstActivity">
+    tools:context=".activities.FirstActivity">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:layout_margin="30dp"
+        android:layout_margin="50dp"
         app:cardElevation="30dp"
         app:cardCornerRadius="20dp">
         <LinearLayout
@@ -19,26 +18,25 @@
             android:layout_height="wrap_content"
             android:padding="40dp"
             android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Login as"
+                android:text="@string/login_as"
                 android:textColor="@color/my_primary"
                 android:textStyle="bold"
-                android:textSize="35sp"/>
+                android:textSize="33sp"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_edittext"
                 android:backgroundTint="@color/my_primary"
                 android:id="@+id/distributor"
-                android:hint="DISTRIBUTOR"
+                android:hint="@string/distributor"
                 android:layout_marginTop="30dp"
                 android:drawableStart="@drawable/ic_user"
                 android:drawableTint="@color/white"
-                android:textSize="22sp"
-                android:tag="1"
+                android:textSize="18sp"
                 android:padding="10dp"
                 android:textColorHint="@color/white"/>
             <Button
@@ -49,11 +47,10 @@
                 android:id="@+id/retailer"
                 android:drawableStart="@drawable/ic_user"
                 android:drawableTint="@color/white"
-                android:hint="RETAILER"
-                android:tag="2"
+                android:hint="@string/retailer"
                 android:padding="10dp"
-                android:layout_marginTop="30dp"
-                android:textSize="22sp"
+                android:layout_marginTop="20dp"
+                android:textSize="18sp"
                 android:textColorHint="@color/white"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

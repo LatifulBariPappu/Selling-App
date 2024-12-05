@@ -1,4 +1,4 @@
-package com.example.testapi;
+package com.example.testapi.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
