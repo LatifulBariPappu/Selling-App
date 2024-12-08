@@ -1,8 +1,15 @@
 package com.example.testapi.models;
+
+import com.google.gson.annotations.SerializedName;
+
 public class DeviceModel {
+    @SerializedName("message")
     private String message;
-    DeviceDetails Device_modelsObject;
-    private float status;
+    @SerializedName("device_models")
+    Device_models Device_modelsObject;
+    @SerializedName("status")
+    private int status;
+
 
 
     // Getter Methods
@@ -11,11 +18,11 @@ public class DeviceModel {
         return message;
     }
 
-    public DeviceDetails getDevice_models() {
+    public Device_models getDevice_models() {
         return Device_modelsObject;
     }
 
-    public float getStatus() {
+    public int getStatus() {
         return status;
     }
 
@@ -25,11 +32,11 @@ public class DeviceModel {
         this.message = message;
     }
 
-    public void setDevice_models(DeviceDetails device_modelsObject) {
+    public void setDevice_models(Device_models device_modelsObject) {
         this.Device_modelsObject = device_modelsObject;
     }
 
-    public void setStatus(float status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 }

@@ -12,4 +12,5 @@
     <string name="retailer_sale">Sale</string>
     <string name="next_btn">Next</string>
     <string name="enter_imei">Enter IMEI</string>
+    <string name="default_text">default text</string>
 </resources>
