@@ -3,8 +3,11 @@ package com.example.testapi.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.testapi.controller.ApiController;
 import com.example.testapi.databinding.ActivityLoginBinding;
@@ -48,7 +51,8 @@ public class LoginActivity extends AppCompatActivity {
 
             call.enqueue(new Callback<model>() {
                 @Override
-                public void onResponse(Call<model> call, Response<model> response) {
+                public void onResponse(@NonNull Call<model> call, @NonNull Response<model> response) {
+                    assert response.body() != null;
                     String msg=response.body().getMessage();
                     if(Objects.equals(msg, "Login successful")){
                         SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
@@ -59,11 +63,12 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(new Intent(LoginActivity.this, Dashboard.class));
                         finish();
                     }
+
                 }
 
                 @Override
-                public void onFailure(Call<model> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(),t.toString(),Toast.LENGTH_SHORT).show();
+                public void onFailure(@NonNull Call<model> call, @NonNull Throwable t) {
+                    Toast.makeText(getApplicationContext(),"wrong credentials, try again",Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -79,7 +84,8 @@ public class LoginActivity extends AppCompatActivity {
 
             call.enqueue(new Callback<RetailerModel>() {
                 @Override
-                public void onResponse(Call<RetailerModel> call, Response<RetailerModel> response) {
+                public void onResponse(@NonNull Call<RetailerModel> call, @NonNull Response<RetailerModel> response) {
+                    assert response.body() != null;
                     String msg=response.body().getMessage();
                     if(Objects.equals(msg, "Login successful")){
                         SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
@@ -87,17 +93,18 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("logged","Retailer");
                         editor.apply();
                         Toast.makeText(getApplicationContext(),"retailer login success",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, Dashboard.class));
+                        startActivity(new Intent(LoginActivity.this,RetailerHomeActivity.class));
                         finish();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<RetailerModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<RetailerModel> call, @NonNull Throwable t) {
                     Toast.makeText(getApplicationContext(),"wrong credentials, try again",Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
     }
+
 }

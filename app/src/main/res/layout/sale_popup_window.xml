@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:backgroundTint="#DBDBDB"
+    android:background="@drawable/popup_background">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/enter_imei">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imei_edt"
+            android:inputType="number"
+            android:background="@drawable/custom_edittext"
+            android:textSize="20sp"
+            android:padding="10dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_edittext"
+        android:backgroundTint="@color/my_primary"
+        android:id="@+id/imeiNextBtn"
+        android:hint="@string/next_btn"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="end"
+        android:textSize="25sp"
+        android:textColorHint="@color/white"/>
+</LinearLayout>

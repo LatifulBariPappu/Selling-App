@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.testapi.databinding.ActivityDashboardBinding;
 
 public class Dashboard extends AppCompatActivity {
@@ -33,8 +31,8 @@ public class Dashboard extends AppCompatActivity {
     }
     private void checkexistence() {
         SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
-        if(sp.contains("logged")) {
-            String userCategory = sp.getString("logged", "");
+        String userCategory = sp.getString("logged","");
+        if(userCategory.equals("Distributor")){
             binding.textView.setText("Welcome " + userCategory);
         }
     }

@@ -5,7 +5,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiController {
-    private static final String baseUrl="http://192.168.0.218:8000/";
+    private static final String baseUrl="http://192.168.0.218:8000/api/";
     private static ApiController clientobj;
     private static Retrofit retrofit;
 

@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.testapi.databinding.ActivityFirstBinding;
 
 public class FirstActivity extends AppCompatActivity{
@@ -28,8 +26,7 @@ public class FirstActivity extends AppCompatActivity{
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putString("user","Distributor");
                 editor.apply();
-                startActivity(new Intent(FirstActivity.this, LoginActivity.class));
-                finish();
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             }
         });
         binding.retailer.setOnClickListener(new View.OnClickListener() {
@@ -40,7 +37,6 @@ public class FirstActivity extends AppCompatActivity{
                 editor.putString("user","Retailer");
                 editor.apply();
                 startActivity(new Intent(FirstActivity.this, LoginActivity.class));
-                finish();
             }
         });
 
@@ -48,8 +44,13 @@ public class FirstActivity extends AppCompatActivity{
 
     private void checkExistence() {
         SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
-        if(sp.contains("logged")){
+        String userCategory = sp.getString("logged","");
+        if(userCategory.equals("Distributor")){
             startActivity(new Intent(FirstActivity.this, Dashboard.class));
+            finish();
+        }
+        if(userCategory.equals("Retailer")){
+            startActivity(new Intent(FirstActivity.this, RetailerHomeActivity.class));
             finish();
         }
     }
