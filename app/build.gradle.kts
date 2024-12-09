@@ -41,10 +41,12 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation (libs.material.v1110alpha02)
-
+    implementation(libs.camera.lifecycle)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation (libs.retrofit2.retrofit)
     implementation (libs.retrofit2.converter.gson)
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+
 }
