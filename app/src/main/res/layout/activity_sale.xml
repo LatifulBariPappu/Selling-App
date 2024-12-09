@@ -2,148 +2,135 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="12dp"
-    android:padding="10dp"
+    android:layout_margin="10dp"
+    android:padding="20dp"
     android:orientation="vertical"
     tools:context=".activities.SaleActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/scanLayout">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
+
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="280dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/enter_imei">
+            android:layout_weight="1"
+            android:hint="@string/enter_imei"
+            android:padding="8dp">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/imei_edt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/imei_edt"
-                android:inputType="number"
-                android:padding="10dp"
                 android:background="@drawable/custom_edittext"
-                android:textSize="20sp"/>
+                android:layout_marginEnd="8dp"
+                android:inputType="number"
+                android:padding="8dp"
+                android:textSize="20sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/imeiNextBtn"
+            android:id="@+id/imeiInfoBtn"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
+            android:layout_height="wrap_content"
             android:backgroundTint="@color/my_primary"
+            android:hint="@string/get_info"
+            android:layout_marginTop="2dp"
+            android:textColorHint="@color/white"
+            android:textSize="18sp"/>
+    </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/barcodeBtn"
+        android:backgroundTint="@color/my_primary"
+        android:hint="@string/scan_barcode_here"
+        android:padding="20dp"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/saleInfoLayout"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/imei_tv1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text=""
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/imei_tv2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text=""
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/brand_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text=""
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/color_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text=""
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/model_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text=""
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/serial_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:padding="8dp"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/price_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text=""
+            android:textSize="20sp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:hint="@string/next_btn"
             android:textColorHint="@color/white"
-            android:textSize="18sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:padding="8dp"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/imei_tv1"
-            android:text=""/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/imei_tv2"
-            android:text=""/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/brand_tv"
-            android:text=""/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/color_tv"
-            android:text=""/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/model_tv"
-            android:text=""/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/serial_tv"
-            android:text=""/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/price_tv"
-            android:text=""/>
+            android:backgroundTint="@color/my_primary"
+            android:layout_gravity="end"
+            android:layout_marginTop="50dp"/>
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-        <EditText
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_edittext"
-            android:id="@+id/customer_id_edt"
-            android:hint="Customer ID"
-            android:padding="10dp"/>
-        <EditText
-            android:layout_width="170dp"
-            android:id="@+id/customer_name_edt"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/custom_edittext"
-            android:hint="Customer Name"
-            android:padding="10dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-        <EditText
-            android:layout_width="170dp"
-            android:id="@+id/customer_address_edt"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_edittext"
-            android:hint="Customer Address"
-            android:padding="10dp"/>
-        <EditText
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/customer_nid_edt"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/custom_edittext"
-            android:hint="Customer NID"
-            android:padding="10dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-        <EditText
-            android:layout_width="170dp"
-            android:id="@+id/retail_id"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_edittext"
-            android:hint="Retailer ID"
-            android:padding="10dp"/>
-        <EditText
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/retail_name"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/custom_edittext"
-            android:hint="Retailer Name"
-            android:padding="10dp"/>
-    </LinearLayout>
-
 
 </LinearLayout>

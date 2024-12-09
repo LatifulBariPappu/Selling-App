@@ -29,12 +29,11 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/custom_edittext"
                 android:backgroundTint="@color/my_primary"
                 android:id="@+id/distributor"
                 android:hint="@string/distributor"
                 android:layout_marginTop="30dp"
-                android:drawableStart="@drawable/ic_user"
+                android:drawableStart="@drawable/ic_distributor"
                 android:drawableTint="@color/white"
                 android:textSize="18sp"
                 android:padding="10dp"
@@ -42,7 +41,6 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/custom_edittext"
                 android:backgroundTint="@color/my_primary"
                 android:id="@+id/retailer"
                 android:drawableStart="@drawable/ic_user"

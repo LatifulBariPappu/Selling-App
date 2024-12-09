@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.testapi.databinding.ActivityRetailerHomeBinding;
 
 public class RetailerHomeActivity extends AppCompatActivity {
-
     ActivityRetailerHomeBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
