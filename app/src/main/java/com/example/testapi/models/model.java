@@ -1,8 +1,13 @@
 package com.example.testapi.models;
 
 
+import com.google.gson.annotations.SerializedName;
+
 public class model {
+
+    @SerializedName("message")
     private String message;
+    @SerializedName("distributor")
     Distributor distributorObject;
 
     public model(String message, Distributor distributorObject) {
@@ -30,11 +35,17 @@ public class model {
     }
 }
 class Distributor {
+    @SerializedName("id")
     private int id;
+    @SerializedName("name")
     private String name;
+    @SerializedName("mobile")
     private String mobile;
+    @SerializedName("address")
     private String address;
+    @SerializedName("no_of_subscription")
     private int no_of_subscription;
+    @SerializedName("status")
     private int status;
 
     public Distributor(int id, String name, String mobile, String address, int no_of_subscription, int status) {

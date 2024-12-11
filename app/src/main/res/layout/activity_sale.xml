@@ -46,6 +46,11 @@
             android:layout_marginTop="2dp"
             android:textColorHint="@color/white"
             android:textSize="18sp"/>
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imeiProgress"
+            android:visibility="gone"/>
     </LinearLayout>
     <Button
         android:layout_width="match_parent"
@@ -112,7 +117,13 @@
             android:text=""
             android:padding="8dp"
             android:textSize="20sp"/>
-
+        <TextView
+            android:id="@+id/distributor_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:padding="8dp"
+            android:textSize="20sp"/>
         <TextView
             android:id="@+id/price_tv"
             android:layout_width="match_parent"
