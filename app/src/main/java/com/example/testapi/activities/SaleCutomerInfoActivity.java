@@ -5,13 +5,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.testapi.api.MyApi;
 import com.example.testapi.controller.ApiController;
 import com.example.testapi.databinding.ActivitySaleCutomerInfoBinding;
 import com.example.testapi.models.SaleRequestModel;
@@ -19,7 +17,6 @@ import com.example.testapi.models.SaleResponseModel;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -70,8 +67,6 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
         binding.customerAddressEdt.addTextChangedListener(textWatcher);
         binding.customerMobileEdt.addTextChangedListener(textWatcher);
         binding.customerNidEdt.addTextChangedListener(textWatcher);
-        binding.retailName.addTextChangedListener(textWatcher);
-        binding.retailId.addTextChangedListener(textWatcher);
         binding.downPayment.addTextChangedListener(textWatcher);
         binding.paymentDate.addTextChangedListener(textWatcher);
 
@@ -79,16 +74,13 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
         binding.customerMobileEdt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) { // If the EditText loses focus
+                if (!hasFocus) {
                     String input = binding.customerMobileEdt.getText().toString().trim();
                     if (input.isEmpty()) {
-                        // Set error if input is empty
                         binding.customerMobileEdt.setError("Mobile field cannot be empty");
                     } else if (!input.matches("^(\\+880|880|01)[1-9]\\d{8}$")) {
-                        // Set error if input contains alphabetic characters
                         binding.customerMobileEdt.setError("Please enter actual mobile number");
                     } else {
-                        // Clear the error if the input is valid
                         binding.customerMobileEdt.setError(null);
                     }
                 }
@@ -97,57 +89,63 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
         binding.customerNidEdt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) { // If the EditText loses focus
+                if (!hasFocus) {
                     String input = binding.customerNidEdt.getText().toString().trim();
                     if (input.isEmpty()) {
-                        // Set error if input is empty
                         binding.customerNidEdt.setError("NID field cannot be empty");
                     } else if (!input.matches("^(\\d{10}|\\d{13}|\\d{17})$")) {
-                        // Set error if input contains alphabetic characters
                         binding.customerNidEdt.setError("Please enter actual NID");
                     } else {
-                        // Clear the error if the input is valid
                         binding.customerNidEdt.setError(null);
                     }
                 }
             }
         });
 
-
-
         assert formattedDate != null;
         binding.paymentDate.setText(formattedDate);
-
-
-
-
 
         binding.confirmSaleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Random random= new Random();
+                SharedPreferences sp = getSharedPreferences("device_details",MODE_PRIVATE);
+                SharedPreferences sp2 = getSharedPreferences("saved_login",MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
                 String customerId = String.valueOf(1_000_000_000L + (long) (random.nextDouble() * 9_000_000_000L));
+                editor.putString("customerId",customerId);
                 String customerName = binding.customerNameEdt.getText().toString();
+                editor.putString("customerName",customerName);
                 String customerAddress = binding.customerAddressEdt.getText().toString();
+                editor.putString("customerAddress",customerAddress);
                 int customerNID = Integer.parseInt(binding.customerNidEdt.getText().toString());
+                editor.putInt("customerNID",customerNID);
                 String customerMobile = binding.customerMobileEdt.getText().toString();
-                String plazaName = binding.retailName.getText().toString();
-                String plazaId = binding.retailId.getText().toString();
+                editor.putString("customerMobile",customerMobile);
+                String plazaName = sp2.getString("retailerName","");
+                editor.putString("plazaName",plazaName);
+                String plazaId = String.valueOf(sp2.getInt("retailerId",0));
+                editor.putString("plazaId",plazaId);
                 int numberOfInstallment = Integer.parseInt(binding.numberofInstallation.getText().toString());
+                editor.putInt("numberOfInstallment",numberOfInstallment);
                 int downPayment = Integer.parseInt(binding.downPayment.getText().toString());
+                editor.putInt("downPayment",downPayment);
 
                 int randomNumber = 1000 + random.nextInt(9000);
-                String posInvoiceNumber = formattedDate+"IISL"+randomNumber;
+                String posInvoiceNumber = formattedDate+"-IISL-"+randomNumber;
+                editor.putString("posInvoiceNumber",posInvoiceNumber);
                 String downPaymentDate = binding.paymentDate.getText().toString();
+                editor.putString("downPaymentDate",downPaymentDate);
 
-                SharedPreferences sp = getSharedPreferences("device_details",MODE_PRIVATE);
+
                 String imei1 = sp.getString("imei1","");
                 String barcode = sp.getString("barcode","");
                 String brand = sp.getString("brand","");
                 String model = sp.getString("model","");
                 String color = sp.getString("color","");
-//                int hireSalePrice = sp.getInt("price",0);
                 int hireSalePrice = Integer.parseInt(binding.hireSalePrice.getText().toString().trim());
+                editor.putInt("hireSalePrice",hireSalePrice);
+                editor.apply();
                 String salesBy = sp.getString("distributor","");
 
                 SaleRequestModel request = new SaleRequestModel(customerId,customerName,customerAddress,customerNID,customerMobile,salesBy,plazaName,plazaId,posInvoiceNumber,salesBy,imei1,barcode,brand,model,color,hireSalePrice,numberOfInstallment,downPayment,downPaymentDate);
@@ -166,12 +164,11 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
         String text2=binding.customerAddressEdt.getText().toString();
         String text3=binding.customerMobileEdt.getText().toString();
         String text4=binding.customerNidEdt.getText().toString();
-        String text5=binding.retailId.getText().toString();
-        String text6=binding.retailName.getText().toString();
+        String text7=binding.hireSalePrice.getText().toString();
         String text8=binding.paymentDate.getText().toString();
         String text9=binding.downPayment.getText().toString();
         String text10=binding.numberofInstallation.getText().toString();
-        if(!text1.isEmpty() && !text2.isEmpty() && !text3.isEmpty() && !text4.isEmpty() && !text5.isEmpty() && !text6.isEmpty() && !text8.isEmpty() && !text9.isEmpty() && !text10.isEmpty()){
+        if(!text1.isEmpty() && !text2.isEmpty() && !text3.isEmpty() && !text4.isEmpty()&& !text7.isEmpty() && !text8.isEmpty() && !text9.isEmpty() && !text10.isEmpty()){
             binding.confirmSaleBtn.setVisibility(View.VISIBLE);
         }else{
             binding.confirmSaleBtn.setVisibility(View.GONE);
@@ -179,6 +176,8 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
     }
 
     private void getInvoiceSuccess(String auth, SaleRequestModel req){
+        binding.confirmSaleBtn.setVisibility(View.GONE);
+        binding.confirmSaleProgess.setVisibility(View.VISIBLE);
         Call<SaleResponseModel> call = ApiController
                 .getInstance()
                 .getapi()
@@ -186,6 +185,9 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
         call.enqueue(new Callback<SaleResponseModel>() {
             @Override
             public void onResponse(Call<SaleResponseModel> call, Response<SaleResponseModel> response) {
+
+                binding.confirmSaleProgess.setVisibility(View.GONE);
+
                 if (response.isSuccessful() && response.body() != null) {
                     SaleResponseModel responseData = response.body();
                     if ("Action Successful".equals(responseData.getDataObject().getMessage())) {

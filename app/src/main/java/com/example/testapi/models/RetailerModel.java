@@ -28,75 +28,76 @@ public class RetailerModel {
     public void setRetailObject(Retail retailObject) {
         this.retailObject = retailObject;
     }
-}
-class Retail{
-    @SerializedName("id")
-    private int id;
-    @SerializedName("name")
-    private String name;
-    @SerializedName("mobile")
-    private String mobile;
-    @SerializedName("address")
-    private String address;
-    @SerializedName("distributor_name")
-    private String distributor_name;
-    @SerializedName("status")
-    private int status;
+    public static class Retail{
+        @SerializedName("id")
+        private int id;
+        @SerializedName("name")
+        private String name;
+        @SerializedName("mobile")
+        private String mobile;
+        @SerializedName("address")
+        private String address;
+        @SerializedName("distributor_name")
+        private String distributor_name;
+        @SerializedName("status")
+        private int status;
 
-    public Retail(int id, String name, String mobile, String address, String distributor_name, int status) {
-        this.id = id;
-        this.name = name;
-        this.mobile = mobile;
-        this.address = address;
-        this.distributor_name = distributor_name;
-        this.status = status;
+        public Retail(int id, String name, String mobile, String address, String distributor_name, int status) {
+            this.id = id;
+            this.name = name;
+            this.mobile = mobile;
+            this.address = address;
+            this.distributor_name = distributor_name;
+            this.status = status;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getMobile() {
+            return mobile;
+        }
+
+        public void setMobile(String mobile) {
+            this.mobile = mobile;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public String getDistributor_name() {
+            return distributor_name;
+        }
+
+        public void setDistributor_name(String distributor_name) {
+            this.distributor_name = distributor_name;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getDistributor_name() {
-        return distributor_name;
-    }
-
-    public void setDistributor_name(String distributor_name) {
-        this.distributor_name = distributor_name;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
 }

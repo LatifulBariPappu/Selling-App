@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.testapi.databinding.ActivityFirstBinding;
 
@@ -16,6 +17,7 @@ public class FirstActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         binding = ActivityFirstBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         checkExistence();
 

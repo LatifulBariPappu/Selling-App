@@ -10,13 +10,13 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="50dp"
+        android:layout_margin="40dp"
         app:cardElevation="30dp"
         app:cardCornerRadius="20dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="40dp"
+            android:padding="25dp"
             android:orientation="vertical"
             android:gravity="center">
             <TextView

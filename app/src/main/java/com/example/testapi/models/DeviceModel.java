@@ -5,14 +5,14 @@ import com.google.gson.annotations.SerializedName;
 public class DeviceModel {
     @SerializedName("message")
     private String message;
-    @SerializedName("device_models")
-    device_models device_models;
+    @SerializedName("device")
+    device device;
     @SerializedName("status")
     private int status;
 
-    public DeviceModel(String message, DeviceModel.device_models device_models, int status) {
+    public DeviceModel(String message, DeviceModel.device device, int status) {
         this.message = message;
-        this.device_models = device_models;
+        this.device = device;
         this.status = status;
     }
 
@@ -24,12 +24,12 @@ public class DeviceModel {
         this.message = message;
     }
 
-    public device_models getDevice_models() {
-        return device_models;
+    public device getDevice() {
+        return device;
     }
 
-    public void setDevice_models(device_models device_models) {
-        this.device_models = device_models;
+    public void setDevice_models(device device_models) {
+        this.device = device_models;
     }
 
     public int getStatus() {
@@ -40,7 +40,7 @@ public class DeviceModel {
         this.status = status;
     }
 
-    public static class device_models {
+    public static class device {
         @SerializedName("imei_1")
         private String imei_1;
         @SerializedName("imei_2")
@@ -57,8 +57,10 @@ public class DeviceModel {
         private String distributor_name;
         @SerializedName("hire_sale_price")
         private int hire_sale_price;
+        @SerializedName("sell_status")
+        private int sell_status;
 
-        public device_models(String imei_1, String imei_2, String device, String serial_number, String brand, String color, String distributor_name, int hire_sale_price) {
+        public device(String imei_1, String imei_2, String device, String serial_number, String brand, String color, String distributor_name, int hire_sale_price, int sell_status) {
             this.imei_1 = imei_1;
             this.imei_2 = imei_2;
             this.device = device;
@@ -67,6 +69,7 @@ public class DeviceModel {
             this.color = color;
             this.distributor_name = distributor_name;
             this.hire_sale_price = hire_sale_price;
+            this.sell_status = sell_status;
         }
 
         public String getImei_1() {
@@ -131,6 +134,14 @@ public class DeviceModel {
 
         public void setHire_sale_price(int hire_sale_price) {
             this.hire_sale_price = hire_sale_price;
+        }
+
+        public int getSell_status() {
+            return sell_status;
+        }
+
+        public void setSell_status(int sell_status) {
+            this.sell_status = sell_status;
         }
     }
 

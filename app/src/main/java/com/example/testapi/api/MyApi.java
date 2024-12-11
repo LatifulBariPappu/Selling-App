@@ -4,7 +4,7 @@ import com.example.testapi.models.DeviceModel;
 import com.example.testapi.models.RetailerModel;
 import com.example.testapi.models.SaleRequestModel;
 import com.example.testapi.models.SaleResponseModel;
-import com.example.testapi.models.model;
+import com.example.testapi.models.DistributorModel;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
@@ -14,7 +14,7 @@ import retrofit2.http.Query;
 public interface MyApi {
     //distributor login api
     @POST("distributors/login")
-    Call<model> distributorLogin(
+    Call<DistributorModel> distributorLogin(
             @Query("mobile") String mobile,
             @Query("password") String password
     );
@@ -24,10 +24,12 @@ public interface MyApi {
             @Query("mobile") String mobile,
             @Query("password") String password
     );
+    //device model api
     @POST("devicemodel/imei")
     Call<DeviceModel> getDevice(
             @Query("imei") String imei
     );
+    //hire sale price api
     @POST("hire-sale")
     Call<SaleResponseModel> sendRequest(
             @Header("Authorization") String authorization,

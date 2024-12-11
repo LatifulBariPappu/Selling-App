@@ -24,13 +24,12 @@ public class RetailerHomeActivity extends AppCompatActivity {
                 finish();
             }
         });
-        binding.salebtn.setOnClickListener(new View.OnClickListener() {
+        binding.saleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RetailerHomeActivity.this, SaleActivity.class));
+                startActivity(new Intent(getApplicationContext(), SaleActivity.class));
             }
         });
-
     }
 
 }

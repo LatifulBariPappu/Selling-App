@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.testapi.controller.ApiController;
 import com.example.testapi.databinding.ActivityLoginBinding;
 import com.example.testapi.models.RetailerModel;
-import com.example.testapi.models.model;
+import com.example.testapi.models.DistributorModel;
 import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username=binding.edt1.getText().toString();
                 String password=binding.edt2.getText().toString();
-                processlogin(username, password);
+                process_login(username, password);
             }
         });
     }
@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void processlogin(String username, String password) {
+    private void process_login(String username, String password) {
 
         binding.loginbtn.setVisibility(View.GONE);
         binding.loginProgress.setVisibility(View.VISIBLE);
@@ -77,13 +77,13 @@ public class LoginActivity extends AppCompatActivity {
         if(userCategory.equals("Distributor")){
 
             //call distributor login api
-            Call<model> call=ApiController
+            Call<DistributorModel> call=ApiController
                     .getInstance()
                     .getapi().distributorLogin(username, password);
 
-            call.enqueue(new Callback<model>() {
+            call.enqueue(new Callback<DistributorModel>() {
                 @Override
-                public void onResponse(@NonNull Call<model> call, @NonNull Response<model> response) {
+                public void onResponse(@NonNull Call<DistributorModel> call, @NonNull Response<DistributorModel> response) {
                     binding.loginbtn.setVisibility(View.VISIBLE);
                     binding.loginProgress.setVisibility(View.GONE);
                     if(response.isSuccessful() && response.body()!=null){
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<model> call, @NonNull Throwable t) {
+                public void onFailure(@NonNull Call<DistributorModel> call, @NonNull Throwable t) {
                     binding.loginbtn.setVisibility(View.VISIBLE);
                     binding.loginProgress.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(),"Failed to call API",Toast.LENGTH_SHORT).show();
@@ -134,13 +134,17 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
                             SharedPreferences.Editor editor = sp.edit();
                             editor.putString("logged","Retailer");
+                            int retailerId= response.body().getRetailObject().getId();
+                            editor.putInt("retailerId",retailerId);
+                            String retailerName=response.body().getRetailObject().getName();
+                            editor.putString("retailerName",retailerName);
                             editor.apply();
-                            Toast.makeText(getApplicationContext(),"retailer login success",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Welcome "+retailerName,Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LoginActivity.this,RetailerHomeActivity.class));
                             finish();
                         }
                     }else{
-                        Toast.makeText(LoginActivity.this, "check credentials", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "enter correct credentials", Toast.LENGTH_SHORT).show();
                     }
 
                 }

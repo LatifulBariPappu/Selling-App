@@ -37,7 +37,7 @@ public class SaleActivity extends AppCompatActivity {
         binding.imeiInfoBtn.setVisibility(View.GONE);
         binding.saleInfoLayout.setVisibility(View.GONE);
 
-
+        binding.imeiEdt.setError("Enter IMEI or scan Barcode");
         binding.imeiEdt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -55,7 +55,7 @@ public class SaleActivity extends AppCompatActivity {
                     binding.imeiEdt.setError(null);
                     binding.imeiInfoBtn.setVisibility(View.VISIBLE);
                     binding.barcodeBtn.setVisibility(View.GONE);
-                } else {
+                }else {
                     binding.imeiEdt.setError("IMEI must be exactly 15 characters long");
                     binding.barcodeBtn.setVisibility(View.VISIBLE);
                 }
@@ -65,6 +65,7 @@ public class SaleActivity extends AppCompatActivity {
         binding.barcodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                binding.imeiEdt.setText("");
                 scancode();
             }
         });
@@ -112,53 +113,54 @@ public class SaleActivity extends AppCompatActivity {
 
         call.enqueue(new Callback<DeviceModel>() {
             @Override
-            public void onResponse(Call<DeviceModel> call, Response<DeviceModel> response) {
+            public void onResponse(@NonNull Call<DeviceModel> call, @NonNull Response<DeviceModel> response) {
                 binding.imeiProgress.setVisibility(View.GONE);
                 binding.imeiInfoBtn.setVisibility(View.VISIBLE);
                 if(response.isSuccessful() && response.body()!=null){
                     String msg = response.body().getMessage();
                     if("IMEI found".equals(msg)){
-                        binding.saleInfoLayout.setVisibility(View.VISIBLE);
-                        binding.scanLayout.setVisibility(View.GONE);
-                        Toast.makeText(getApplicationContext(),"IMEI Found",Toast.LENGTH_SHORT).show();
 
-                        SharedPreferences sp = getSharedPreferences("device_details",MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sp.edit();
+                        int sell_status = response.body().getDevice().getSell_status();
 
-                        String imei1 = response.body().getDevice_models().getImei_1();
-                        editor.putString("imei1",imei1);
-                        editor.apply();
-                        String imei2 = response.body().getDevice_models().getImei_2();
-                        editor.putString("barcode",imei2);
-                        editor.apply();
-                        String brand = response.body().getDevice_models().getBrand();
-                        editor.putString("brand",brand);
-                        editor.apply();
-                        String color = response.body().getDevice_models().getColor();
-                        editor.putString("color",color);
-                        editor.apply();
-                        String model = response.body().getDevice_models().getDevice();
-                        editor.putString("model",model);
-                        editor.apply();
-                        int price =response.body().getDevice_models().getHire_sale_price();
-                        editor.putInt("price",price);
-                        editor.apply();
-                        String serial = response.body().getDevice_models().getSerial_number();
-                        editor.putString("serial",serial);
-                        editor.apply();
-                        String distributorName = response.body().getDevice_models().getDistributor_name();
-                        editor.putString("distributor",distributorName);
-                        editor.apply();
-                        binding.imeiTv1.setText(imei1 != null ? "IMEI1 : "+imei1 : "IMEI1 not available");
-                        binding.imeiTv2.setText(imei2 != null ? "IMEI2 : "+imei2 : "IMEI2 not available");
-                        binding.brandTv.setText(brand != null ? "BRAND : "+brand : "Brand not available");
-                        binding.colorTv.setText(color != null ? "COLOR : "+color : "Color not available");
-                        binding.modelTv.setText(model != null ? "MODEL : "+model : "Model not available");
-                        binding.serialTv.setText(serial !=null ? "SERIAL NUMBER : "+serial : "Serial not available");
-                        binding.distributorTv.setText(distributorName != null ? "DISTRIBUTOR NAME : "+distributorName : "DistributorName not available");
-                        binding.priceTv.setText("HIRE SALE PRICE : "+price);
+                        if(sell_status==1){
+                            Toast.makeText(SaleActivity.this, "IMEI already sold", Toast.LENGTH_SHORT).show();
+                        }else{
+                            binding.saleInfoLayout.setVisibility(View.VISIBLE);
+                            binding.scanLayout.setVisibility(View.GONE);
+                            Toast.makeText(getApplicationContext(),"IMEI Found",Toast.LENGTH_SHORT).show();
+
+                            SharedPreferences sp = getSharedPreferences("device_details",MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sp.edit();
+
+                            String imei1 = response.body().getDevice().getImei_1();
+                            editor.putString("imei1",imei1);
+                            String imei2 = response.body().getDevice().getImei_2();
+                            editor.putString("barcode",imei2);
+                            String brand = response.body().getDevice().getBrand();
+                            editor.putString("brand",brand);
+                            String color = response.body().getDevice().getColor();
+                            editor.putString("color",color);
+                            String model = response.body().getDevice().getDevice();
+                            editor.putString("model",model);
+                            int price =response.body().getDevice().getHire_sale_price();
+                            editor.putInt("price",price);
+                            String serial = response.body().getDevice().getSerial_number();
+                            editor.putString("serial",serial);
+                            String distributorName = response.body().getDevice().getDistributor_name();
+                            editor.putString("distributor",distributorName);
+                            binding.sellStatusTv.setText("SELL STATUS : "+sell_status);
+                            editor.putInt("sell_status",sell_status);
+                            editor.apply();
+                            binding.imeiTv1.setText(imei1 != null ? "IMEI1 : "+imei1 : "IMEI1 not available");
+                            binding.imeiTv2.setText(imei2 != null ? "IMEI2 : "+imei2 : "IMEI2 not available");
+                            binding.brandTv.setText(brand != null ? "BRAND : "+brand : "Brand not available");
+                            binding.colorTv.setText(color != null ? "COLOR : "+color : "Color not available");
+                            binding.modelTv.setText(model != null ? "MODEL : "+model : "Model not available");
+                            binding.serialTv.setText(serial !=null ? "SERIAL NUMBER : "+serial : "Serial not available");
+                            binding.distributorTv.setText(distributorName != null ? "DISTRIBUTOR NAME : "+distributorName : "DistributorName not available");
+                            binding.priceTv.setText("HIRE SALE PRICE : "+price);
+                        }
                     }
-
                 }else{
                     Toast.makeText(getApplicationContext(), "device not found", Toast.LENGTH_SHORT).show();
                     binding.imeiEdt.setText("");
