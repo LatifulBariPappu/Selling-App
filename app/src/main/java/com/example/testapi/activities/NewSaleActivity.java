@@ -22,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SaleActivity extends AppCompatActivity {
+public class NewSaleActivity extends AppCompatActivity {
 
     ActivitySaleBinding binding;
 
@@ -81,7 +81,7 @@ public class SaleActivity extends AppCompatActivity {
         binding.foundToNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SaleActivity.this,SaleCutomerInfoActivity.class));
+                startActivity(new Intent(NewSaleActivity.this,SaleCutomerInfoActivity.class));
             }
         });
     }
@@ -123,7 +123,7 @@ public class SaleActivity extends AppCompatActivity {
                         int sell_status = response.body().getDevice().getSell_status();
 
                         if(sell_status==1){
-                            Toast.makeText(SaleActivity.this, "IMEI already sold", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NewSaleActivity.this, "IMEI already sold", Toast.LENGTH_SHORT).show();
                         }else{
                             binding.saleInfoLayout.setVisibility(View.VISIBLE);
                             binding.scanLayout.setVisibility(View.GONE);
@@ -146,8 +146,10 @@ public class SaleActivity extends AppCompatActivity {
                             editor.putInt("price",price);
                             String serial = response.body().getDevice().getSerial_number();
                             editor.putString("serial",serial);
+                            int distribitorId = response.body().getDevice().getDistributor_id();
+                            editor.putInt("distributorId",distribitorId);
                             String distributorName = response.body().getDevice().getDistributor_name();
-                            editor.putString("distributor",distributorName);
+                            editor.putString("distributorName",distributorName);
                             binding.sellStatusTv.setText("SELL STATUS : "+sell_status);
                             editor.putInt("sell_status",sell_status);
                             editor.apply();
@@ -159,6 +161,7 @@ public class SaleActivity extends AppCompatActivity {
                             binding.serialTv.setText(serial !=null ? "SERIAL NUMBER : "+serial : "Serial not available");
                             binding.distributorTv.setText(distributorName != null ? "DISTRIBUTOR NAME : "+distributorName : "DistributorName not available");
                             binding.priceTv.setText("HIRE SALE PRICE : "+price);
+                            binding.distributorIdTv.setText("DISTRIBUTOR ID : "+ distribitorId);
                         }
                     }
                 }else{

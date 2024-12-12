@@ -53,6 +53,8 @@ public class DeviceModel {
         private String brand;
         @SerializedName("color")
         private String color;
+        @SerializedName("distributor_id")
+        private int distributor_id;
         @SerializedName("distributor_name")
         private String distributor_name;
         @SerializedName("hire_sale_price")
@@ -60,13 +62,14 @@ public class DeviceModel {
         @SerializedName("sell_status")
         private int sell_status;
 
-        public device(String imei_1, String imei_2, String device, String serial_number, String brand, String color, String distributor_name, int hire_sale_price, int sell_status) {
+        public device(String imei_1, String imei_2, String device, String serial_number, String brand, String color,int distributor_id, String distributor_name, int hire_sale_price, int sell_status) {
             this.imei_1 = imei_1;
             this.imei_2 = imei_2;
             this.device = device;
             this.serial_number = serial_number;
             this.brand = brand;
             this.color = color;
+            this.distributor_id = distributor_id;
             this.distributor_name = distributor_name;
             this.hire_sale_price = hire_sale_price;
             this.sell_status = sell_status;
@@ -118,6 +121,14 @@ public class DeviceModel {
 
         public void setColor(String color) {
             this.color = color;
+        }
+
+        public int getDistributor_id() {
+            return distributor_id;
+        }
+
+        public void setDistributor_id(int distributor_id) {
+            this.distributor_id = distributor_id;
         }
 
         public String getDistributor_name() {

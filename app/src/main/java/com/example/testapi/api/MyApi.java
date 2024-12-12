@@ -1,5 +1,6 @@
 package com.example.testapi.api;
 
+import com.example.testapi.models.DeviceListModel;
 import com.example.testapi.models.DeviceModel;
 import com.example.testapi.models.RetailerModel;
 import com.example.testapi.models.SaleRequestModel;
@@ -35,4 +36,8 @@ public interface MyApi {
             @Header("Authorization") String authorization,
             @Body SaleRequestModel request
             );
+    @POST("retail/device-list")
+    Call<DeviceListModel> getDeviceLists(
+            @Query("plaza_id") int plaza_id
+    );
 }

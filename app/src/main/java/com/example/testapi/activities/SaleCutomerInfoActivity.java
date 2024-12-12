@@ -1,5 +1,6 @@
 package com.example.testapi.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -86,6 +87,19 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
                 }
             }
         });
+        binding.numberofInstallation.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    int installment= Integer.parseInt(binding.numberofInstallation.getText().toString().trim());
+                    if(installment==0){
+                        binding.numberofInstallation.setError("Installment can't be 0");
+                    }else{
+                        binding.numberofInstallation.setError(null);
+                    }
+                }
+            }
+        });
         binding.customerNidEdt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
@@ -146,7 +160,7 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
                 int hireSalePrice = Integer.parseInt(binding.hireSalePrice.getText().toString().trim());
                 editor.putInt("hireSalePrice",hireSalePrice);
                 editor.apply();
-                String salesBy = sp.getString("distributor","");
+                String salesBy = sp2.getString("retailerName","");
 
                 SaleRequestModel request = new SaleRequestModel(customerId,customerName,customerAddress,customerNID,customerMobile,salesBy,plazaName,plazaId,posInvoiceNumber,salesBy,imei1,barcode,brand,model,color,hireSalePrice,numberOfInstallment,downPayment,downPaymentDate);
 
@@ -192,6 +206,8 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
                     SaleResponseModel responseData = response.body();
                     if ("Action Successful".equals(responseData.getDataObject().getMessage())) {
                         Toast.makeText(SaleCutomerInfoActivity.this, "Action Successful", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(SaleCutomerInfoActivity.this,RetailerHomeActivity.class));
+                        finish();
                     } else if ("Action Unsuccessful".equals(responseData.getDataObject().getMessage())) {
                         Toast.makeText(SaleCutomerInfoActivity.this, "Action Unsuccessful", Toast.LENGTH_SHORT).show();
                     }else if ("Device Already Exist".equals(responseData.getDataObject().getMessage())) {

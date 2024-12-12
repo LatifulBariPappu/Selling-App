@@ -24,10 +24,16 @@ public class RetailerHomeActivity extends AppCompatActivity {
                 finish();
             }
         });
-        binding.saleBtn.setOnClickListener(new View.OnClickListener() {
+        binding.newSaleCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SaleActivity.class));
+                startActivity(new Intent(getApplicationContext(), NewSaleActivity.class));
+            }
+        });
+        binding.deviceListCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),DeviceListsActivity.class));
             }
         });
     }

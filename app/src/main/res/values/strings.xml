@@ -19,11 +19,18 @@
     <string name="customer_nid">NID</string>
     <string name="customer_mobile">Mobile</string>
     <string name="down_payment">Down Payment</string>
-    <string name="number_of_installation">Installation No.</string>
+    <string name="number_of_installation">Installment No.</string>
     <string name="payment_date">Payment Date</string>
     <string name="invoice_number">Invoice Number</string>
     <string name="scan_barcode_here">SCAN BARCODE HERE</string>
     <string name="get_info">Get info</string>
     <string name="sales_person_name">Sales Person Name</string>
     <string name="hire_sale_price">Hire Sale Price</string>
+    <string name="new_sale_btn">New Sale</string>
+    <string name="device_lists_btn">Device Lists</string>
+    <string-array name="search_options">
+        <item>option 1</item>
+        <item>option 2</item>
+        <item>option 2</item>
+    </string-array>
 </resources>
