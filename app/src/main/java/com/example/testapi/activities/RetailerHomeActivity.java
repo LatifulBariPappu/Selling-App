@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.testapi.databinding.ActivityRetailerHomeBinding;
 
 public class RetailerHomeActivity extends AppCompatActivity {
@@ -14,6 +16,7 @@ public class RetailerHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityRetailerHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         binding.retailerLogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,5 +40,6 @@ public class RetailerHomeActivity extends AppCompatActivity {
             }
         });
     }
+
 
 }

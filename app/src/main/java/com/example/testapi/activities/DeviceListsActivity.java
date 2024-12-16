@@ -1,6 +1,7 @@
 package com.example.testapi.activities;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.testapi.controller.ApiController;
@@ -16,8 +18,6 @@ import com.example.testapi.databinding.ActivityDeviceListsBinding;
 import com.example.testapi.models.DeviceAdapter;
 import com.example.testapi.models.DeviceListModel;
 import com.example.testapi.models.Devices;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -35,10 +35,24 @@ public class DeviceListsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
-        int plaza_id =sp.getInt("retailerId",0);
+        int reatailId =sp.getInt("retailerId",0);
 
         binding.deviceListsRecView.setLayoutManager(new LinearLayoutManager(this));
-        getApi(plaza_id);
+        getDeiceListApi(reatailId);
+
+        binding.defaulterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(deviceAdapter.isShowDefaulterText()){
+                    deviceAdapter.setShowDefaulterText(false);
+                    binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+                }else{
+                    deviceAdapter.setShowDefaulterText(true);
+                    binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#8692f7"));
+                }
+            }
+        });
+
         
         binding.searchEdt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -69,16 +83,16 @@ public class DeviceListsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 binding.searchEdt.setText("");
-                binding.searchEdt.setHint("search . . .");
+                binding.searchEdt.setHint("search here");
             }
         });
     }
 
-    private void getApi(int plazaId) {
+    private void getDeiceListApi(int reatailId) {
         Call<DeviceListModel> call = ApiController
                 .getInstance()
                 .getapi()
-                .getDeviceLists(plazaId);
+                .getDeviceLists(reatailId);
 
         call.enqueue(new Callback<DeviceListModel>() {
             @Override
@@ -87,8 +101,11 @@ public class DeviceListsActivity extends AppCompatActivity {
                     String msg = response.body().getMessage();
                     if("Request Successful".equals(msg)){
                         List<Devices> devices = response.body().getDevicesList();
-                        deviceAdapter = new DeviceAdapter(devices);
+                        deviceAdapter = new DeviceAdapter(DeviceListsActivity.this,devices);
                         binding.deviceListsRecView.setAdapter(deviceAdapter);
+
+                    } else if ("No devices found for the provided plaza_id.".equals(msg)) {
+                        Toast.makeText(DeviceListsActivity.this, "No devices found for the current plaza_id.", Toast.LENGTH_SHORT).show();
                     }
 
                 }else{
@@ -114,19 +131,19 @@ public class DeviceListsActivity extends AppCompatActivity {
         popupMenu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case 1:
-                    binding.searchEdt.setHint("search by name");
+                    binding.dropDownTV.setText("Name");
                     break;
                 case 2:
-                    binding.searchEdt.setHint("search by mobile");
+                    binding.dropDownTV.setText("Mobile");
                     break;
                 case 3:
-                    binding.searchEdt.setHint("search by IMEI1");
+                    binding.dropDownTV.setText("IMEI1");
                     break;
                 case 4:
-                    binding.searchEdt.setHint("search by IMEI2");
+                    binding.dropDownTV.setText("IMEI2");
                     break;
                 default:
-                    binding.searchEdt.setHint("search . . .");
+                    binding.searchEdt.setHint("search here");
             }
             Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
             return true;

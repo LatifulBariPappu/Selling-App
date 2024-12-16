@@ -32,16 +32,16 @@ public class NewSaleActivity extends AppCompatActivity {
         binding = ActivitySaleBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         binding.imeiEdt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(15)});
 
         binding.imeiInfoBtn.setVisibility(View.GONE);
         binding.saleInfoLayout.setVisibility(View.GONE);
 
-        binding.imeiEdt.setError("Enter IMEI or scan Barcode");
+
         binding.imeiEdt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -86,6 +86,7 @@ public class NewSaleActivity extends AppCompatActivity {
         });
     }
 
+
     private void scancode() {
         ScanOptions options = new ScanOptions();
         options.setPrompt("Volume up to flash on");
@@ -98,7 +99,6 @@ public class NewSaleActivity extends AppCompatActivity {
     ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(),result->{
         if(result.getContents() != null){
             binding.imeiEdt.setText(result.getContents());
-            binding.barcodeBtn.setVisibility(View.GONE);
         }
     });
 

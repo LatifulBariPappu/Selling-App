@@ -47,8 +47,12 @@ public  class Devices{
     private String last_sync;
     @SerializedName("down_payment_date")
     private String down_payment_date;
+    @SerializedName("defaulted_amount")
+    private double defaulted_amount;
+    @SerializedName("last_payment_date")
+    private String last_payment_date;
 
-    public Devices(String imei_1, String imei_2, String serial_number, String customer_id, String customer_name, int customer_nid, String customer_address, String customer_mobile, String sales_by, String sales_person_name, String plaza_id, String plaza_name, String pos_invoice_number, String model, String brand, String color, int distributor_id, String distributor_name, int hire_sale_price, int sell_status, String last_sync, String down_payment_date) {
+    public Devices(String imei_1, String imei_2, String serial_number, String customer_id, String customer_name, int customer_nid, String customer_address, String customer_mobile, String sales_by, String sales_person_name, String plaza_id, String plaza_name, String pos_invoice_number, String model, String brand, String color, int distributor_id, String distributor_name, int hire_sale_price, int sell_status, String last_sync, String down_payment_date, double defaulted_amount, String last_payment_date) {
         this.imei_1 = imei_1;
         this.imei_2 = imei_2;
         this.serial_number = serial_number;
@@ -71,6 +75,8 @@ public  class Devices{
         this.sell_status = sell_status;
         this.last_sync = last_sync;
         this.down_payment_date = down_payment_date;
+        this.defaulted_amount = defaulted_amount;
+        this.last_payment_date = last_payment_date;
     }
 
     public String getImei_1() {
@@ -247,5 +253,21 @@ public  class Devices{
 
     public void setDown_payment_date(String down_payment_date) {
         this.down_payment_date = down_payment_date;
+    }
+
+    public double getDefaulted_amount() {
+        return defaulted_amount;
+    }
+
+    public void setDefaulted_amount(double defaulted_amount) {
+        this.defaulted_amount = defaulted_amount;
+    }
+
+    public String getLast_payment_date() {
+        return last_payment_date;
+    }
+
+    public void setLast_payment_date(String last_payment_date) {
+        this.last_payment_date = last_payment_date;
     }
 }

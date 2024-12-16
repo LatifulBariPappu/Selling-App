@@ -74,77 +74,87 @@
             android:id="@+id/imei_tv1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:padding="5dp"
             android:text=""
-            android:textSize="20sp" />
+            android:textStyle="bold"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/imei_tv2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:padding="5dp"
             android:text=""
-            android:textSize="20sp" />
+            android:textStyle="bold"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/brand_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:padding="5dp"
             android:text=""
-            android:textSize="20sp" />
+            android:textStyle="bold"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/color_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:padding="5dp"
             android:text=""
-            android:textSize="20sp" />
+            android:textStyle="bold"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/model_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:padding="5dp"
             android:text=""
-            android:textSize="20sp" />
+            android:textStyle="bold"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/serial_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:text=""
-            android:padding="8dp"
-            android:textSize="20sp"/>
+            android:textStyle="bold"
+            android:textSize="16sp"/>
         <TextView
             android:id="@+id/distributorId_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:text=""
-            android:padding="8dp"
-            android:textSize="20sp"/>
+            android:textStyle="bold"
+            android:textSize="16sp"/>
         <TextView
             android:id="@+id/distributor_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:text=""
-            android:padding="8dp"
-            android:textSize="20sp"/>
+            android:textStyle="bold"
+            android:textSize="16sp"/>
         <TextView
             android:id="@+id/price_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:padding="5dp"
             android:text=""
-            android:textSize="20sp" />
+            android:textStyle="bold"
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/sell_status_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:padding="5dp"
             android:text=""
-            android:textSize="20sp" />
+            android:textStyle="bold"
+            android:textSize="16sp" />
 
         <Button
             android:layout_width="wrap_content"

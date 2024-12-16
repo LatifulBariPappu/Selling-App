@@ -38,6 +38,6 @@ public interface MyApi {
             );
     @POST("retail/device-list")
     Call<DeviceListModel> getDeviceLists(
-            @Query("plaza_id") int plaza_id
+            @Query("retail_id") int plaza_id
     );
 }
