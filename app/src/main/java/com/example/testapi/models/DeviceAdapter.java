@@ -70,7 +70,7 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
                 Intent intent = new Intent(context, DeviceDetailsActivity.class);
                 intent.putExtra("imei1",devices.getImei_1());
                 intent.putExtra("imei2",devices.getImei_2());
-                intent.putExtra("lastPayDate",devices.getLast_payment_date());
+                intent.putExtra("downPayDate",devices.getDown_payment_date());
                 intent.putExtra("model",devices.getModel());
                 intent.putExtra("name",devices.getCustomer_name());
                 intent.putExtra("mobile",devices.getCustomer_mobile());

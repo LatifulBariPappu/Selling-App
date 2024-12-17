@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TestApi</string>
+    <string name="app_name">Easy Sale</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
@@ -22,7 +22,7 @@
     <string name="number_of_installation">Installment No.</string>
     <string name="payment_date">Payment Date</string>
     <string name="invoice_number">Invoice Number</string>
-    <string name="scan_barcode_here">SCAN BARCODE HERE</string>
+    <string name="scan_barcode_here">SCAN BARCODE</string>
     <string name="get_info">Get info</string>
     <string name="sales_person_name">Sales Person Name</string>
     <string name="hire_sale_price">Hire Sale Price</string>

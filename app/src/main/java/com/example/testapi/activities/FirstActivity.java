@@ -43,7 +43,6 @@ public class FirstActivity extends AppCompatActivity{
         });
 
     }
-
     private void checkExistence() {
         SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
         String userCategory = sp.getString("logged","");
@@ -56,5 +55,4 @@ public class FirstActivity extends AppCompatActivity{
             finish();
         }
     }
-
 }

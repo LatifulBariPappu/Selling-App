@@ -40,6 +40,13 @@ public class DeviceListsActivity extends AppCompatActivity {
         binding.deviceListsRecView.setLayoutManager(new LinearLayoutManager(this));
         getDeiceListApi(reatailId);
 
+        binding.toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         binding.defaulterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -6,9 +6,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="10dp"
-    android:padding="20dp"
     tools:context=".activities.SaleCutomerInfoActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/my_primary"
+        android:padding="8dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <!-- Back Arrow -->
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_back"
+            android:contentDescription="Back"
+            android:layout_gravity="start" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Confirm Sale"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:padding="20dp">
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -139,22 +172,34 @@
                     android:background="@drawable/custom_edittext"
                     android:padding="15dp"/>
             </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_row="3"
                 android:layout_column="1"
                 android:layout_columnWeight="1"
-                android:hint="@string/payment_date">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/payment_date"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/custom_edittext"
-                    android:padding="15dp"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                android:id="@+id/selectDate"
+                android:hint="Select a Date"
+                android:textSize="18sp"
+                android:drawableEnd="@drawable/baseline_calendar_month_24"
+                android:background="@drawable/custom_edittext"
+                android:padding="15dp"/>
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_row="3"-->
+<!--                android:layout_column="1"-->
+<!--                android:layout_columnWeight="1"-->
+<!--                android:hint="@string/payment_date">-->
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:id="@+id/payment_date"-->
+<!--                    android:layout_margin="5dp"-->
+<!--                    android:background="@drawable/custom_edittext"-->
+<!--                    android:padding="15dp"/>-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -170,6 +215,7 @@
                     android:backgroundTint="@color/my_primary"
                     android:layout_margin="5dp"
                     android:hint="Confirm"
+                    android:visibility="gone"
                     android:textColorHint="@color/white"
                     android:textSize="22sp"/>
                 <ProgressBar
@@ -182,7 +228,6 @@
 
         </GridLayout>
     </ScrollView>
-
-
+    </LinearLayout>
 
 </LinearLayout>

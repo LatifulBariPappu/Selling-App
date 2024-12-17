@@ -1,18 +1,9 @@
 package com.example.testapi.activities;
-
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import androidx.activity.OnBackPressedCallback;
-import android.widget.FrameLayout;
 import android.widget.TextView;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.testapi.R;
 import com.example.testapi.databinding.ActivityDeviceDetailsBinding;
@@ -83,7 +74,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         String imei2 = getIntent().getStringExtra("imei2");
         String mobile = getIntent().getStringExtra("mobile");
         String name = getIntent().getStringExtra("name");
-        String date = getIntent().getStringExtra("lastPayDate");
+        String date = getIntent().getStringExtra("downPayDate");
         String model = getIntent().getStringExtra("model");
         String lastSync = getIntent().getStringExtra("lastSync");
         nameTv=findViewById(R.id.customerNameTV);
@@ -98,7 +89,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         imei1Tv.setText("IMEI1 : "+imei1);
         imei2Tv.setText("IMEI2 : "+imei2);
         mobileTv.setText(mobile);
-        dateTv.setText("Date : "+date);
+        dateTv.setText(date);
         modelTv.setText("Model : "+model);
         lastSyncTv.setText("Last Sync : "+lastSync);
     }

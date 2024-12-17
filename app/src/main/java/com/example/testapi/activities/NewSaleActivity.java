@@ -32,12 +32,14 @@ public class NewSaleActivity extends AppCompatActivity {
         binding = ActivitySaleBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         binding.imeiEdt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(15)});
 
-        binding.imeiInfoBtn.setVisibility(View.GONE);
-        binding.saleInfoLayout.setVisibility(View.GONE);
-
+        binding.toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         binding.imeiEdt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -78,12 +80,6 @@ public class NewSaleActivity extends AppCompatActivity {
             }
         });
 
-        binding.foundToNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(NewSaleActivity.this,SaleCutomerInfoActivity.class));
-            }
-        });
     }
 
 
@@ -125,8 +121,7 @@ public class NewSaleActivity extends AppCompatActivity {
                         if(sell_status==1){
                             Toast.makeText(NewSaleActivity.this, "IMEI already sold", Toast.LENGTH_SHORT).show();
                         }else{
-                            binding.saleInfoLayout.setVisibility(View.VISIBLE);
-                            binding.scanLayout.setVisibility(View.GONE);
+
                             Toast.makeText(getApplicationContext(),"IMEI Found",Toast.LENGTH_SHORT).show();
 
                             SharedPreferences sp = getSharedPreferences("device_details",MODE_PRIVATE);
@@ -150,18 +145,10 @@ public class NewSaleActivity extends AppCompatActivity {
                             editor.putInt("distributorId",distribitorId);
                             String distributorName = response.body().getDevice().getDistributor_name();
                             editor.putString("distributorName",distributorName);
-                            binding.sellStatusTv.setText("SELL STATUS : "+sell_status);
                             editor.putInt("sell_status",sell_status);
                             editor.apply();
-                            binding.imeiTv1.setText(imei1 != null ? "IMEI1 : "+imei1 : "IMEI1 not available");
-                            binding.imeiTv2.setText(imei2 != null ? "IMEI2 : "+imei2 : "IMEI2 not available");
-                            binding.brandTv.setText(brand != null ? "BRAND : "+brand : "Brand not available");
-                            binding.colorTv.setText(color != null ? "COLOR : "+color : "Color not available");
-                            binding.modelTv.setText(model != null ? "MODEL : "+model : "Model not available");
-                            binding.serialTv.setText(serial !=null ? "SERIAL NUMBER : "+serial : "Serial not available");
-                            binding.distributorTv.setText(distributorName != null ? "DISTRIBUTOR NAME : "+distributorName : "DistributorName not available");
-                            binding.priceTv.setText("HIRE SALE PRICE : "+price);
-                            binding.distributorIdTv.setText("DISTRIBUTOR ID : "+ distribitorId);
+                            startActivity(new Intent(NewSaleActivity.this,DeviceInfoActivity.class));
+
                         }
                     }
                 }else{

@@ -9,8 +9,8 @@ public class SaleRequestModel {
     @SerializedName("customer_nid") private int customerNid;
     @SerializedName("customer_mobile") private String customerMobile;
     @SerializedName("sales_by") private String salesBy;
-    @SerializedName("plaza_name") private String plazaName;
-    @SerializedName("plaza_id") private String plazaId;
+    @SerializedName("retail_name") private String plazaName;
+    @SerializedName("retail_id") private String plazaId;
     @SerializedName("pos_invoice_number") private String posInvoiceNumber;
     @SerializedName("sales_person_name") private String salesPersonName;
     @SerializedName("imei_1") private String imei1;

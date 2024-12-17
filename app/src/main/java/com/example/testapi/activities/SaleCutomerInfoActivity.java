@@ -1,5 +1,6 @@
 package com.example.testapi.activities;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import com.example.testapi.models.SaleResponseModel;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -28,7 +31,6 @@ import retrofit2.Response;
 public class SaleCutomerInfoActivity extends AppCompatActivity {
 
     ActivitySaleCutomerInfoBinding binding;
-
     LocalDate date;
     DateTimeFormatter formatter;
     String formattedDate = null;
@@ -47,6 +49,12 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
             formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             formattedDate = date.format(formatter);
         }
+        binding.toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -69,7 +77,25 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
         binding.customerMobileEdt.addTextChangedListener(textWatcher);
         binding.customerNidEdt.addTextChangedListener(textWatcher);
         binding.downPayment.addTextChangedListener(textWatcher);
-        binding.paymentDate.addTextChangedListener(textWatcher);
+
+        binding.selectDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                // Show DatePickerDialog
+                DatePickerDialog datePickerDialog = new DatePickerDialog(SaleCutomerInfoActivity.this,
+                        (DatePicker view, int selectedYear, int selectedMonth, int selectedDay) -> {
+                            // Update the TextView with the selected date
+                            String selectedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
+                            binding.selectDate.setText(selectedDate);
+                        }, year, month, day);
+                datePickerDialog.show();
+            }
+        });
 
 
         binding.customerMobileEdt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -116,8 +142,7 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
             }
         });
 
-        assert formattedDate != null;
-        binding.paymentDate.setText(formattedDate);
+
 
         binding.confirmSaleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +173,7 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
                 int randomNumber = 1000 + random.nextInt(9000);
                 String posInvoiceNumber = formattedDate+"-IISL-"+randomNumber;
                 editor.putString("posInvoiceNumber",posInvoiceNumber);
-                String downPaymentDate = binding.paymentDate.getText().toString();
+                String downPaymentDate = binding.selectDate.getText().toString();
                 editor.putString("downPaymentDate",downPaymentDate);
 
 
@@ -165,12 +190,13 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
                 SaleRequestModel request = new SaleRequestModel(customerId,customerName,customerAddress,customerNID,customerMobile,salesBy,plazaName,plazaId,posInvoiceNumber,salesBy,imei1,barcode,brand,model,color,hireSalePrice,numberOfInstallment,downPayment,downPaymentDate);
 
                 String auth = "iF3PTw5zRS7JdKeu2ULE3A==";
-
-                getInvoiceSuccess(auth,request);
-
+                if(binding.selectDate.getText().toString().isEmpty()){
+                    Toast.makeText(SaleCutomerInfoActivity.this, "Please select a date", Toast.LENGTH_SHORT).show();
+                }else{
+                    getInvoiceSuccess(auth,request);
+                }
             }
         });
-
     }
 
     private void checkFields() {
@@ -179,10 +205,9 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
         String text3=binding.customerMobileEdt.getText().toString();
         String text4=binding.customerNidEdt.getText().toString();
         String text7=binding.hireSalePrice.getText().toString();
-        String text8=binding.paymentDate.getText().toString();
         String text9=binding.downPayment.getText().toString();
         String text10=binding.numberofInstallation.getText().toString();
-        if(!text1.isEmpty() && !text2.isEmpty() && !text3.isEmpty() && !text4.isEmpty()&& !text7.isEmpty() && !text8.isEmpty() && !text9.isEmpty() && !text10.isEmpty()){
+        if(!text1.isEmpty() && !text2.isEmpty() && !text3.isEmpty() && !text4.isEmpty()&& !text7.isEmpty() && !text9.isEmpty() && !text10.isEmpty()){
             binding.confirmSaleBtn.setVisibility(View.VISIBLE);
         }else{
             binding.confirmSaleBtn.setVisibility(View.GONE);
@@ -206,8 +231,7 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
                     SaleResponseModel responseData = response.body();
                     if ("Action Successful".equals(responseData.getDataObject().getMessage())) {
                         Toast.makeText(SaleCutomerInfoActivity.this, "Action Successful", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(SaleCutomerInfoActivity.this,RetailerHomeActivity.class));
-                        finish();
+                        startActivity(new Intent(SaleCutomerInfoActivity.this,InvoiceActivity.class));
                     } else if ("Action Unsuccessful".equals(responseData.getDataObject().getMessage())) {
                         Toast.makeText(SaleCutomerInfoActivity.this, "Action Unsuccessful", Toast.LENGTH_SHORT).show();
                     }else if ("Device Already Exist".equals(responseData.getDataObject().getMessage())) {
