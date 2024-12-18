@@ -158,6 +158,8 @@ public class NewSaleActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(@NonNull Call<DeviceModel> call, @NonNull Throwable t) {
+                binding.imeiProgress.setVisibility(View.GONE);
+                binding.imeiInfoBtn.setVisibility(View.VISIBLE);
                 Toast.makeText(getApplicationContext(),"API Call Failed: " + t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });

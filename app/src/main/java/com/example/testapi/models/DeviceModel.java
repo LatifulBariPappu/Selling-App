@@ -57,7 +57,7 @@ public class DeviceModel {
         private int distributor_id;
         @SerializedName("distributor_name")
         private String distributor_name;
-        @SerializedName("hire_sale_price")
+        @SerializedName("distributor_sale_price")
         private int hire_sale_price;
         @SerializedName("sell_status")
         private int sell_status;

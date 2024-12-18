@@ -30,11 +30,14 @@ public class SaleResponseModel {
     public static class Data {
         @SerializedName("customer_id") private String customerId;
         @SerializedName("imei_1") private String imei1;
+        @SerializedName("next_installment_date")
+        private String next_installment_date;
         @SerializedName("message") private String message;
 
-        public Data(String customerId, String imei1, String message) {
+        public Data(String customerId, String imei1, String next_installment_date, String message) {
             this.customerId = customerId;
             this.imei1 = imei1;
+            this.next_installment_date = next_installment_date;
             this.message = message;
         }
 
@@ -52,6 +55,14 @@ public class SaleResponseModel {
 
         public void setImei1(String imei1) {
             this.imei1 = imei1;
+        }
+
+        public String getNext_installment_date() {
+            return next_installment_date;
+        }
+
+        public void setNext_installment_date(String next_installment_date) {
+            this.next_installment_date = next_installment_date;
         }
 
         public String getMessage() {

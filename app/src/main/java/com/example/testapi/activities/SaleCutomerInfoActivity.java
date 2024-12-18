@@ -230,6 +230,11 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     SaleResponseModel responseData = response.body();
                     if ("Action Successful".equals(responseData.getDataObject().getMessage())) {
+                        String nextInstallmentDate = responseData.getDataObject().getNext_installment_date();
+                        SharedPreferences sp = getSharedPreferences("device_details",MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString("nextInstallmentDate","");
+                        editor.apply();
                         Toast.makeText(SaleCutomerInfoActivity.this, "Action Successful", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(SaleCutomerInfoActivity.this,InvoiceActivity.class));
                     } else if ("Action Unsuccessful".equals(responseData.getDataObject().getMessage())) {
