@@ -21,6 +21,7 @@ import com.example.testapi.models.SaleResponseModel;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -32,8 +33,9 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
 
     ActivitySaleCutomerInfoBinding binding;
     LocalDate date;
-    DateTimeFormatter formatter;
+    DateTimeFormatter formatter,formatter2;
     String formattedDate = null;
+    String formattedDate2 = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +48,12 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             date = LocalDate.now();
-            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            formatter2 = DateTimeFormatter.ofPattern("yyyy-MM");
             formattedDate = date.format(formatter);
+            formattedDate2 = date.format(formatter2);
         }
+        binding.selectDate.setText(formattedDate);
         binding.toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +82,8 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
         binding.customerMobileEdt.addTextChangedListener(textWatcher);
         binding.customerNidEdt.addTextChangedListener(textWatcher);
         binding.downPayment.addTextChangedListener(textWatcher);
+        binding.hireSalePrice.addTextChangedListener(textWatcher);
+        binding.numberofInstallation.addTextChangedListener(textWatcher);
 
         binding.selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +97,7 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(SaleCutomerInfoActivity.this,
                         (DatePicker view, int selectedYear, int selectedMonth, int selectedDay) -> {
                             // Update the TextView with the selected date
-                            String selectedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
+                            String selectedDate = selectedDay + "-" + (selectedMonth + 1) + "-" + selectedYear;
                             binding.selectDate.setText(selectedDate);
                         }, year, month, day);
                 datePickerDialog.show();
@@ -102,13 +109,22 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
-                    String input = binding.customerMobileEdt.getText().toString().trim();
-                    if (input.isEmpty()) {
-                        binding.customerMobileEdt.setError("Mobile field cannot be empty");
-                    } else if (!input.matches("^(\\+880|880|01)[1-9]\\d{8}$")) {
-                        binding.customerMobileEdt.setError("Please enter actual mobile number");
-                    } else {
-                        binding.customerMobileEdt.setError(null);
+                    try {
+                        String input = binding.customerMobileEdt.getText().toString().trim();
+                        if (input.isEmpty()) {
+                            binding.customerMobileEdt.setError("Mobile field cannot be empty");
+                        } else if (!input.matches("^(\\+880|880|01)[1-9]\\d{8}$")) {
+                            binding.customerMobileEdt.setError("Please enter a valid mobile number");
+                        } else {
+                            binding.customerMobileEdt.setError(null);
+                        }
+                    } catch (NumberFormatException e) {
+                        // Handle number input exception gracefully
+                        e.printStackTrace();
+                        binding.customerMobileEdt.setError("Invalid number format");
+                    } catch (Exception e) {
+                        // Catch any other exceptions to prevent crashing
+                        e.printStackTrace();
                     }
                 }
             }
@@ -117,11 +133,20 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    int installment= Integer.parseInt(binding.numberofInstallation.getText().toString().trim());
-                    if(installment==0){
-                        binding.numberofInstallation.setError("Installment can't be 0");
-                    }else{
-                        binding.numberofInstallation.setError(null);
+                    try {
+                        int installment= Integer.parseInt(Objects.requireNonNull(binding.numberofInstallation.getText()).toString().trim());
+                        if(installment==0){
+                            binding.numberofInstallation.setError("Installment can't be 0");
+                        }else{
+                            binding.numberofInstallation.setError(null);
+                        }
+                    } catch (NumberFormatException e) {
+                        // Handle number input exception gracefully
+                        e.printStackTrace();
+                        binding.customerMobileEdt.setError("Invalid number format");
+                    } catch (Exception e) {
+                        // Catch any other exceptions to prevent crashing
+                        e.printStackTrace();
                     }
                 }
             }
@@ -130,19 +155,26 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
-                    String input = binding.customerNidEdt.getText().toString().trim();
-                    if (input.isEmpty()) {
-                        binding.customerNidEdt.setError("NID field cannot be empty");
-                    } else if (!input.matches("^(\\d{10}|\\d{13}|\\d{17})$")) {
-                        binding.customerNidEdt.setError("Please enter actual NID");
-                    } else {
-                        binding.customerNidEdt.setError(null);
+                    try {
+                        String input = binding.customerNidEdt.getText().toString().trim();
+                        if (input.isEmpty()) {
+                            binding.customerNidEdt.setError("NID field cannot be empty");
+                        } else if (!input.matches("^(\\d{10}|\\d{13}|\\d{17})$")) {
+                            binding.customerNidEdt.setError("Please enter actual NID");
+                        } else {
+                            binding.customerNidEdt.setError(null);
+                        }
+                    } catch (NumberFormatException e) {
+                        // Handle number input exception gracefully
+                        e.printStackTrace();
+                        binding.customerMobileEdt.setError("Invalid number format");
+                    } catch (Exception e) {
+                        // Catch any other exceptions to prevent crashing
+                        e.printStackTrace();
                     }
                 }
             }
         });
-
-
 
         binding.confirmSaleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,21 +189,21 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
                 editor.putString("customerName",customerName);
                 String customerAddress = binding.customerAddressEdt.getText().toString();
                 editor.putString("customerAddress",customerAddress);
-                int customerNID = Integer.parseInt(binding.customerNidEdt.getText().toString());
-                editor.putInt("customerNID",customerNID);
+                String customerNID = binding.customerNidEdt.getText().toString();
+                editor.putString("customerNID",customerNID);
                 String customerMobile = binding.customerMobileEdt.getText().toString();
                 editor.putString("customerMobile",customerMobile);
-                String plazaName = sp2.getString("retailerName","");
-                editor.putString("plazaName",plazaName);
-                String plazaId = String.valueOf(sp2.getInt("retailerId",0));
-                editor.putString("plazaId",plazaId);
+                String retailerName = sp2.getString("retailerName","");
+                editor.putString("retailerName",retailerName);
+                String retailerId = String.valueOf(sp2.getInt("retailerId",0));
+                editor.putString("retailerId",retailerId);
                 int numberOfInstallment = Integer.parseInt(binding.numberofInstallation.getText().toString());
                 editor.putInt("numberOfInstallment",numberOfInstallment);
                 int downPayment = Integer.parseInt(binding.downPayment.getText().toString());
                 editor.putInt("downPayment",downPayment);
 
                 int randomNumber = 1000 + random.nextInt(9000);
-                String posInvoiceNumber = formattedDate+"-IISL-"+randomNumber;
+                String posInvoiceNumber = formattedDate2+"-IISL-"+randomNumber;
                 editor.putString("posInvoiceNumber",posInvoiceNumber);
                 String downPaymentDate = binding.selectDate.getText().toString();
                 editor.putString("downPaymentDate",downPaymentDate);
@@ -182,19 +214,18 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
                 String brand = sp.getString("brand","");
                 String model = sp.getString("model","");
                 String color = sp.getString("color","");
-                int hireSalePrice = Integer.parseInt(binding.hireSalePrice.getText().toString().trim());
+                int hireSalePrice = Integer.parseInt(Objects.requireNonNull(binding.hireSalePrice.getText()).toString());
                 editor.putInt("hireSalePrice",hireSalePrice);
                 editor.apply();
                 String salesBy = sp2.getString("retailerName","");
+                String salesPersonName = sp2.getString("retailerName","");
 
-                SaleRequestModel request = new SaleRequestModel(customerId,customerName,customerAddress,customerNID,customerMobile,salesBy,plazaName,plazaId,posInvoiceNumber,salesBy,imei1,barcode,brand,model,color,hireSalePrice,numberOfInstallment,downPayment,downPaymentDate);
+                SaleRequestModel request = new SaleRequestModel(customerId,customerName,customerAddress,customerNID,customerMobile,salesBy,retailerName,retailerId,posInvoiceNumber,salesPersonName,imei1,barcode,brand,model,color,hireSalePrice,numberOfInstallment,downPayment,downPaymentDate);
 
                 String auth = "iF3PTw5zRS7JdKeu2ULE3A==";
-                if(binding.selectDate.getText().toString().isEmpty()){
-                    Toast.makeText(SaleCutomerInfoActivity.this, "Please select a date", Toast.LENGTH_SHORT).show();
-                }else{
-                    getInvoiceSuccess(auth,request);
-                }
+
+                getInvoiceSuccess(auth,request);
+
             }
         });
     }
@@ -226,6 +257,7 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
             public void onResponse(Call<SaleResponseModel> call, Response<SaleResponseModel> response) {
 
                 binding.confirmSaleProgess.setVisibility(View.GONE);
+                binding.confirmSaleBtn.setVisibility(View.VISIBLE);
 
                 if (response.isSuccessful() && response.body() != null) {
                     SaleResponseModel responseData = response.body();
@@ -233,10 +265,11 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
                         String nextInstallmentDate = responseData.getDataObject().getNext_installment_date();
                         SharedPreferences sp = getSharedPreferences("device_details",MODE_PRIVATE);
                         SharedPreferences.Editor editor = sp.edit();
-                        editor.putString("nextInstallmentDate","");
+                        editor.putString("nextInstallmentDate",nextInstallmentDate);
                         editor.apply();
                         Toast.makeText(SaleCutomerInfoActivity.this, "Action Successful", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(SaleCutomerInfoActivity.this,InvoiceActivity.class));
+
                     } else if ("Action Unsuccessful".equals(responseData.getDataObject().getMessage())) {
                         Toast.makeText(SaleCutomerInfoActivity.this, "Action Unsuccessful", Toast.LENGTH_SHORT).show();
                     }else if ("Device Already Exist".equals(responseData.getDataObject().getMessage())) {
@@ -251,6 +284,8 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<SaleResponseModel> call, Throwable t) {
+                binding.confirmSaleProgess.setVisibility(View.GONE);
+                binding.confirmSaleBtn.setVisibility(View.VISIBLE);
                 Toast.makeText(SaleCutomerInfoActivity.this,  "API Call Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

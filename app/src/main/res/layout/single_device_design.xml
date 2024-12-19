@@ -35,49 +35,42 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Name"
-                        android:textStyle="bold"
                         android:textSize="16sp"
                         android:id="@+id/nameTv"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Mobile"
-                        android:textStyle="bold"
                         android:textSize="16sp"
                         android:id="@+id/mobileTv"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="IMEI1"
-                        android:textStyle="bold"
                         android:textSize="16sp"
                         android:id="@+id/imei1Tv"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="IMEI2"
-                        android:textStyle="bold"
                         android:textSize="16sp"
                         android:id="@+id/imei2Tv"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Sell Date"
-                        android:textStyle="bold"
                         android:textSize="16sp"
                         android:id="@+id/sellDateTv"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Last Sync"
-                        android:textStyle="bold"
                         android:textSize="16sp"
                         android:id="@+id/lastSyncTv"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="defaulter amount"
-                        android:textStyle="bold"
                         android:textSize="16sp"
                         android:visibility="gone"
                         android:id="@+id/defaulterAmountTv"/>
@@ -86,7 +79,6 @@
                         android:layout_height="wrap_content"
                         android:text="Last paydate"
                         android:visibility="gone"
-                        android:textStyle="bold"
                         android:textSize="16sp"
                         android:id="@+id/lastPaymentTv"/>
                 </LinearLayout>
@@ -94,7 +86,7 @@
                     android:layout_width="65dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/deviceActiveBtn"
-                    android:backgroundTint="#90F694"
+                    android:backgroundTint="#9FF8A3"
                     android:hint="Active"/>
             </LinearLayout>
             <LinearLayout

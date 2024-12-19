@@ -40,6 +40,8 @@ public class DistributorModel {
         private String name;
         @SerializedName("mobile")
         private String mobile;
+        @SerializedName("email")
+        private String email;
         @SerializedName("address")
         private String address;
         @SerializedName("no_of_subscription")
@@ -47,60 +49,66 @@ public class DistributorModel {
         @SerializedName("status")
         private int status;
 
-        public Distributor(int id, String name, String mobile, String address, int no_of_subscription, int status) {
+        public Distributor(int id, String name, String mobile, String email, String address, int no_of_subscription, int status) {
             this.id = id;
             this.name = name;
             this.mobile = mobile;
+            this.email = email;
             this.address = address;
             this.no_of_subscription = no_of_subscription;
             this.status = status;
         }
-        // Getter Methods
 
-        public float getId() {
+        public int getId() {
             return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
         }
 
         public String getName() {
             return name;
         }
 
-        public String getMobile() {
-            return mobile;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public float getNo_of_subscription() {
-            return no_of_subscription;
-        }
-
-        public float getStatus() {
-            return status;
-        }
-
-        // Setter Methods
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
         public void setName(String name) {
             this.name = name;
+        }
+
+        public String getMobile() {
+            return mobile;
         }
 
         public void setMobile(String mobile) {
             this.mobile = mobile;
         }
 
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
         public void setAddress(String address) {
             this.address = address;
         }
 
+        public int getNo_of_subscription() {
+            return no_of_subscription;
+        }
+
         public void setNo_of_subscription(int no_of_subscription) {
             this.no_of_subscription = no_of_subscription;
+        }
+
+        public int getStatus() {
+            return status;
         }
 
         public void setStatus(int status) {

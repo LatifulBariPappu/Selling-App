@@ -3,134 +3,134 @@ package com.example.testapi.models;
 import com.google.gson.annotations.SerializedName;
 
 public class SaleRequestModel {
-    @SerializedName("customer_id") private String customerId;
-    @SerializedName("customer_name") private String customerName;
-    @SerializedName("customer_address") private String customerAddress;
-    @SerializedName("customer_nid") private int customerNid;
-    @SerializedName("customer_mobile") private String customerMobile;
-    @SerializedName("sales_by") private String salesBy;
-    @SerializedName("retail_name") private String plazaName;
-    @SerializedName("retail_id") private String plazaId;
-    @SerializedName("pos_invoice_number") private String posInvoiceNumber;
-    @SerializedName("sales_person_name") private String salesPersonName;
-    @SerializedName("imei_1") private String imei1;
+    @SerializedName("customer_id") private String customer_id;
+    @SerializedName("customer_name") private String customer_name;
+    @SerializedName("customer_address") private String customer_address;
+    @SerializedName("customer_nid") private String customer_nid;
+    @SerializedName("customer_mobile") private String customer_mobile;
+    @SerializedName("sales_by") private String sales_by;
+    @SerializedName("retail_name") private String retail_name;
+    @SerializedName("retail_id") private String retail_id;
+    @SerializedName("pos_invoice_number") private String pos_invoice_number;
+    @SerializedName("sales_person_name") private String sales_person_name;
+    @SerializedName("imei_1") private String imei_1;
     @SerializedName("barcode") private String barcode;
     @SerializedName("brand") private String brand;
     @SerializedName("model") private String model;
     @SerializedName("color") private String color;
-    @SerializedName("hire_sale_price") private int hireSalePrice;
-    @SerializedName("number_of_installment") private int numberOfInstallment;
-    @SerializedName("down_payment") private int downPayment;
-    @SerializedName("down_payment_date") private String downPaymentDate;
+    @SerializedName("hire_sale_price") private int hire_sale_price;
+    @SerializedName("number_of_installment") private int number_of_installment;
+    @SerializedName("down_payment") private int down_payment;
+    @SerializedName("down_payment_date") private String down_payment_date;
 
-    public SaleRequestModel(String customerId, String customerName, String customerAddress, int customerNid, String customerMobile, String salesBy, String plazaName, String plazaId, String posInvoiceNumber, String salesPersonName, String imei1, String barcode, String brand, String model, String color, int hireSalePrice, int numberOfInstallment, int downPayment, String downPaymentDate) {
-        this.customerId = customerId;
-        this.customerName = customerName;
-        this.customerAddress = customerAddress;
-        this.customerNid = customerNid;
-        this.customerMobile = customerMobile;
-        this.salesBy = salesBy;
-        this.plazaName = plazaName;
-        this.plazaId = plazaId;
-        this.posInvoiceNumber = posInvoiceNumber;
-        this.salesPersonName = salesPersonName;
-        this.imei1 = imei1;
+    public SaleRequestModel(String customer_id, String customer_name, String customer_address, String customer_nid, String customer_mobile, String sales_by, String retail_name, String retail_id, String pos_invoice_number, String sales_person_name, String imei_1, String barcode, String brand, String model, String color, int hire_sale_price, int number_of_installment, int down_payment, String down_payment_date) {
+        this.customer_id = customer_id;
+        this.customer_name = customer_name;
+        this.customer_address = customer_address;
+        this.customer_nid = customer_nid;
+        this.customer_mobile = customer_mobile;
+        this.sales_by = sales_by;
+        this.retail_name = retail_name;
+        this.retail_id = retail_id;
+        this.pos_invoice_number = pos_invoice_number;
+        this.sales_person_name = sales_person_name;
+        this.imei_1 = imei_1;
         this.barcode = barcode;
         this.brand = brand;
         this.model = model;
         this.color = color;
-        this.hireSalePrice = hireSalePrice;
-        this.numberOfInstallment = numberOfInstallment;
-        this.downPayment = downPayment;
-        this.downPaymentDate = downPaymentDate;
+        this.hire_sale_price = hire_sale_price;
+        this.number_of_installment = number_of_installment;
+        this.down_payment = down_payment;
+        this.down_payment_date = down_payment_date;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public String getCustomer_id() {
+        return customer_id;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setCustomer_id(String customer_id) {
+        this.customer_id = customer_id;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public String getCustomer_name() {
+        return customer_name;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setCustomer_name(String customer_name) {
+        this.customer_name = customer_name;
     }
 
-    public String getCustomerAddress() {
-        return customerAddress;
+    public String getCustomer_address() {
+        return customer_address;
     }
 
-    public void setCustomerAddress(String customerAddress) {
-        this.customerAddress = customerAddress;
+    public void setCustomer_address(String customer_address) {
+        this.customer_address = customer_address;
     }
 
-    public int getCustomerNid() {
-        return customerNid;
+    public String getCustomer_nid() {
+        return customer_nid;
     }
 
-    public void setCustomerNid(int customerNid) {
-        this.customerNid = customerNid;
+    public void setCustomer_nid(String customer_nid) {
+        this.customer_nid = customer_nid;
     }
 
-    public String getCustomerMobile() {
-        return customerMobile;
+    public String getCustomer_mobile() {
+        return customer_mobile;
     }
 
-    public void setCustomerMobile(String customerMobile) {
-        this.customerMobile = customerMobile;
+    public void setCustomer_mobile(String customer_mobile) {
+        this.customer_mobile = customer_mobile;
     }
 
-    public String getSalesBy() {
-        return salesBy;
+    public String getSales_by() {
+        return sales_by;
     }
 
-    public void setSalesBy(String salesBy) {
-        this.salesBy = salesBy;
+    public void setSales_by(String sales_by) {
+        this.sales_by = sales_by;
     }
 
-    public String getPlazaName() {
-        return plazaName;
+    public String getRetail_name() {
+        return retail_name;
     }
 
-    public void setPlazaName(String plazaName) {
-        this.plazaName = plazaName;
+    public void setRetail_name(String retail_name) {
+        this.retail_name = retail_name;
     }
 
-    public String getPlazaId() {
-        return plazaId;
+    public String getRetail_id() {
+        return retail_id;
     }
 
-    public void setPlazaId(String plazaId) {
-        this.plazaId = plazaId;
+    public void setRetail_id(String retail_id) {
+        this.retail_id = retail_id;
     }
 
-    public String getPosInvoiceNumber() {
-        return posInvoiceNumber;
+    public String getPos_invoice_number() {
+        return pos_invoice_number;
     }
 
-    public void setPosInvoiceNumber(String posInvoiceNumber) {
-        this.posInvoiceNumber = posInvoiceNumber;
+    public void setPos_invoice_number(String pos_invoice_number) {
+        this.pos_invoice_number = pos_invoice_number;
     }
 
-    public String getSalesPersonName() {
-        return salesPersonName;
+    public String getSales_person_name() {
+        return sales_person_name;
     }
 
-    public void setSalesPersonName(String salesPersonName) {
-        this.salesPersonName = salesPersonName;
+    public void setSales_person_name(String sales_person_name) {
+        this.sales_person_name = sales_person_name;
     }
 
-    public String getImei1() {
-        return imei1;
+    public String getImei_1() {
+        return imei_1;
     }
 
-    public void setImei1(String imei1) {
-        this.imei1 = imei1;
+    public void setImei_1(String imei_1) {
+        this.imei_1 = imei_1;
     }
 
     public String getBarcode() {
@@ -165,35 +165,35 @@ public class SaleRequestModel {
         this.color = color;
     }
 
-    public int getHireSalePrice() {
-        return hireSalePrice;
+    public int getHire_sale_price() {
+        return hire_sale_price;
     }
 
-    public void setHireSalePrice(int hireSalePrice) {
-        this.hireSalePrice = hireSalePrice;
+    public void setHire_sale_price(int hire_sale_price) {
+        this.hire_sale_price = hire_sale_price;
     }
 
-    public int getNumberOfInstallment() {
-        return numberOfInstallment;
+    public int getNumber_of_installment() {
+        return number_of_installment;
     }
 
-    public void setNumberOfInstallment(int numberOfInstallment) {
-        this.numberOfInstallment = numberOfInstallment;
+    public void setNumber_of_installment(int number_of_installment) {
+        this.number_of_installment = number_of_installment;
     }
 
-    public int getDownPayment() {
-        return downPayment;
+    public int getDown_payment() {
+        return down_payment;
     }
 
-    public void setDownPayment(int downPayment) {
-        this.downPayment = downPayment;
+    public void setDown_payment(int down_payment) {
+        this.down_payment = down_payment;
     }
 
-    public String getDownPaymentDate() {
-        return downPaymentDate;
+    public String getDown_payment_date() {
+        return down_payment_date;
     }
 
-    public void setDownPaymentDate(String downPaymentDate) {
-        this.downPaymentDate = downPaymentDate;
+    public void setDown_payment_date(String down_payment_date) {
+        this.down_payment_date = down_payment_date;
     }
 }

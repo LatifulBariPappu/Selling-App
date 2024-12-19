@@ -5,13 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
-import com.example.testapi.R;
 import com.example.testapi.databinding.ActivityDeviceInfoBinding;
 
 public class DeviceInfoActivity extends AppCompatActivity {
@@ -29,9 +23,11 @@ public class DeviceInfoActivity extends AppCompatActivity {
         String model = sp.getString("model","");
         String brand = sp.getString("brand","");
         String color = sp.getString("color","");
+        String serial = sp.getString("serial","");
         int price = sp.getInt("price",0);
         int distributorId = sp.getInt("distributorId",0);
         String distributorName = sp.getString("distributorName","");
+        int sell_status = sp.getInt("sell_status",0);
 
         binding.imeiTv1.setText(imei1);
         binding.imeiTv2.setText(imei2);
@@ -41,6 +37,8 @@ public class DeviceInfoActivity extends AppCompatActivity {
         binding.priceTv.setText(String.valueOf(price));
         binding.distributorIdTv.setText(String.valueOf(distributorId));
         binding.distributorTv.setText(distributorName);
+        binding.serialTv.setText(serial);
+
 
         binding.foundToNext.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -24,12 +24,12 @@ public class DeviceModel {
         this.message = message;
     }
 
-    public device getDevice() {
+    public DeviceModel.device getDevice() {
         return device;
     }
 
-    public void setDevice_models(device device_models) {
-        this.device = device_models;
+    public void setDevice(DeviceModel.device device) {
+        this.device = device;
     }
 
     public int getStatus() {
@@ -59,7 +59,7 @@ public class DeviceModel {
         private String distributor_name;
         @SerializedName("distributor_sale_price")
         private int hire_sale_price;
-        @SerializedName("sell_status")
+        @SerializedName("sale_status")
         private int sell_status;
 
         public device(String imei_1, String imei_2, String device, String serial_number, String brand, String color,int distributor_id, String distributor_name, int hire_sale_price, int sell_status) {

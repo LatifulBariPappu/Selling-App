@@ -7,33 +7,29 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".activities.InvoiceActivity">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:padding="10dp"
+        android:id="@+id/appbarLayout"
         android:background="@color/my_primary"
-        android:padding="8dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <!-- Back Arrow -->
+        android:gravity="center_vertical">
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_back"
-            android:contentDescription="Back"
-            android:layout_gravity="start" />
-
-        <!-- Title -->
-        <TextView
-            android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:id="@+id/backInvoice"
+            android:src="@drawable/ic_back"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Invoice"
-            android:textColor="@android:color/white"
             android:textSize="20sp"
-            android:textStyle="bold" />
-    </androidx.appcompat.widget.Toolbar>
+            android:gravity="center"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -46,6 +42,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="0dp"
@@ -59,6 +56,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:id="@+id/invoiceNo"
                         android:textSize="16sp"
                         android:text="invoice no"/>
@@ -76,6 +74,7 @@
                     android:layout_height="wrap_content"
                     android:text="INVOICE"
                     android:gravity="center"
+                    android:layout_marginEnd="8dp"
                     android:textSize="28sp"
                     android:textStyle="bold"/>
             </LinearLayout>
@@ -84,75 +83,93 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
                 android:background="@color/black"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="8dp"
                 android:orientation="horizontal">
-                <LinearLayout
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:text="Bill from :"
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/retailerNameInvoice"
-                        android:textSize="14sp"
-                        android:text="name"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/retailerMobileInvoice"
-                        android:textSize="14sp"
-                        android:text="mobile"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/retailerAddressInvoice"
-                        android:textSize="14sp"
-                        android:text="address"/>
-                </LinearLayout>
-
-                <LinearLayout
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="Bill from :"/>
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:text="Bill to :"
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/nameInvoice"
-                        android:textSize="14sp"
-                        android:text="name"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/mobileInvoice"
-                        android:textSize="14sp"
-                        android:text="mobile"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/addressInvoice"
-                        android:textSize="14sp"
-                        android:text="address"/>
-                </LinearLayout>
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="Bill to :"/>
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/retailerNameInvoice"
+                    android:textSize="14sp"
+                    android:text="name"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/nameInvoice"
+                    android:textSize="14sp"
+                    android:text="name"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/retailerMobileInvoice"
+                    android:textSize="14sp"
+                    android:text="mobile"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/mobileInvoice"
+                    android:textSize="14sp"
+                    android:text="mobile"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/retailerAddressInvoice"
+                    android:textSize="14sp"
+                    android:text="address"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/addressInvoice"
+                    android:textSize="14sp"
+                    android:text="address"/>
+
+            </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -162,6 +179,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
+                android:layout_marginStart="8dp"
                 android:textStyle="bold"
                 android:text="Item details"/>
             <View
@@ -173,8 +191,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                >
+                android:layout_marginStart="8dp"
+                android:orientation="horizontal">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -194,7 +212,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                >
+                android:layout_marginStart="8dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -214,7 +232,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                >
+                android:layout_marginStart="8dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -234,7 +252,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                >
+                android:layout_marginStart="8dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -254,7 +272,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                >
+                android:layout_marginStart="8dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -274,7 +292,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                >
+                android:layout_marginStart="8dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -300,7 +318,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="5"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginStart="8dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -339,6 +358,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="5"
+                android:layout_marginStart="8dp"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="0dp"
@@ -377,11 +397,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:text="Terms &amp; Conditions :"
                 android:textSize="14sp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -491,6 +513,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="0dp"
@@ -510,7 +534,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                >
+                android:layout_marginStart="8dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -526,18 +550,13 @@
                     android:text="01/01/2024"/>
 
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Thank You..."
-                android:textStyle="bold"
                 android:gravity="end"
-                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="30dp"
                 android:textSize="18sp"/>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -547,7 +566,6 @@
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"
                     android:layout_weight="1"
                     android:hint="Download PDF"
                     android:layout_gravity="center"
@@ -558,7 +576,6 @@
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"
                     android:layout_weight="1"
                     android:hint="Share PDF"
                     android:layout_gravity="center"
@@ -569,6 +586,5 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 
 </LinearLayout>

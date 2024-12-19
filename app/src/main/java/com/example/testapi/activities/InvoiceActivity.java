@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,7 +21,8 @@ import java.io.OutputStream;
 
 public class InvoiceActivity extends AppCompatActivity {
     ActivityInvoiceBinding binding;
-    Uri pdfUri = null;
+
+    static  Uri pdfUri = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +30,10 @@ public class InvoiceActivity extends AppCompatActivity {
         binding = ActivityInvoiceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         getAllInfo();
 
-        binding.toolbar.setOnClickListener(new View.OnClickListener() {
+        binding.backInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(InvoiceActivity.this,RetailerHomeActivity.class));
@@ -40,9 +43,6 @@ public class InvoiceActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 createPdf();
-                binding.toolbar.setVisibility(View.VISIBLE);
-                binding.invoiceDownloadBtn.setVisibility(View.VISIBLE);
-                binding.invoiceShareBtn.setVisibility(View.VISIBLE);
             }
         });
         binding.invoiceShareBtn.setOnClickListener(new View.OnClickListener() {
@@ -53,27 +53,30 @@ public class InvoiceActivity extends AppCompatActivity {
         });
     }
     private void createPdf() {
-        binding.toolbar.setVisibility(View.GONE);
+        binding.appbarLayout.setVisibility(View.GONE);
         binding.invoiceDownloadBtn.setVisibility(View.GONE);
         binding.invoiceShareBtn.setVisibility(View.GONE);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         View rootView = getWindow().getDecorView().getRootView();
 
+        float cutOffPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
+
         // Create PDF document
         PdfDocument document = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(rootView.getWidth(), rootView.getHeight(), 1).create();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(rootView.getWidth(), rootView.getHeight()-(int) cutOffPixels, 1).create();
         PdfDocument.Page page = document.startPage(pageInfo);
 
         Canvas canvas = page.getCanvas();
+        canvas.translate(0, -cutOffPixels);
         rootView.draw(canvas);
         document.finishPage(page);
 
         // Save to Downloads folder using MediaStore API
         OutputStream fos = null;
 
-
         try {
             String fileName = "firstInstallmentInvoice.pdf";
+
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 // Use MediaStore for Android 10 and above
@@ -107,6 +110,9 @@ public class InvoiceActivity extends AppCompatActivity {
             Toast.makeText(this, "Error saving PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }finally {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            binding.appbarLayout.setVisibility(View.VISIBLE);
+            binding.invoiceDownloadBtn.setVisibility(View.VISIBLE);
+            binding.invoiceShareBtn.setVisibility(View.VISIBLE);
         }
     }
 
@@ -159,13 +165,15 @@ public class InvoiceActivity extends AppCompatActivity {
         int downPayment = sp.getInt("downPayment",0);
         int duePayment = hireSalePrice - downPayment;
 
-        int retailerId = sp2.getInt("retailerId",0);
         String retailerName = sp2.getString("retailerName","");
+        String retailerMobile = sp2.getString("retailerMobile","");
+        String retailerAddress = sp2.getString("retailerAddress","");
+        String model2 = brand+" ("+model+")";
 
         binding.nameInvoice.setText(customerName);
         binding.mobileInvoice.setText(customerMobile);
-        binding.addressInvoice.setText(customerAddress);
-        binding.invoiceNo.setText(posInvoiceNumber);
+        binding.addressInvoice.setText("Address : "+customerAddress);
+        binding.invoiceNo.setText("Inv No. "+posInvoiceNumber);
         binding.dateInvoice.setText(downPaymentDate);
         binding.imei1Invoice.setText(imei1);
         binding.imei2Invoice.setText(barcode);
@@ -178,8 +186,11 @@ public class InvoiceActivity extends AppCompatActivity {
         binding.downPaymentInvoice.setText(String.valueOf(downPayment));
         binding.dueInvoice.setText(String.valueOf(duePayment));
         binding.nextInstallInvoice.setText(nextInstallmentDate);
-        binding.retailerIdInvoice.setText(String.valueOf(retailerId));
         binding.retailerNameInvoice.setText(retailerName);
+        binding.retailerMobileInvoice.setText(retailerMobile);
+        binding.retailerAddressInvoice.setText("Address : "+retailerAddress);
+        binding.model2Invoice.setText(model2);
+        binding.hireSale2Invoice.setText(String.valueOf(hireSalePrice));
     }
 
 }

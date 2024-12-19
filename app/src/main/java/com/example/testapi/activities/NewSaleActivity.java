@@ -82,7 +82,6 @@ public class NewSaleActivity extends AppCompatActivity {
 
     }
 
-
     private void scancode() {
         ScanOptions options = new ScanOptions();
         options.setPrompt("Volume up to flash on");
@@ -121,7 +120,6 @@ public class NewSaleActivity extends AppCompatActivity {
                         if(sell_status==1){
                             Toast.makeText(NewSaleActivity.this, "IMEI already sold", Toast.LENGTH_SHORT).show();
                         }else{
-
                             Toast.makeText(getApplicationContext(),"IMEI Found",Toast.LENGTH_SHORT).show();
 
                             SharedPreferences sp = getSharedPreferences("device_details",MODE_PRIVATE);
