@@ -92,9 +92,23 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
                             SharedPreferences.Editor editor = sp.edit();
                             editor.putString("logged","Distributor");
+                            int distributorId = response.body().getDistributor().getId();
+                            editor.putInt("distributorId",distributorId);
+                            String distributorName = response.body().getDistributor().getName();
+                            editor.putString("distributorName",distributorName);
+                            String distributorMobile = response.body().getDistributor().getMobile();
+                            editor.putString("distributorMobile",distributorMobile);
+                            String distributorEmail = response.body().getDistributor().getEmail();
+                            editor.putString("distributorEmail",distributorEmail);
+                            String distributorAddress = response.body().getDistributor().getAddress();
+                            editor.putString("distributorAddress",distributorAddress);
+                            int noOfSubscription = response.body().getDistributor().getNo_of_subscription();
+                            editor.putInt("noOfSubscription",noOfSubscription);
+                            int distributorStatus = response.body().getDistributor().getStatus();
+                            editor.putInt("distributorStatus",distributorStatus);
                             editor.apply();
-                            Toast.makeText(getApplicationContext(),"distributor login success",Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this, Dashboard.class));
+                            Toast.makeText(getApplicationContext(),"Welcome "+distributorName,Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this, DistributorHomeActivity.class));
                             finish();
                         }
                     }else {

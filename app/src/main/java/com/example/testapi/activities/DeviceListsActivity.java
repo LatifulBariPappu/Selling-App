@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.testapi.controller.ApiController;
@@ -35,10 +34,10 @@ public class DeviceListsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
-        int reatailId =sp.getInt("retailerId",0);
+        int retailId =sp.getInt("retailerId",0);
 
         binding.deviceListsRecView.setLayoutManager(new LinearLayoutManager(this));
-        getDeiceListApi(reatailId);
+        getDeiceListApi(retailId);
 
         binding.toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,11 +94,11 @@ public class DeviceListsActivity extends AppCompatActivity {
         });
     }
 
-    private void getDeiceListApi(int reatailId) {
+    private void getDeiceListApi(int retailId) {
         Call<DeviceListModel> call = ApiController
                 .getInstance()
                 .getapi()
-                .getDeviceLists(reatailId);
+                .getDeviceLists(retailId);
 
         call.enqueue(new Callback<DeviceListModel>() {
             @Override

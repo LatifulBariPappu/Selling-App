@@ -29,7 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class SaleCutomerInfoActivity extends AppCompatActivity {
+public class SaleCustomerInfoActivity extends AppCompatActivity {
 
     ActivitySaleCutomerInfoBinding binding;
     LocalDate date;
@@ -94,7 +94,7 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
                 // Show DatePickerDialog
-                DatePickerDialog datePickerDialog = new DatePickerDialog(SaleCutomerInfoActivity.this,
+                DatePickerDialog datePickerDialog = new DatePickerDialog(SaleCustomerInfoActivity.this,
                         (DatePicker view, int selectedYear, int selectedMonth, int selectedDay) -> {
                             // Update the TextView with the selected date
                             String selectedDate = selectedDay + "-" + (selectedMonth + 1) + "-" + selectedYear;
@@ -208,13 +208,12 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
                 String downPaymentDate = binding.selectDate.getText().toString();
                 editor.putString("downPaymentDate",downPaymentDate);
 
-
                 String imei1 = sp.getString("imei1","");
                 String barcode = sp.getString("barcode","");
                 String brand = sp.getString("brand","");
                 String model = sp.getString("model","");
                 String color = sp.getString("color","");
-                int hireSalePrice = Integer.parseInt(Objects.requireNonNull(binding.hireSalePrice.getText()).toString());
+                int hireSalePrice = Integer.parseInt(binding.hireSalePrice.getText().toString());
                 editor.putInt("hireSalePrice",hireSalePrice);
                 editor.apply();
                 String salesBy = sp2.getString("retailerName","");
@@ -267,18 +266,18 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putString("nextInstallmentDate",nextInstallmentDate);
                         editor.apply();
-                        Toast.makeText(SaleCutomerInfoActivity.this, "Action Successful", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(SaleCutomerInfoActivity.this,InvoiceActivity.class));
+                        Toast.makeText(SaleCustomerInfoActivity.this, "Action Successful", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(SaleCustomerInfoActivity.this,InvoiceActivity.class));
 
                     } else if ("Action Unsuccessful".equals(responseData.getDataObject().getMessage())) {
-                        Toast.makeText(SaleCutomerInfoActivity.this, "Action Unsuccessful", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SaleCustomerInfoActivity.this, "Action Unsuccessful", Toast.LENGTH_SHORT).show();
                     }else if ("Device Already Exist".equals(responseData.getDataObject().getMessage())) {
-                        Toast.makeText(SaleCutomerInfoActivity.this, "Device Already Exist", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SaleCustomerInfoActivity.this, "Device Already Exist", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(SaleCutomerInfoActivity.this, "Action Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SaleCustomerInfoActivity.this, "Action Failed", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(SaleCutomerInfoActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SaleCustomerInfoActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -286,7 +285,7 @@ public class SaleCutomerInfoActivity extends AppCompatActivity {
             public void onFailure(Call<SaleResponseModel> call, Throwable t) {
                 binding.confirmSaleProgess.setVisibility(View.GONE);
                 binding.confirmSaleBtn.setVisibility(View.VISIBLE);
-                Toast.makeText(SaleCutomerInfoActivity.this,  "API Call Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SaleCustomerInfoActivity.this,  "API Call Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

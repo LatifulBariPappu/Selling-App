@@ -47,7 +47,7 @@ public class FirstActivity extends AppCompatActivity{
         SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
         String userCategory = sp.getString("logged","");
         if(userCategory.equals("Distributor")){
-            startActivity(new Intent(FirstActivity.this, Dashboard.class));
+            startActivity(new Intent(FirstActivity.this, DistributorHomeActivity.class));
             finish();
         }
         if(userCategory.equals("Retailer")){
