@@ -3,7 +3,6 @@ package com.example.testapi.activities;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,9 +17,10 @@ import com.example.testapi.databinding.ActivitySaleCutomerInfoBinding;
 import com.example.testapi.models.SaleRequestModel;
 import com.example.testapi.models.SaleResponseModel;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
@@ -32,10 +32,7 @@ import retrofit2.Response;
 public class SaleCustomerInfoActivity extends AppCompatActivity {
 
     ActivitySaleCutomerInfoBinding binding;
-    LocalDate date;
-    DateTimeFormatter formatter,formatter2;
-    String formattedDate = null;
-    String formattedDate2 = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +43,13 @@ public class SaleCustomerInfoActivity extends AppCompatActivity {
         int price = sharedPreferences.getInt("price",0);
         binding.hireSalePrice.setText(String.valueOf(price));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            date = LocalDate.now();
-            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            formatter2 = DateTimeFormatter.ofPattern("yyyy-MM");
-            formattedDate = date.format(formatter);
-            formattedDate2 = date.format(formatter2);
-        }
-        binding.selectDate.setText(formattedDate);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            date = LocalDate.now();
+//            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//            formattedDate = date.format(formatter);
+//        }
+        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        binding.selectDate.setText(currentDate);
         binding.toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,7 +199,7 @@ public class SaleCustomerInfoActivity extends AppCompatActivity {
                 editor.putInt("downPayment",downPayment);
 
                 int randomNumber = 1000 + random.nextInt(9000);
-                String posInvoiceNumber = formattedDate2+"-IISL-"+randomNumber;
+                String posInvoiceNumber ="IISL-"+randomNumber;
                 editor.putString("posInvoiceNumber",posInvoiceNumber);
                 String downPaymentDate = binding.selectDate.getText().toString();
                 editor.putString("downPaymentDate",downPaymentDate);
@@ -268,6 +264,7 @@ public class SaleCustomerInfoActivity extends AppCompatActivity {
                         editor.apply();
                         Toast.makeText(SaleCustomerInfoActivity.this, "Action Successful", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(SaleCustomerInfoActivity.this,InvoiceActivity.class));
+                        finish();
 
                     } else if ("Action Unsuccessful".equals(responseData.getDataObject().getMessage())) {
                         Toast.makeText(SaleCustomerInfoActivity.this, "Action Unsuccessful", Toast.LENGTH_SHORT).show();

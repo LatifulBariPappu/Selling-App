@@ -173,8 +173,8 @@ public class InvoiceActivity extends AppCompatActivity {
         binding.nameInvoice.setText(customerName);
         binding.mobileInvoice.setText(customerMobile);
         binding.addressInvoice.setText("Address : "+customerAddress);
-        binding.invoiceNo.setText("Inv No. "+posInvoiceNumber);
-        binding.dateInvoice.setText(downPaymentDate);
+        binding.invoiceNo.setText("Inv No. : "+posInvoiceNumber);
+        binding.dateInvoice.setText("Date : "+downPaymentDate);
         binding.imei1Invoice.setText(imei1);
         binding.imei2Invoice.setText(barcode);
         binding.serialInvoice.setText(serial);

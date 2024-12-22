@@ -1,5 +1,4 @@
 package com.example.testapi.models;
-
 import com.google.gson.annotations.SerializedName;
 
 public  class Devices{
@@ -14,7 +13,7 @@ public  class Devices{
     @SerializedName("customer_name")
     private String customer_name;
     @SerializedName("customer_nid")
-    private int customer_nid;
+    private long customer_nid;
     @SerializedName("customer_address")
     private String customer_address;
     @SerializedName("customer_mobile")
@@ -23,10 +22,10 @@ public  class Devices{
     private String sales_by;
     @SerializedName("sales_person_name")
     private String sales_person_name;
-    @SerializedName("plaza_id")
-    private String plaza_id;
-    @SerializedName("plaza_name")
-    private String plaza_name;
+    @SerializedName("retail_id")
+    private String retail_id;
+    @SerializedName("retail_name")
+    private String retail_name;
     @SerializedName("pos_invoice_number")
     private String pos_invoice_number;
     @SerializedName("model")
@@ -52,7 +51,7 @@ public  class Devices{
     @SerializedName("last_payment_date")
     private String last_payment_date;
 
-    public Devices(String imei_1, String imei_2, String serial_number, String customer_id, String customer_name, int customer_nid, String customer_address, String customer_mobile, String sales_by, String sales_person_name, String plaza_id, String plaza_name, String pos_invoice_number, String model, String brand, String color, int distributor_id, String distributor_name, int hire_sale_price, int sell_status, String last_sync, String down_payment_date, double defaulted_amount, String last_payment_date) {
+    public Devices(String imei_1, String imei_2, String serial_number, String customer_id, String customer_name, long customer_nid, String customer_address, String customer_mobile, String sales_by, String sales_person_name, String retail_id, String retail_name, String pos_invoice_number, String model, String brand, String color, int distributor_id, String distributor_name, int hire_sale_price, int sell_status, String last_sync, String down_payment_date, double defaulted_amount, String last_payment_date) {
         this.imei_1 = imei_1;
         this.imei_2 = imei_2;
         this.serial_number = serial_number;
@@ -63,8 +62,8 @@ public  class Devices{
         this.customer_mobile = customer_mobile;
         this.sales_by = sales_by;
         this.sales_person_name = sales_person_name;
-        this.plaza_id = plaza_id;
-        this.plaza_name = plaza_name;
+        this.retail_id = retail_id;
+        this.retail_name = retail_name;
         this.pos_invoice_number = pos_invoice_number;
         this.model = model;
         this.brand = brand;
@@ -119,11 +118,11 @@ public  class Devices{
         this.customer_name = customer_name;
     }
 
-    public int getCustomer_nid() {
+    public long getCustomer_nid() {
         return customer_nid;
     }
 
-    public void setCustomer_nid(int customer_nid) {
+    public void setCustomer_nid(long customer_nid) {
         this.customer_nid = customer_nid;
     }
 
@@ -159,20 +158,20 @@ public  class Devices{
         this.sales_person_name = sales_person_name;
     }
 
-    public String getPlaza_id() {
-        return plaza_id;
+    public String getRetail_id() {
+        return retail_id;
     }
 
-    public void setPlaza_id(String plaza_id) {
-        this.plaza_id = plaza_id;
+    public void setRetail_id(String retail_id) {
+        this.retail_id = retail_id;
     }
 
-    public String getPlaza_name() {
-        return plaza_name;
+    public String getRetail_name() {
+        return retail_name;
     }
 
-    public void setPlaza_name(String plaza_name) {
-        this.plaza_name = plaza_name;
+    public void setRetail_name(String retail_name) {
+        this.retail_name = retail_name;
     }
 
     public String getPos_invoice_number() {

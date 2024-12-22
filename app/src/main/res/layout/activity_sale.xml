@@ -29,7 +29,7 @@
             android:layout_gravity="center"
             android:text="Add New Sale"
             android:textColor="@android:color/white"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
     <LinearLayout
@@ -63,8 +63,8 @@
                 android:background="@drawable/custom_edittext"
                 android:layout_marginEnd="8dp"
                 android:inputType="number"
-                android:padding="8dp"
-                android:textSize="20sp" />
+                android:padding="10dp"
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -91,7 +91,7 @@
         android:hint="@string/scan_barcode_here"
         android:padding="15dp"
         android:layout_marginTop="25dp"
-        android:textSize="18sp"/>
+        android:textSize="16sp"/>
     </LinearLayout>
     </LinearLayout>
 

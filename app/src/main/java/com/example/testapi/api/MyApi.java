@@ -40,4 +40,6 @@ public interface MyApi {
     Call<DeviceListModel> getDeviceLists(
             @Query("retail_id") int retail_id
     );
+    @POST("lock-device-by-retail")
+
 }

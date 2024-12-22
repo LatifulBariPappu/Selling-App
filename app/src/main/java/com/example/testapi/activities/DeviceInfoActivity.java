@@ -44,6 +44,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(DeviceInfoActivity.this, SaleCustomerInfoActivity.class));
+                finish();
             }
         });
         binding.toolbar.setOnClickListener(new View.OnClickListener() {

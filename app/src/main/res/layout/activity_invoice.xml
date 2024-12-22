@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Invoice"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:gravity="center"
             android:textColor="@color/white"/>
 
@@ -75,7 +75,7 @@
                     android:text="INVOICE"
                     android:gravity="center"
                     android:layout_marginEnd="8dp"
-                    android:textSize="28sp"
+                    android:textSize="32sp"
                     android:textStyle="bold"/>
             </LinearLayout>
             <View

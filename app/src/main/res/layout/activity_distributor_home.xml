@@ -23,7 +23,7 @@
             android:text="@string/welcome"
             android:textStyle="bold"
             android:textColor="@color/my_primary"
-            android:textSize="22sp" />
+            android:textSize="16sp" />
 
 
     </LinearLayout>
