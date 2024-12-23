@@ -2,6 +2,7 @@ package com.example.testapi.models;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,13 +55,17 @@ public class DefaulterAdapter extends RecyclerView.Adapter<DefaulterAdapter.Defa
         holder.binding.deviceDetailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences sp = context.getSharedPreferences("defaulters",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("isDefaulter","yes");
+                editor.apply();
                 Intent intent = new Intent(context, DeviceDetailsActivity.class);
-                intent.putExtra("imei1",defaulter.getImei_1());
-                intent.putExtra("imei2",defaulter.getImei_2());
-                intent.putExtra("name",defaulter.getCustomer_name());
-                intent.putExtra("mobile",defaulter.getCustomer_mobile());
+                intent.putExtra("defaulterImei1",defaulter.getImei_1());
+                intent.putExtra("defaulterImei2",defaulter.getImei_2());
+                intent.putExtra("defaulterName",defaulter.getCustomer_name());
+                intent.putExtra("defaulterMobile",defaulter.getCustomer_mobile());
                 intent.putExtra("totalDefaultedAmount",defaulter.getTotal_defaulted_amount());
-                intent.putExtra("downPaymentDate",defaulter.getDown_payment_date());
+                intent.putExtra("defaulterDownPaymentDate",defaulter.getDown_payment_date());
                 intent.putExtra("defaultedDate",defaulter.getDefaulted_date());
                 intent.putExtra("remainingToPay",defaulter.getRemaining_to_pay());
                 context.startActivity(intent);

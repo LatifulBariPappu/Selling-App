@@ -1,4 +1,6 @@
 package com.example.testapi.activities;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,15 +13,17 @@ import com.example.testapi.databinding.ActivityDeviceDetailsBinding;
 public class DeviceDetailsActivity extends AppCompatActivity {
 
     ActivityDeviceDetailsBinding binding;
-    private TextView nameTv,mobileTv,dateTv,modelTv,imei1Tv,imei2Tv,lastSyncTv;
+    private TextView nameTv,mobileTv,dateTv,modelTv,imei1Tv,imei2Tv,lastSyncTv,totalDefaultedAmountTv,defaultedDateTv,remainingToPayTv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityDeviceDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        getDateofDeviceContent();
         binding.deviceTransiton.setVisibility(View.VISIBLE);
+
+
+        getDataOfDeviceContent();
+
 
         binding.toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,7 +34,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         binding.tabDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getDateofDeviceContent();
+                getDataOfDeviceContent();
 
             }
         });
@@ -59,37 +63,78 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         View contentView = inflater.inflate(layoutId, null);
 
         // Replace the content in the FrameLayout
-        binding.frameLayout.setVisibility(View.GONE);
-        binding.frameLayout.setVisibility(View.VISIBLE);
         binding.frameLayout.removeAllViews();
         binding.frameLayout.addView(contentView);
+
+        initializeViews(contentView);
     }
-    private void getDateofDeviceContent(){
+    private void getDataOfDeviceContent(){
         loadContentView(R.layout.device_content);
         binding.deviceTransiton.setVisibility(View.VISIBLE);
         binding.reminderTransiton.setVisibility(View.GONE);
         binding.agreementTransiton.setVisibility(View.GONE);
-        String imei1 = getIntent().getStringExtra("imei1");
-        String imei2 = getIntent().getStringExtra("imei2");
-        String mobile = getIntent().getStringExtra("mobile");
-        String name = getIntent().getStringExtra("name");
-        String date = getIntent().getStringExtra("downPayDate");
-        String model = getIntent().getStringExtra("model");
-        String lastSync = getIntent().getStringExtra("lastSync");
-        nameTv=findViewById(R.id.customerNameTV);
-        mobileTv=findViewById(R.id.customerMobileTV);
-        imei1Tv=findViewById(R.id.imei1TV);
-        imei2Tv=findViewById(R.id.imei2TV);
-        dateTv=findViewById(R.id.dateTV);
-        modelTv=findViewById(R.id.modelTV);
-        lastSyncTv=findViewById(R.id.lastSyncTV);
 
-        nameTv.setText(name);
-        imei1Tv.setText("IMEI1 : "+imei1);
-        imei2Tv.setText("IMEI2 : "+imei2);
-        mobileTv.setText(mobile);
-        dateTv.setText(date);
-        modelTv.setText("Model : "+model);
-        lastSyncTv.setText("Last Sync : "+lastSync);
+        initializeViews(binding.frameLayout.getChildAt(0));
+
+        SharedPreferences sp = getSharedPreferences("defaulters", Context.MODE_PRIVATE);
+        String isDefaulter = sp.getString("isDefaulter","");
+        if("yes".equals(isDefaulter)){
+            modelTv.setVisibility(View.GONE);
+            lastSyncTv.setVisibility(View.GONE);
+            totalDefaultedAmountTv.setVisibility(View.VISIBLE);
+            defaultedDateTv.setVisibility(View.VISIBLE);
+            remainingToPayTv.setVisibility(View.VISIBLE);
+
+            String defaulterImei1 = getIntent().getStringExtra("defaulterImei1");
+            String defaulterImei2 = getIntent().getStringExtra("defaulterImei2");
+            String defaulterName = getIntent().getStringExtra("defaulterName");
+            String defaulterMobile = getIntent().getStringExtra("defaulterMobile");
+            int totalDefaultedAmount = getIntent().getIntExtra("totalDefaultedAmount",0);
+            String defaulterDownPaymentDate = getIntent().getStringExtra("defaulterDownPaymentDate");
+            String defaultedDate = getIntent().getStringExtra("defaultedDate");
+            int remainingToPay = getIntent().getIntExtra("remainingToPay",0);
+            nameTv.setText(defaulterName);
+            imei1Tv.setText("IMEI1 : "+defaulterImei1);
+            imei2Tv.setText("IMEI2 : "+defaulterImei2);
+            mobileTv.setText(defaulterMobile);
+            dateTv.setText("Defaulted on : "+defaultedDate);
+            totalDefaultedAmountTv.setText("Total Defaulted Amount : "+totalDefaultedAmount);
+            defaultedDateTv.setText("Defaulted downPay date : "+defaulterDownPaymentDate);
+            remainingToPayTv.setText("Remaining To Pay : "+remainingToPay);
+        }else if("no".equals(isDefaulter)){
+            modelTv.setVisibility(View.VISIBLE);
+            lastSyncTv.setVisibility(View.VISIBLE);
+            totalDefaultedAmountTv.setVisibility(View.GONE);
+            defaultedDateTv.setVisibility(View.GONE);
+            remainingToPayTv.setVisibility(View.GONE);
+            String imei1 = getIntent().getStringExtra("imei1");
+            String imei2 = getIntent().getStringExtra("imei2");
+            String mobile = getIntent().getStringExtra("mobile");
+            String name = getIntent().getStringExtra("name");
+            String date = getIntent().getStringExtra("downPayDate");
+            String model = getIntent().getStringExtra("model");
+            String lastSync = getIntent().getStringExtra("lastSync");
+            nameTv.setText(name);
+            imei1Tv.setText("IMEI1 : "+imei1);
+            imei2Tv.setText("IMEI2 : "+imei2);
+            mobileTv.setText(mobile);
+            dateTv.setText(date);
+            modelTv.setText("Model : "+model);
+            lastSyncTv.setText("Last Sync : "+lastSync);
+
+        }
+
+    }
+    private void initializeViews(View view) {
+        nameTv = findViewById(R.id.customerNameTV);
+        mobileTv = findViewById(R.id.customerMobileTV);
+        imei1Tv = findViewById(R.id.imei1TV);
+        imei2Tv = findViewById(R.id.imei2TV);
+        dateTv = findViewById(R.id.dateTV);
+        modelTv = findViewById(R.id.modelTV);
+        lastSyncTv = findViewById(R.id.lastSyncTV);
+        totalDefaultedAmountTv = findViewById(R.id.totalDefaultedAmountTV);
+        defaultedDateTv = findViewById(R.id.defaultedDateTV);
+        remainingToPayTv = findViewById(R.id.remainingToPayTV);
     }
 }

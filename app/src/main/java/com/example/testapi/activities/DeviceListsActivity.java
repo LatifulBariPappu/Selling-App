@@ -119,7 +119,7 @@ public class DeviceListsActivity extends AppCompatActivity {
                     String msg = response.body().getMessage();
                     if("Defaulter list retrieved successfully.".equals(msg)){
                         List<DefaulterResponse.Defaulter> defaulterDevices = response.body().getDefaultersList();
-                        defaulterAdapter= new DefaulterAdapter(getApplicationContext(),defaulterDevices);
+                        defaulterAdapter= new DefaulterAdapter(DeviceListsActivity.this,defaulterDevices);
                         binding.deviceListsRecView.setAdapter(defaulterAdapter);
                     }
 

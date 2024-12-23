@@ -3,6 +3,7 @@ package com.example.testapi.models;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,21 +61,14 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
         holder.binding.sellDateTv.setText("Sell date : "+devices.getDown_payment_date());
         holder.binding.lastSyncTv.setText("Last sync : "+devices.getLast_sync());
 
-//        if(showDefaulterText){
-//            holder.binding.defaulterAmountTv.setVisibility(View.VISIBLE);
-//            holder.binding.lastPaymentTv.setVisibility(View.VISIBLE);
-//            holder.binding.defaulterAmountTv.setText("Defaulter amount : "+devices.getDefaulted_amount());
-//            holder.binding.lastPaymentTv.setText("Last pay date : "+devices.getLast_payment_date());
-//        }else{
-//            holder.binding.defaulterAmountTv.setVisibility(View.GONE);
-//            holder.binding.lastPaymentTv.setVisibility(View.GONE);
-//        }
 
         holder.binding.deviceDetailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                SharedPreferences sp = context.getSharedPreferences("defaulters",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("isDefaulter","no");
+                editor.apply();
                 Intent intent = new Intent(context, DeviceDetailsActivity.class);
                 intent.putExtra("imei1",devices.getImei_1());
                 intent.putExtra("imei2",devices.getImei_2());
