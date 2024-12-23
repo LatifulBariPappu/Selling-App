@@ -5,10 +5,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.testapi.R;
+import com.example.testapi.controller.ApiController;
 import com.example.testapi.databinding.ActivityDeviceDetailsBinding;
+import com.example.testapi.models.EmiScheduleModel;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DeviceDetailsActivity extends AppCompatActivity {
 
@@ -124,6 +134,56 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
         }
 
+    }
+    private void getDataOfReminderContent(){
+        loadContentView(R.layout.reminder_content);
+        binding.deviceTransiton.setVisibility(View.GONE);
+        binding.reminderTransiton.setVisibility(View.VISIBLE);
+        binding.agreementTransiton.setVisibility(View.GONE);
+        initializeViews(binding.frameLayout.getChildAt(0));
+        SharedPreferences sp = getSharedPreferences("defaulters", Context.MODE_PRIVATE);
+        String isDefaulter = sp.getString("isDefaulter","");
+        if("yes".equals(isDefaulter)){
+            String defaulterImei1 = getIntent().getStringExtra("defaulterImei1");
+
+            //call reminder api according to defaulter imei1
+
+        }else if("no".equals(isDefaulter)){
+            String imei1 = getIntent().getStringExtra("imei1");
+
+            //call reminder api according to imei1
+        }
+
+    }
+
+    private void getSchedule(String imei1){
+        Call<EmiScheduleModel> call = ApiController
+                .getInstance()
+                .getapi()
+                .getEmiSchedule(imei1);
+
+        call.enqueue(new Callback<EmiScheduleModel>() {
+            @Override
+            public void onResponse(Call<EmiScheduleModel> call, Response<EmiScheduleModel> response) {
+                if(response.isSuccessful() && response.body()!=null){
+                    String msg = response.body().getMessage();
+                    if("EMI schedule retrieved successfully".equals(msg)){
+                        Toast.makeText(DeviceDetailsActivity.this, "emi schedule retrieved successfully", Toast.LENGTH_SHORT).show();
+
+                        List<EmiScheduleModel.EmiSchedule> emiScheduleList = response.body().getEmiScheduleList();
+
+                    }
+
+                }else{
+                    Toast.makeText(DeviceDetailsActivity.this, "emi schedule response body is null", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EmiScheduleModel> call, Throwable t) {
+
+            }
+        });
     }
     private void initializeViews(View view) {
         nameTv = findViewById(R.id.customerNameTV);

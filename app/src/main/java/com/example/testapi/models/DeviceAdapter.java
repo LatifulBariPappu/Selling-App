@@ -29,21 +29,12 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
     List<Devices> fullList;
 
     private Context context;
-//    private boolean showDefaulterText;
 
     public DeviceAdapter(Context context,List<Devices> devicesList) {
         this.context = context;
         this.devicesList = devicesList;
         this.fullList = new ArrayList<>(devicesList);
     }
-//    @SuppressLint("NotifyDataSetChanged")
-//    public void setShowDefaulterText(boolean showDefaulterText) {
-//        this.showDefaulterText = showDefaulterText;
-//        notifyDataSetChanged();
-//    }
-//    public boolean isShowDefaulterText() {
-//        return showDefaulterText;
-//    }
 
     @NonNull
     @Override
@@ -95,7 +86,6 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
     }
 
     static class DeviceViewHolder extends RecyclerView.ViewHolder{
-
         SingleDeviceDesignBinding binding;
         public DeviceViewHolder(SingleDeviceDesignBinding binding) {
             super(binding.getRoot());
