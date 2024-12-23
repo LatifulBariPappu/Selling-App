@@ -56,7 +56,7 @@ public interface MyApi {
     Call<DefaulterResponse> getDefaulterList(
             @Query("retail_id") int retail_id
     );
-    @POST("emischedule")
+    @POST("emischedule/imei")
     Call<EmiScheduleModel> getEmiSchedule(
             @Query("imei") String imei
     );

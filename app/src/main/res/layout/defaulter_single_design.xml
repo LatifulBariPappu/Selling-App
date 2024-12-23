@@ -25,8 +25,8 @@
                     android:layout_height="80dp"
                     android:layout_gravity="center"
                     android:id="@+id/modeIcon"
-                    android:src="@drawable/defaultermobile"
-                    app:tint="@color/my_primary" />
+                    android:src="@drawable/defaulticon"
+                   />
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -77,7 +77,6 @@
                         android:text="remaining"
                         android:textSize="16sp"
                         android:id="@+id/remainingToPayTv"/>
-
                 </LinearLayout>
                 <Button
                     android:layout_width="65dp"

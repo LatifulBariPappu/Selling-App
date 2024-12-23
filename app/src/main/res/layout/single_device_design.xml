@@ -25,8 +25,7 @@
                     android:layout_height="80dp"
                     android:layout_gravity="center"
                     android:id="@+id/modeIcon"
-                    android:src="@drawable/unlockedphone"
-                    app:tint="@color/my_primary" />
+                    android:src="@drawable/mobile" />
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

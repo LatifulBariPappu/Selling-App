@@ -184,7 +184,6 @@ public class DeviceListsActivity extends AppCompatActivity {
             binding.lockedBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
             int retailId =sp.getInt("retailerId",0);
-
             deviceAdapter = null;
             getDefaulterList(retailId);
         }else{

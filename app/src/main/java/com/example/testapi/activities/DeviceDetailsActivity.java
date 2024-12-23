@@ -8,11 +8,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testapi.R;
 import com.example.testapi.controller.ApiController;
 import com.example.testapi.databinding.ActivityDeviceDetailsBinding;
 import com.example.testapi.models.EmiScheduleModel;
+import com.example.testapi.models.InstallmentAdapter;
 
 import java.util.List;
 
@@ -23,14 +26,19 @@ import retrofit2.Response;
 public class DeviceDetailsActivity extends AppCompatActivity {
 
     ActivityDeviceDetailsBinding binding;
+    InstallmentAdapter installmentAdapter;
+    RecyclerView reminderRecView;
+
     private TextView nameTv,mobileTv,dateTv,modelTv,imei1Tv,imei2Tv,lastSyncTv,totalDefaultedAmountTv,defaultedDateTv,remainingToPayTv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityDeviceDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        binding.deviceTransiton.setVisibility(View.VISIBLE);
 
+
+
+        binding.deviceTransiton.setVisibility(View.VISIBLE);
 
         getDataOfDeviceContent();
 
@@ -55,6 +63,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                 binding.deviceTransiton.setVisibility(View.GONE);
                 binding.reminderTransiton.setVisibility(View.VISIBLE);
                 binding.agreementTransiton.setVisibility(View.GONE);
+                getDataOfReminderContent();
             }
         });
         binding.tabAgreement.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +84,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         // Replace the content in the FrameLayout
         binding.frameLayout.removeAllViews();
         binding.frameLayout.addView(contentView);
-
         initializeViews(contentView);
     }
     private void getDataOfDeviceContent(){
@@ -128,7 +136,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             imei1Tv.setText("IMEI1 : "+imei1);
             imei2Tv.setText("IMEI2 : "+imei2);
             mobileTv.setText(mobile);
-            dateTv.setText(date);
+            dateTv.setText("Down pay date : "+date);
             modelTv.setText("Model : "+model);
             lastSyncTv.setText("Last Sync : "+lastSync);
 
@@ -145,13 +153,13 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         String isDefaulter = sp.getString("isDefaulter","");
         if("yes".equals(isDefaulter)){
             String defaulterImei1 = getIntent().getStringExtra("defaulterImei1");
-
             //call reminder api according to defaulter imei1
+            getSchedule(defaulterImei1);
 
         }else if("no".equals(isDefaulter)){
             String imei1 = getIntent().getStringExtra("imei1");
-
             //call reminder api according to imei1
+            getSchedule(imei1);
         }
 
     }
@@ -169,19 +177,17 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                     String msg = response.body().getMessage();
                     if("EMI schedule retrieved successfully".equals(msg)){
                         Toast.makeText(DeviceDetailsActivity.this, "emi schedule retrieved successfully", Toast.LENGTH_SHORT).show();
-
                         List<EmiScheduleModel.EmiSchedule> emiScheduleList = response.body().getEmiScheduleList();
-
+                        installmentAdapter = new InstallmentAdapter(emiScheduleList);
+                        reminderRecView.setAdapter(installmentAdapter);
                     }
-
                 }else{
                     Toast.makeText(DeviceDetailsActivity.this, "emi schedule response body is null", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<EmiScheduleModel> call, Throwable t) {
-
+                Toast.makeText(DeviceDetailsActivity.this, "Failed to fetch EMI schedule", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -196,5 +202,9 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         totalDefaultedAmountTv = findViewById(R.id.totalDefaultedAmountTV);
         defaultedDateTv = findViewById(R.id.defaultedDateTV);
         remainingToPayTv = findViewById(R.id.remainingToPayTV);
+        reminderRecView = view.findViewById(R.id.reminderRecView);
+        if (reminderRecView != null) {
+            reminderRecView.setLayoutManager(new LinearLayoutManager(this));
+        }
     }
 }
