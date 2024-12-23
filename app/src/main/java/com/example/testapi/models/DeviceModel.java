@@ -5,15 +5,17 @@ import com.google.gson.annotations.SerializedName;
 public class DeviceModel {
     @SerializedName("message")
     private String message;
-    @SerializedName("device")
-    device device;
     @SerializedName("status")
     private int status;
+    @SerializedName("device")
+    device device;
 
-    public DeviceModel(String message, DeviceModel.device device, int status) {
+
+    public DeviceModel(String message, int status, DeviceModel.device device) {
         this.message = message;
-        this.device = device;
         this.status = status;
+        this.device = device;
+
     }
 
     public String getMessage() {

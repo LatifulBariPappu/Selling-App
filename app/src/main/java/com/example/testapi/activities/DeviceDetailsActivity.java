@@ -54,7 +54,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         });
     }
 
-
     private void loadContentView(int layoutId) {
         LayoutInflater inflater = LayoutInflater.from(this);
         View contentView = inflater.inflate(layoutId, null);
@@ -93,5 +92,4 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         modelTv.setText("Model : "+model);
         lastSyncTv.setText("Last Sync : "+lastSync);
     }
-
 }

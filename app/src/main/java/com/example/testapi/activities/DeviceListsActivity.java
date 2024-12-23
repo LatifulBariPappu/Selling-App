@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -14,10 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.testapi.controller.ApiController;
 import com.example.testapi.databinding.ActivityDeviceListsBinding;
+import com.example.testapi.models.DefaulterAdapter;
 import com.example.testapi.models.DeviceAdapter;
 import com.example.testapi.models.DeviceListModel;
 import com.example.testapi.models.Devices;
+import com.example.testapi.models.DefaulterResponse;
+
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,6 +31,9 @@ import retrofit2.Response;
 public class DeviceListsActivity extends AppCompatActivity {
     ActivityDeviceListsBinding binding;
     DeviceAdapter deviceAdapter;
+    DefaulterAdapter defaulterAdapter;
+    Boolean allIsClicked = false;
+    Boolean defaulterIsClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +41,9 @@ public class DeviceListsActivity extends AppCompatActivity {
         binding = ActivityDeviceListsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
-        int retailId =sp.getInt("retailerId",0);
-
         binding.deviceListsRecView.setLayoutManager(new LinearLayoutManager(this));
-        getDeiceListApi(retailId);
+
+        allBtnClicked(true);
 
         binding.toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,16 +52,17 @@ public class DeviceListsActivity extends AppCompatActivity {
             }
         });
 
+        binding.allBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                allBtnClicked(true);
+            }
+        });
+
         binding.defaulterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(deviceAdapter.isShowDefaulterText()){
-                    deviceAdapter.setShowDefaulterText(false);
-                    binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
-                }else{
-                    deviceAdapter.setShowDefaulterText(true);
-                    binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#8692f7"));
-                }
+                defaulterBtnClicked(true);
             }
         });
 
@@ -74,7 +81,14 @@ public class DeviceListsActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String query = s.toString().toLowerCase();
-                deviceAdapter.filter(query);
+                if (allIsClicked && deviceAdapter != null) {
+                    deviceAdapter.filter(query);
+                } else if (defaulterIsClicked && defaulterAdapter != null) {
+                    defaulterAdapter.filter(query);
+                } else {
+                    Log.e("FilterError", "No adapter initialized or adapter is null.");
+                }
+
                 binding.ivClear.setVisibility(query.isEmpty() ? View.GONE : View.VISIBLE);
             }
         });
@@ -84,12 +98,39 @@ public class DeviceListsActivity extends AppCompatActivity {
                 showDropDownMenu();
             }
         });
-        
         binding.ivClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 binding.searchEdt.setText("");
                 binding.searchEdt.setHint("search here");
+            }
+        });
+    }
+    private void getDefaulterList(int retailId){
+        Call<DefaulterResponse> call = ApiController
+                .getInstance()
+                .getapi()
+                .getDefaulterList(retailId);
+
+        call.enqueue(new Callback<DefaulterResponse>() {
+            @Override
+            public void onResponse(Call<DefaulterResponse> call, Response<DefaulterResponse> response) {
+                if(response.isSuccessful() && response.body()!=null){
+                    String msg = response.body().getMessage();
+                    if("Defaulter list retrieved successfully.".equals(msg)){
+                        List<DefaulterResponse.Defaulter> defaulterDevices = response.body().getDefaultersList();
+                        defaulterAdapter= new DefaulterAdapter(getApplicationContext(),defaulterDevices);
+                        binding.deviceListsRecView.setAdapter(defaulterAdapter);
+                    }
+
+                }else{
+                    Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DefaulterResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -109,11 +150,7 @@ public class DeviceListsActivity extends AppCompatActivity {
                         List<Devices> devices = response.body().getDevicesList();
                         deviceAdapter = new DeviceAdapter(DeviceListsActivity.this,devices);
                         binding.deviceListsRecView.setAdapter(deviceAdapter);
-
-                    } else if ("No devices found for the provided plaza_id.".equals(msg)) {
-                        Toast.makeText(DeviceListsActivity.this, "No devices found for the current plaza_id.", Toast.LENGTH_SHORT).show();
                     }
-
                 }else{
                     Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
@@ -125,8 +162,45 @@ public class DeviceListsActivity extends AppCompatActivity {
             }
         });
     }
+    private void allBtnClicked(Boolean isClicked){
+        if(isClicked){
+            allIsClicked = true;
+            defaulterIsClicked = false;
+            binding.allBtn.setCardBackgroundColor(Color.parseColor("#8692f7"));
+            binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            binding.lockedBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
+            int retailId =sp.getInt("retailerId",0);
+            defaulterAdapter=null;
+            getDeiceListApi(retailId);
+        }
+    }
+    private void defaulterBtnClicked(Boolean isClicked){
+        if(isClicked){
+            defaulterIsClicked = true;
+            allIsClicked = false;
+            binding.allBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#8692f7"));
+            binding.lockedBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
+            int retailId =sp.getInt("retailerId",0);
 
+            deviceAdapter = null;
+            getDefaulterList(retailId);
+        }else{
+            allBtnClicked(true);
+        }
+    }
 
+    private void lockBtnClicked(Boolean isClicked){
+        if(isClicked){
+            binding.allBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            binding.lockedBtn.setCardBackgroundColor(Color.parseColor("#8692f7"));
+        }else{
+            allBtnClicked(true);
+        }
+    }
     private void showDropDownMenu() {
         PopupMenu popupMenu = new PopupMenu(this, binding.ivDropdown);
         popupMenu.getMenu().add(Menu.NONE, 1, Menu.NONE, "name");

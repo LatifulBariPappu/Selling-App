@@ -6,36 +6,43 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testapi.activities.DeviceDetailsActivity;
+import com.example.testapi.controller.ApiController;
 import com.example.testapi.databinding.SingleDeviceDesignBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceViewHolder>{
 
     List<Devices> devicesList;
     List<Devices> fullList;
+
     private Context context;
-    private boolean showDefaulterText;
+//    private boolean showDefaulterText;
 
     public DeviceAdapter(Context context,List<Devices> devicesList) {
         this.context = context;
         this.devicesList = devicesList;
         this.fullList = new ArrayList<>(devicesList);
     }
-    @SuppressLint("NotifyDataSetChanged")
-    public void setShowDefaulterText(boolean showDefaulterText) {
-        this.showDefaulterText = showDefaulterText;
-        notifyDataSetChanged();
-    }
-    public boolean isShowDefaulterText() {
-        return showDefaulterText;
-    }
+//    @SuppressLint("NotifyDataSetChanged")
+//    public void setShowDefaulterText(boolean showDefaulterText) {
+//        this.showDefaulterText = showDefaulterText;
+//        notifyDataSetChanged();
+//    }
+//    public boolean isShowDefaulterText() {
+//        return showDefaulterText;
+//    }
 
     @NonNull
     @Override
@@ -43,7 +50,6 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
         SingleDeviceDesignBinding binding = SingleDeviceDesignBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
         return new DeviceViewHolder(binding);
     }
-
     @Override
     public void onBindViewHolder(@NonNull DeviceViewHolder holder, int position) {
         Devices devices = devicesList.get(position);
@@ -54,19 +60,21 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
         holder.binding.sellDateTv.setText("Sell date : "+devices.getDown_payment_date());
         holder.binding.lastSyncTv.setText("Last sync : "+devices.getLast_sync());
 
-        if(showDefaulterText){
-            holder.binding.defaulterAmountTv.setVisibility(View.VISIBLE);
-            holder.binding.lastPaymentTv.setVisibility(View.VISIBLE);
-            holder.binding.defaulterAmountTv.setText("Defaulter amount : "+String.valueOf(devices.getDefaulted_amount()));
-            holder.binding.lastPaymentTv.setText("Last pay date : "+devices.getLast_payment_date());
-        }else{
-            holder.binding.defaulterAmountTv.setVisibility(View.GONE);
-            holder.binding.lastPaymentTv.setVisibility(View.GONE);
-        }
+//        if(showDefaulterText){
+//            holder.binding.defaulterAmountTv.setVisibility(View.VISIBLE);
+//            holder.binding.lastPaymentTv.setVisibility(View.VISIBLE);
+//            holder.binding.defaulterAmountTv.setText("Defaulter amount : "+devices.getDefaulted_amount());
+//            holder.binding.lastPaymentTv.setText("Last pay date : "+devices.getLast_payment_date());
+//        }else{
+//            holder.binding.defaulterAmountTv.setVisibility(View.GONE);
+//            holder.binding.lastPaymentTv.setVisibility(View.GONE);
+//        }
 
         holder.binding.deviceDetailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Intent intent = new Intent(context, DeviceDetailsActivity.class);
                 intent.putExtra("imei1",devices.getImei_1());
                 intent.putExtra("imei2",devices.getImei_2());
@@ -79,6 +87,12 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
             }
         });
 
+        holder.binding.deviceLockBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lock_device(devices.getImei_1());
+            }
+        });
     }
 
     @Override
@@ -114,5 +128,34 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
             devicesList.addAll(filteredList); // Add filtered results
         }
         notifyDataSetChanged(); // Notify the adapter to refresh the RecyclerView
+    }
+    private void lock_device(String imei1){
+        Call<LockDeviceModel> call = ApiController
+                .getInstance()
+                .getapi()
+                .lockDevice(imei1);
+
+        call.enqueue(new Callback<LockDeviceModel>() {
+            @Override
+            public void onResponse(Call<LockDeviceModel> call, Response<LockDeviceModel> response) {
+                if(response.isSuccessful() && response.body()!=null){
+                    String status = response.body().getStatus();
+                    if("Successful".equals(status)){
+                        Toast.makeText(context,"Device Locked Successfully",Toast.LENGTH_SHORT).show();
+                    } else if ("Unsuccessful".equals(status)) {
+                        Toast.makeText(context,"Device Not Found!",Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(context, "Error Occurred", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(context, "response body is null", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LockDeviceModel> call, Throwable t) {
+                Toast.makeText(context, "Failed : "+ t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

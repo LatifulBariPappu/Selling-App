@@ -92,19 +92,19 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
                             SharedPreferences.Editor editor = sp.edit();
                             editor.putString("logged","Distributor");
-                            int distributorId = response.body().getDistributor().getId();
+                            int distributorId = response.body().getDistributorObject().getId();
                             editor.putInt("distributorId",distributorId);
-                            String distributorName = response.body().getDistributor().getName();
+                            String distributorName = response.body().getDistributorObject().getName();
                             editor.putString("distributorName",distributorName);
-                            String distributorMobile = response.body().getDistributor().getMobile();
+                            String distributorMobile = response.body().getDistributorObject().getMobile();
                             editor.putString("distributorMobile",distributorMobile);
-                            String distributorEmail = response.body().getDistributor().getEmail();
+                            String distributorEmail = response.body().getDistributorObject().getEmail();
                             editor.putString("distributorEmail",distributorEmail);
-                            String distributorAddress = response.body().getDistributor().getAddress();
+                            String distributorAddress = response.body().getDistributorObject().getAddress();
                             editor.putString("distributorAddress",distributorAddress);
-                            int noOfSubscription = response.body().getDistributor().getNo_of_subscription();
+                            int noOfSubscription = response.body().getDistributorObject().getNo_of_subscription();
                             editor.putInt("noOfSubscription",noOfSubscription);
-                            int distributorStatus = response.body().getDistributor().getStatus();
+                            int distributorStatus = response.body().getStatus();
                             editor.putInt("distributorStatus",distributorStatus);
                             editor.apply();
                             Toast.makeText(getApplicationContext(),"Welcome "+distributorName,Toast.LENGTH_SHORT).show();
@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onFailure(@NonNull Call<DistributorModel> call, @NonNull Throwable t) {
                     binding.loginbtn.setVisibility(View.VISIBLE);
                     binding.loginProgress.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(),"Failed to call API",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Failed : "+t.getMessage(),Toast.LENGTH_SHORT).show();
                 }
             });
         }

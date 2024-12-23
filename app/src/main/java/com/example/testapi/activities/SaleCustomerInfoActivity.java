@@ -48,7 +48,7 @@ public class SaleCustomerInfoActivity extends AppCompatActivity {
 //            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 //            formattedDate = date.format(formatter);
 //        }
-        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         binding.selectDate.setText(currentDate);
         binding.toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +93,7 @@ public class SaleCustomerInfoActivity extends AppCompatActivity {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(SaleCustomerInfoActivity.this,
                         (DatePicker view, int selectedYear, int selectedMonth, int selectedDay) -> {
                             // Update the TextView with the selected date
-                            String selectedDate = selectedDay + "-" + (selectedMonth + 1) + "-" + selectedYear;
+                            String selectedDate = selectedYear + "-" + (selectedMonth + 1) + "-" +selectedDay ;
                             binding.selectDate.setText(selectedDate);
                         }, year, month, day);
                 datePickerDialog.show();

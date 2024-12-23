@@ -5,11 +5,14 @@ import com.google.gson.annotations.SerializedName;
 public class RetailerModel {
     @SerializedName("message")
     private String message;
+    @SerializedName("status")
+    private int status;
     @SerializedName("retail")
     Retail retailObject;
 
-    public RetailerModel(String message, Retail retailObject) {
+    public RetailerModel(String message, int status, Retail retailObject) {
         this.message = message;
+        this.status = status;
         this.retailObject = retailObject;
     }
 
@@ -21,6 +24,14 @@ public class RetailerModel {
         this.message = message;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public Retail getRetailObject() {
         return retailObject;
     }
@@ -28,6 +39,7 @@ public class RetailerModel {
     public void setRetailObject(Retail retailObject) {
         this.retailObject = retailObject;
     }
+
     public static class Retail{
         @SerializedName("id")
         private int id;
@@ -37,18 +49,18 @@ public class RetailerModel {
         private String mobile;
         @SerializedName("address")
         private String address;
+        @SerializedName("dc_id")
+        private String dc_id;
         @SerializedName("distributor_name")
         private String distributor_name;
-        @SerializedName("status")
-        private int status;
 
-        public Retail(int id, String name, String mobile, String address, String distributor_name, int status) {
+        public Retail(int id, String name, String mobile, String address, String dc_id, String distributor_name) {
             this.id = id;
             this.name = name;
             this.mobile = mobile;
             this.address = address;
+            this.dc_id = dc_id;
             this.distributor_name = distributor_name;
-            this.status = status;
         }
 
         public int getId() {
@@ -83,20 +95,20 @@ public class RetailerModel {
             this.address = address;
         }
 
+        public String getDc_id() {
+            return dc_id;
+        }
+
+        public void setDc_id(String dc_id) {
+            this.dc_id = dc_id;
+        }
+
         public String getDistributor_name() {
             return distributor_name;
         }
 
         public void setDistributor_name(String distributor_name) {
             this.distributor_name = distributor_name;
-        }
-
-        public int getStatus() {
-            return status;
-        }
-
-        public void setStatus(int status) {
-            this.status = status;
         }
     }
 
