@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="10dp"
     android:orientation="vertical">
@@ -165,33 +165,51 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Action"
-        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
         android:layout_marginStart="10dp"
         android:textStyle="bold"
         android:padding="10dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:padding="20dp"
         android:orientation="horizontal">
-
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Payment"
+            android:textSize="16sp"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/my_primary"
+            android:textColorHint="@color/white"
+            android:id="@+id/paymentBtn"/>
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Lock"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:textSize="16sp"
             android:backgroundTint="@color/my_primary"
             android:textColorHint="@color/white"
             android:id="@+id/lockBtn"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:weightSum="2.1"
+        android:orientation="horizontal">
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Location"
             android:textSize="16sp"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:textColorHint="@color/white"
             android:backgroundTint="@color/my_primary"
             android:id="@+id/locationBtn"/>

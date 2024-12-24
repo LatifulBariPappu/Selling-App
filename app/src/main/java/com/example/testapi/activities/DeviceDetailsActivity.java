@@ -1,9 +1,11 @@
 package com.example.testapi.activities;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,13 +32,13 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     RecyclerView reminderRecView;
 
     private TextView nameTv,mobileTv,dateTv,modelTv,imei1Tv,imei2Tv,lastSyncTv,totalDefaultedAmountTv,defaultedDateTv,remainingToPayTv,reminderImeiTv;
+    private Button payBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityDeviceDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-
 
         binding.deviceTransiton.setVisibility(View.VISIBLE);
 
@@ -53,7 +55,12 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getDataOfDeviceContent();
-
+            }
+        });
+        payBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DeviceDetailsActivity.this,PaymentActivity.class));
             }
         });
         binding.tabReminder.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +111,9 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             remainingToPayTv.setVisibility(View.VISIBLE);
 
             String defaulterImei1 = getIntent().getStringExtra("defaulterImei1");
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("defaulterImei1",defaulterImei1);
+            editor.apply();
             String defaulterImei2 = getIntent().getStringExtra("defaulterImei2");
             String defaulterName = getIntent().getStringExtra("defaulterName");
             String defaulterMobile = getIntent().getStringExtra("defaulterMobile");
@@ -126,6 +136,9 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             defaultedDateTv.setVisibility(View.GONE);
             remainingToPayTv.setVisibility(View.GONE);
             String imei1 = getIntent().getStringExtra("imei1");
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("imei1",imei1);
+            editor.apply();
             String imei2 = getIntent().getStringExtra("imei2");
             String mobile = getIntent().getStringExtra("mobile");
             String name = getIntent().getStringExtra("name");
@@ -208,5 +221,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         if (reminderRecView != null) {
             reminderRecView.setLayoutManager(new LinearLayoutManager(this));
         }
+        payBtn = findViewById(R.id.paymentBtn);
     }
 }
