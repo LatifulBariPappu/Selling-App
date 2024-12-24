@@ -4,6 +4,8 @@ import com.example.testapi.models.DeviceListModel;
 import com.example.testapi.models.DeviceModel;
 import com.example.testapi.models.EmiScheduleModel;
 import com.example.testapi.models.LockDeviceModel;
+import com.example.testapi.models.PaymentModel;
+import com.example.testapi.models.PaymentRequest;
 import com.example.testapi.models.RetailerModel;
 import com.example.testapi.models.SaleRequestModel;
 import com.example.testapi.models.SaleResponseModel;
@@ -55,6 +57,11 @@ public interface MyApi {
     @POST("defaulter-list")
     Call<DefaulterResponse> getDefaulterList(
             @Query("retail_id") int retail_id
+    );
+    @POST("payment")
+    Call<PaymentModel> getPayment(
+            @Header("Authorization") String authorization,
+            @Body PaymentRequest request
     );
     @POST("emischedule/imei")
     Call<EmiScheduleModel> getEmiSchedule(

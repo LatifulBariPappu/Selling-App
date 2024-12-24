@@ -30,22 +30,22 @@ public class PaymentModel {
     }
 
     public static class Data{
-        @SerializedName("customer_id")
-        private String customer_id;
+        @SerializedName("imei_1")
+        private String imei_1;
         @SerializedName("message")
         private String message;
 
-        public Data(String customer_id, String message) {
-            this.customer_id = customer_id;
+        public Data(String imei_1, String message) {
+            this.imei_1 = imei_1;
             this.message = message;
         }
 
-        public String getCustomer_id() {
-            return customer_id;
+        public String getImei_1() {
+            return imei_1;
         }
 
-        public void setCustomer_id(String customer_id) {
-            this.customer_id = customer_id;
+        public void setImei_1(String imei_1) {
+            this.imei_1 = imei_1;
         }
 
         public String getMessage() {

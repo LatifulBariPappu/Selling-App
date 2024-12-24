@@ -223,4 +223,13 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         }
         payBtn = findViewById(R.id.paymentBtn);
     }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (binding.deviceTransiton.getVisibility() == View.VISIBLE) {
+//            getDataOfDeviceContent(); // Refresh device content
+//        } else if (binding.reminderTransiton.getVisibility() == View.VISIBLE) {
+//            getDataOfReminderContent(); // Refresh reminder content
+//        }
+//    }
 }

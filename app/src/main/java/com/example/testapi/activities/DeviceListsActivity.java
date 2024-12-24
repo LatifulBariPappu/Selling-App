@@ -32,8 +32,8 @@ public class DeviceListsActivity extends AppCompatActivity {
     ActivityDeviceListsBinding binding;
     DeviceAdapter deviceAdapter;
     DefaulterAdapter defaulterAdapter;
-    Boolean allIsClicked = false;
-    Boolean defaulterIsClicked = false;
+    Boolean allIsClicked;
+    Boolean defaulterIsClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,7 @@ public class DeviceListsActivity extends AppCompatActivity {
         binding.allBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                allIsClicked=true;
                 allBtnClicked(true);
             }
         });
@@ -63,6 +64,7 @@ public class DeviceListsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 defaulterBtnClicked(true);
+
             }
         });
 
@@ -177,10 +179,10 @@ public class DeviceListsActivity extends AppCompatActivity {
             binding.allBtn.setCardBackgroundColor(Color.parseColor("#8692f7"));
             binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.lockedBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
-            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
-            int retailId =sp.getInt("retailerId",0);
+//            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
+//            int retailId =sp.getInt("retailerId",0);
             defaulterAdapter=null;
-            getDeiceListApi(retailId);
+            refreshAllList();
         }
     }
     private void defaulterBtnClicked(Boolean isClicked){
@@ -190,12 +192,10 @@ public class DeviceListsActivity extends AppCompatActivity {
             binding.allBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#8692f7"));
             binding.lockedBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
-            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
-            int retailId =sp.getInt("retailerId",0);
+//            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
+//            int retailId =sp.getInt("retailerId",0);
             deviceAdapter = null;
-            getDefaulterList(retailId);
-        }else{
-            allBtnClicked(true);
+            refreshDefaulterList();
         }
     }
 
@@ -204,8 +204,6 @@ public class DeviceListsActivity extends AppCompatActivity {
             binding.allBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.lockedBtn.setCardBackgroundColor(Color.parseColor("#8692f7"));
-        }else{
-            allBtnClicked(true);
         }
     }
     private void showDropDownMenu() {
@@ -237,5 +235,28 @@ public class DeviceListsActivity extends AppCompatActivity {
         });
 
         popupMenu.show();
+    }
+    private void refreshAllList() {
+        if (allIsClicked) {
+            SharedPreferences sp = getSharedPreferences("saved_login", MODE_PRIVATE);
+            int retailId = sp.getInt("retailerId", 0);
+            getDeiceListApi(retailId);
+        }
+    }
+    private void refreshDefaulterList() {
+        if (defaulterIsClicked) {
+            SharedPreferences sp = getSharedPreferences("saved_login", MODE_PRIVATE);
+            int retailId = sp.getInt("retailerId", 0);
+            getDefaulterList(retailId);
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (allIsClicked) {
+            refreshAllList();
+        } else if (defaulterIsClicked) {
+            refreshDefaulterList();
+        }
     }
 }
