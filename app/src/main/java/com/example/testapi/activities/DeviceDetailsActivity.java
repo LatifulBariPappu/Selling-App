@@ -29,7 +29,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     InstallmentAdapter installmentAdapter;
     RecyclerView reminderRecView;
 
-    private TextView nameTv,mobileTv,dateTv,modelTv,imei1Tv,imei2Tv,lastSyncTv,totalDefaultedAmountTv,defaultedDateTv,remainingToPayTv;
+    private TextView nameTv,mobileTv,dateTv,modelTv,imei1Tv,imei2Tv,lastSyncTv,totalDefaultedAmountTv,defaultedDateTv,remainingToPayTv,reminderImeiTv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,6 +165,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     }
 
     private void getSchedule(String imei1){
+        reminderImeiTv.setText("Installments for IMEI1 ( "+imei1+" ) scheduled below :");
         Call<EmiScheduleModel> call = ApiController
                 .getInstance()
                 .getapi()
@@ -202,6 +203,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         totalDefaultedAmountTv = findViewById(R.id.totalDefaultedAmountTV);
         defaultedDateTv = findViewById(R.id.defaultedDateTV);
         remainingToPayTv = findViewById(R.id.remainingToPayTV);
+        reminderImeiTv = findViewById(R.id.reminderImeiTv);
         reminderRecView = view.findViewById(R.id.reminderRecView);
         if (reminderRecView != null) {
             reminderRecView.setLayoutManager(new LinearLayoutManager(this));

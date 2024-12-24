@@ -32,7 +32,7 @@ public class DistributorHomeActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
 
         int distributorId = sp.getInt("distributorId",0);
-        drawerIdTv.setText(String.valueOf(distributorId));
+        drawerIdTv.setText("ID : "+distributorId);
 
         String distributorName = sp.getString("distributorName","");
         drawerNameTv.setText(distributorName);

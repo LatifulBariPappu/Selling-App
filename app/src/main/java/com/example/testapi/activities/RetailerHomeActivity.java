@@ -1,5 +1,6 @@
 package com.example.testapi.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -26,10 +27,11 @@ public class RetailerHomeActivity extends AppCompatActivity {
 
         TextView idTv = findViewById(R.id.drawerIdTv);
         TextView nameTv= findViewById(R.id.drawerNameTv);
-        idTv.setText("ID : "+String.valueOf(retailerId));
+        idTv.setText("ID : "+retailerId);
         nameTv.setText("Welcome "+retailerName);
 
         findViewById(R.id.drawerMenu).setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ClickableViewAccessibility")
             @Override
             public void onClick(View v) {
                 openDrawer(binding.drawerLayout);
@@ -73,6 +75,33 @@ public class RetailerHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),DeviceListsActivity.class));
+            }
+        });
+        binding.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                // Optional: Handle any animation or effects during the slide
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // Disable interaction with the main layout when the drawer is open
+                binding.retailerHomeGridLayout.setClickable(false);
+                binding.newSaleCardView.setClickable(false);
+                binding.deviceListCardView.setClickable(false);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // Enable interaction with the main layout when the drawer is closed
+                binding.retailerHomeGridLayout.setClickable(true);
+                binding.newSaleCardView.setClickable(true);
+                binding.deviceListCardView.setClickable(true);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                // Optional: Handle any drawer state changes
             }
         });
     }

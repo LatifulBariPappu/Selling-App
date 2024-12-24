@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                     binding.loginProgress.setVisibility(View.GONE);
                     if(response.isSuccessful() && response.body()!=null){
                         String msg=response.body().getMessage();
-                        if(Objects.equals(msg, "Login successful")){
+                        if("Login successful".equals(msg)){
                             SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
                             SharedPreferences.Editor editor = sp.edit();
                             editor.putString("logged","Distributor");
@@ -110,9 +110,15 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"Welcome "+distributorName,Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LoginActivity.this, DistributorHomeActivity.class));
                             finish();
+                        } else if ("Validation errors".equals(msg)){
+                            Toast.makeText(getApplicationContext(), "The mobile number must be exactly 11 digits Or The password field is required.", Toast.LENGTH_SHORT).show();
+                        } else if ("Incorrect password".equals(msg)) {
+                            Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
+                        } else if ("Mobile number not found".equals(msg)) {
+                            Toast.makeText(getApplicationContext(), "Mobile number not found", Toast.LENGTH_SHORT).show();
                         }
                     }else {
-                        Toast.makeText(getApplicationContext(), "enter correct credentials", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -160,9 +166,15 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"Welcome "+retailerName,Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LoginActivity.this,RetailerHomeActivity.class));
                             finish();
+                        }else if ("Validation errors".equals(msg)){
+                            Toast.makeText(getApplicationContext(), "The mobile number must be exactly 11 digits Or The password field is required.", Toast.LENGTH_SHORT).show();
+                        } else if ("Incorrect password".equals(msg)) {
+                            Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
+                        } else if ("Mobile number not found".equals(msg)) {
+                            Toast.makeText(getApplicationContext(), "Mobile number not found", Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        Toast.makeText(LoginActivity.this, "enter correct credentials", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -171,11 +183,9 @@ public class LoginActivity extends AppCompatActivity {
                 public void onFailure(@NonNull Call<RetailerModel> call, @NonNull Throwable t) {
                     binding.loginbtn.setVisibility(View.VISIBLE);
                     binding.loginProgress.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(),"Failed to call API",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Failed : "+t.getMessage(),Toast.LENGTH_SHORT).show();
                 }
             });
         }
-
     }
-
 }

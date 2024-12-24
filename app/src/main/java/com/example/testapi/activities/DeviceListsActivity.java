@@ -118,19 +118,23 @@ public class DeviceListsActivity extends AppCompatActivity {
                 if(response.isSuccessful() && response.body()!=null){
                     String msg = response.body().getMessage();
                     if("Defaulter list retrieved successfully.".equals(msg)){
+                        Toast.makeText(getApplicationContext(),"Defaulter list retrieved successfully.",Toast.LENGTH_SHORT).show();
                         List<DefaulterResponse.Defaulter> defaulterDevices = response.body().getDefaultersList();
                         defaulterAdapter= new DefaulterAdapter(DeviceListsActivity.this,defaulterDevices);
                         binding.deviceListsRecView.setAdapter(defaulterAdapter);
+                    }else if ("No defaulters with outstanding amounts for the provided retailer.".equals(msg)){
+                        Toast.makeText(getApplicationContext(),"No defaulters with outstanding amounts for the provided retailer.",Toast.LENGTH_SHORT).show();
+                    }else if ("No device found for the provided retailer.".equals(msg)){
+                        Toast.makeText(getApplicationContext(),"No device found for the provided retailer.",Toast.LENGTH_SHORT).show();
                     }
-
                 }else{
-                    Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<DefaulterResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Failed : "+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -150,15 +154,19 @@ public class DeviceListsActivity extends AppCompatActivity {
                         List<Devices> devices = response.body().getDevicesList();
                         deviceAdapter = new DeviceAdapter(DeviceListsActivity.this,devices);
                         binding.deviceListsRecView.setAdapter(deviceAdapter);
+                    } else if ("No devices found for the provided retailer.".equals(msg)) {
+                        Toast.makeText(getApplicationContext(),"No devices found for the provided retailer.",Toast.LENGTH_SHORT).show();
+                    } else if ("Validation errors".equals(msg)) {
+                        Toast.makeText(getApplicationContext(),"The retail is field is required.",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<DeviceListModel> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Failed : "+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

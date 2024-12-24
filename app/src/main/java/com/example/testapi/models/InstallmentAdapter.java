@@ -27,10 +27,9 @@ public class InstallmentAdapter extends RecyclerView.Adapter<InstallmentAdapter.
     @Override
     public void onBindViewHolder(@NonNull InstallmentViewHolder holder, int position) {
         EmiScheduleModel.EmiSchedule emiSchedule = emiScheduleList.get(position);
-        holder.binding.installmentNumberTv.setText("Installment Number : "+emiSchedule.getInstallment_number());
-        holder.binding.installmentImeiTv.setText("IMEI : "+emiSchedule.getImei_1());
-        holder.binding.installmentAmount.setText("Installment amount : "+emiSchedule.getInstallment_amount());
-        holder.binding.installmentDate.setText("Installment date : "+emiSchedule.getInstallment_date());
+        holder.binding.installmentNumberTv.setText(String.valueOf(emiSchedule.getInstallment_number()));
+        holder.binding.installmentAmount.setText(String.valueOf(emiSchedule.getInstallment_amount()));
+        holder.binding.installmentDate.setText(emiSchedule.getInstallment_date());
     }
 
     @Override

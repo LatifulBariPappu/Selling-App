@@ -64,7 +64,7 @@
                 android:layout_marginEnd="8dp"
                 android:inputType="number"
                 android:padding="10dp"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -90,6 +90,7 @@
         android:backgroundTint="@color/my_primary"
         android:hint="@string/scan_barcode_here"
         android:padding="15dp"
+        android:textColorHint="@color/white"
         android:layout_marginTop="25dp"
         android:textSize="16sp"/>
     </LinearLayout>

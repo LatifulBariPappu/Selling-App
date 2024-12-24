@@ -114,9 +114,7 @@ public class NewSaleActivity extends AppCompatActivity {
                 if(response.isSuccessful() && response.body()!=null){
                     String msg = response.body().getMessage();
                     if("IMEI found".equals(msg)){
-
                         int sell_status = response.body().getDevice().getSell_status();
-
                         if(sell_status==1){
                             Toast.makeText(NewSaleActivity.this, "IMEI already sold", Toast.LENGTH_SHORT).show();
                         }else{
@@ -146,11 +144,15 @@ public class NewSaleActivity extends AppCompatActivity {
                             editor.putInt("sell_status",sell_status);
                             editor.apply();
                             startActivity(new Intent(NewSaleActivity.this,DeviceInfoActivity.class));
-
                         }
+                    } else if ("IMEI not found".equals(msg)) {
+                        Toast.makeText(getApplicationContext(), "IMEI not found", Toast.LENGTH_SHORT).show();
+                        binding.imeiEdt.setText("");
+                    } else if ("Validation errors".equals(msg)) {
+                        Toast.makeText(getApplicationContext(), "The imei number must be exactly 15 digits.", Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(), "device not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
                     binding.imeiEdt.setText("");
                 }
             }
@@ -158,9 +160,8 @@ public class NewSaleActivity extends AppCompatActivity {
             public void onFailure(@NonNull Call<DeviceModel> call, @NonNull Throwable t) {
                 binding.imeiProgress.setVisibility(View.GONE);
                 binding.imeiInfoBtn.setVisibility(View.VISIBLE);
-                Toast.makeText(getApplicationContext(),"API Call Failed: " + t.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Failed: " + t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
     }
-
 }

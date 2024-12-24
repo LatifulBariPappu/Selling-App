@@ -43,11 +43,6 @@ public class SaleCustomerInfoActivity extends AppCompatActivity {
         int price = sharedPreferences.getInt("price",0);
         binding.hireSalePrice.setText(String.valueOf(price));
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            date = LocalDate.now();
-//            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-//            formattedDate = date.format(formatter);
-//        }
         String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         binding.selectDate.setText(currentDate);
         binding.toolbar.setOnClickListener(new View.OnClickListener() {
@@ -262,19 +257,19 @@ public class SaleCustomerInfoActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putString("nextInstallmentDate",nextInstallmentDate);
                         editor.apply();
-                        Toast.makeText(SaleCustomerInfoActivity.this, "Action Successful", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Action Successful", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(SaleCustomerInfoActivity.this,InvoiceActivity.class));
                         finish();
 
                     } else if ("Action Unsuccessful".equals(responseData.getDataObject().getMessage())) {
-                        Toast.makeText(SaleCustomerInfoActivity.this, "Action Unsuccessful", Toast.LENGTH_SHORT).show();
-                    }else if ("Device Already Exist".equals(responseData.getDataObject().getMessage())) {
-                        Toast.makeText(SaleCustomerInfoActivity.this, "Device Already Exist", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(SaleCustomerInfoActivity.this, "Action Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "IMEI should have 15 digits.", Toast.LENGTH_SHORT).show();
+                    }else if ("Device Already Sold".equals(responseData.getDataObject().getMessage())) {
+                        Toast.makeText(getApplicationContext(), "Device Already Sold", Toast.LENGTH_SHORT).show();
+                    } else if ("Device Dose not Exist".equals(responseData.getDataObject().getMessage())) {
+                        Toast.makeText(getApplicationContext(), "Device Dose not Exist", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(SaleCustomerInfoActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "response body is null." + response.code(), Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -282,7 +277,7 @@ public class SaleCustomerInfoActivity extends AppCompatActivity {
             public void onFailure(Call<SaleResponseModel> call, Throwable t) {
                 binding.confirmSaleProgess.setVisibility(View.GONE);
                 binding.confirmSaleBtn.setVisibility(View.VISIBLE);
-                Toast.makeText(SaleCustomerInfoActivity.this,  "API Call Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SaleCustomerInfoActivity.this,  "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
