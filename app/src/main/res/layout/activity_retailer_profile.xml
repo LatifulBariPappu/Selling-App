@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.RetailerProfileActivity">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:padding="10dp"
+        android:id="@+id/appbarLayout"
+        android:background="@color/my_primary"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/backProfile"
+            android:src="@drawable/ic_back"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Profile"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgProfilePicture"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="16dp"
+            android:background="@drawable/profile"
+            android:scaleType="centerCrop"
+            android:contentDescription="Retailer Profile Picture" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="ID"
+                android:layout_weight="1"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/retailerId_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text=""
+                android:layout_weight="1"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/my_primary"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="NAME"
+                android:layout_weight="1"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/retailerNameTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text=""
+                android:layout_weight="1"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/my_primary"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="MOBILE"
+                android:layout_weight="1"
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/retailerMobileTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text=""
+                android:layout_weight="1"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/my_primary"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="ADDRESS"
+                android:layout_weight="1"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/retailerAddressTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text=""
+                android:layout_weight="1"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/my_primary"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="DISTRIBUTOR NAME"
+                android:layout_weight="1"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/retailerDistributorNameTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text=""
+                android:layout_weight="1"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

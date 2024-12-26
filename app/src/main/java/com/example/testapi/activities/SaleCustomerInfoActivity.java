@@ -198,10 +198,8 @@ public class SaleCustomerInfoActivity extends AppCompatActivity {
                 String downPaymentDate = binding.selectDate.getText().toString();
                 editor.putString("downPaymentDate",downPaymentDate);
 
-//                String imei1 = sp3.getString("imei","");
-//                String barcode = sp3.getString("imei","");
-                String imei1=  "787878787878787";
-                String barcode="787878787878787";
+                String imei1 = sp3.getString("imei","");
+                String barcode = sp3.getString("imei","");
                 String brand = binding.brandEdt.getText().toString();
                 editor.putString("brand",brand);
                 String model = binding.modelEdt.getText().toString();

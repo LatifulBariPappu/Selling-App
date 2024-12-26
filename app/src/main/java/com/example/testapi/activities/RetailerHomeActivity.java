@@ -58,6 +58,12 @@ public class RetailerHomeActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), NewSaleActivity.class));
             }
         });
+        findViewById(R.id.navProfile).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),RetailerProfileActivity.class));
+            }
+        });
         findViewById(R.id.navDeviceList).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +75,12 @@ public class RetailerHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), NewSaleActivity.class));
+            }
+        });
+        binding.profileCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), RetailerProfileActivity.class));
             }
         });
         binding.deviceListCardView.setOnClickListener(new View.OnClickListener() {

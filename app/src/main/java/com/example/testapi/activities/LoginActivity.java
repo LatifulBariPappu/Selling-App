@@ -162,6 +162,8 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("retailerMobile",retailerMobile);
                             String retailerAddress = response.body().getRetailObject().getAddress();
                             editor.putString("retailerAddress",retailerAddress);
+                            String distributorName= response.body().getRetailObject().getDistributor_name();
+                            editor.putString("retailDistributorName",distributorName);
                             editor.apply();
                             Toast.makeText(getApplicationContext(),"Welcome "+retailerName,Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LoginActivity.this,RetailerHomeActivity.class));
