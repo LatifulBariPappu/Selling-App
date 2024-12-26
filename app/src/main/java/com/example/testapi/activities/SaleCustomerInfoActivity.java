@@ -39,10 +39,6 @@ public class SaleCustomerInfoActivity extends AppCompatActivity {
         binding = ActivitySaleCutomerInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        SharedPreferences sharedPreferences= getSharedPreferences("device_details",MODE_PRIVATE);
-        int price = sharedPreferences.getInt("price",0);
-        binding.hireSalePrice.setText(String.valueOf(price));
-
         String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         binding.selectDate.setText(currentDate);
         binding.toolbar.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +68,9 @@ public class SaleCustomerInfoActivity extends AppCompatActivity {
         binding.customerAddressEdt.addTextChangedListener(textWatcher);
         binding.customerMobileEdt.addTextChangedListener(textWatcher);
         binding.customerNidEdt.addTextChangedListener(textWatcher);
+        binding.brandEdt.addTextChangedListener(textWatcher);
+        binding.modelEdt.addTextChangedListener(textWatcher);
+        binding.colorEdt.addTextChangedListener(textWatcher);
         binding.downPayment.addTextChangedListener(textWatcher);
         binding.hireSalePrice.addTextChangedListener(textWatcher);
         binding.numberofInstallation.addTextChangedListener(textWatcher);
@@ -171,9 +170,9 @@ public class SaleCustomerInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Random random= new Random();
-                SharedPreferences sp = getSharedPreferences("device_details",MODE_PRIVATE);
                 SharedPreferences sp2 = getSharedPreferences("saved_login",MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
+                SharedPreferences sp3 = getSharedPreferences("add_device",MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp3.edit();
                 String customerId = String.valueOf(1_000_000_000L + (long) (random.nextDouble() * 9_000_000_000L));
                 editor.putString("customerId",customerId);
                 String customerName = binding.customerNameEdt.getText().toString();
@@ -199,11 +198,16 @@ public class SaleCustomerInfoActivity extends AppCompatActivity {
                 String downPaymentDate = binding.selectDate.getText().toString();
                 editor.putString("downPaymentDate",downPaymentDate);
 
-                String imei1 = sp.getString("imei1","");
-                String barcode = sp.getString("barcode","");
-                String brand = sp.getString("brand","");
-                String model = sp.getString("model","");
-                String color = sp.getString("color","");
+//                String imei1 = sp3.getString("imei","");
+//                String barcode = sp3.getString("imei","");
+                String imei1=  "787878787878787";
+                String barcode="787878787878787";
+                String brand = binding.brandEdt.getText().toString();
+                editor.putString("brand",brand);
+                String model = binding.modelEdt.getText().toString();
+                editor.putString("model",model);
+                String color = binding.colorEdt.getText().toString();
+                editor.putString("color",color);
                 int hireSalePrice = Integer.parseInt(binding.hireSalePrice.getText().toString());
                 editor.putInt("hireSalePrice",hireSalePrice);
                 editor.apply();
@@ -225,10 +229,13 @@ public class SaleCustomerInfoActivity extends AppCompatActivity {
         String text2=binding.customerAddressEdt.getText().toString();
         String text3=binding.customerMobileEdt.getText().toString();
         String text4=binding.customerNidEdt.getText().toString();
+        String text5=binding.brandEdt.getText().toString();
+        String text6=binding.modelEdt.getText().toString();
         String text7=binding.hireSalePrice.getText().toString();
+        String text8=binding.colorEdt.getText().toString();
         String text9=binding.downPayment.getText().toString();
         String text10=binding.numberofInstallation.getText().toString();
-        if(!text1.isEmpty() && !text2.isEmpty() && !text3.isEmpty() && !text4.isEmpty()&& !text7.isEmpty() && !text9.isEmpty() && !text10.isEmpty()){
+        if(!text1.isEmpty() && !text2.isEmpty() && !text3.isEmpty() && !text4.isEmpty()&&!text5.isEmpty()&&!text6.isEmpty()&& !text7.isEmpty() &&!text8.isEmpty()&& !text9.isEmpty() && !text10.isEmpty()){
             binding.confirmSaleBtn.setVisibility(View.VISIBLE);
         }else{
             binding.confirmSaleBtn.setVisibility(View.GONE);
@@ -253,14 +260,13 @@ public class SaleCustomerInfoActivity extends AppCompatActivity {
                     SaleResponseModel responseData = response.body();
                     if ("Action Successful".equals(responseData.getDataObject().getMessage())) {
                         String nextInstallmentDate = responseData.getDataObject().getNext_installment_date();
-                        SharedPreferences sp = getSharedPreferences("device_details",MODE_PRIVATE);
+                        SharedPreferences sp = getSharedPreferences("add_device",MODE_PRIVATE);
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putString("nextInstallmentDate",nextInstallmentDate);
                         editor.apply();
                         Toast.makeText(getApplicationContext(), "Action Successful", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(SaleCustomerInfoActivity.this,InvoiceActivity.class));
                         finish();
-
                     } else if ("Action Unsuccessful".equals(responseData.getDataObject().getMessage())) {
                         Toast.makeText(getApplicationContext(), "IMEI should have 15 digits.", Toast.LENGTH_SHORT).show();
                     }else if ("Device Already Sold".equals(responseData.getDataObject().getMessage())) {

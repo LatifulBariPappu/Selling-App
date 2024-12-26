@@ -14,7 +14,6 @@
         android:orientation="vertical">
         <include
             layout="@layout/distributor_toolbar"/>
-
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
@@ -24,12 +23,9 @@
             android:textStyle="bold"
             android:textColor="@color/my_primary"
             android:textSize="16sp" />
-
-
     </LinearLayout>
-
     <RelativeLayout
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:layout_gravity="start">

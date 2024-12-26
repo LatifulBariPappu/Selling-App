@@ -145,7 +145,7 @@ public class InvoiceActivity extends AppCompatActivity {
 
     private void getAllInfo(){
 
-        SharedPreferences sp = getSharedPreferences("device_details",MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences("add_device",MODE_PRIVATE);
         SharedPreferences sp2 = getSharedPreferences("saved_login",MODE_PRIVATE);
 
         String customerName = sp.getString("customerName","");
@@ -153,9 +153,8 @@ public class InvoiceActivity extends AppCompatActivity {
         String customerAddress = sp.getString("customerAddress","");
         String posInvoiceNumber = sp.getString("posInvoiceNumber","");
         String downPaymentDate = sp.getString("downPaymentDate","");
-        String imei1 = sp.getString("imei1","");
-        String barcode = sp.getString("barcode","");
-        String serial = sp.getString("serial","");
+        String imei1 = sp.getString("imei","");
+        String barcode = sp.getString("imei","");
         String model = sp.getString("model","");
         String brand = sp.getString("brand","");
         String color  = sp.getString("color ","");
@@ -177,7 +176,6 @@ public class InvoiceActivity extends AppCompatActivity {
         binding.dateInvoice.setText("Date : "+downPaymentDate);
         binding.imei1Invoice.setText(imei1);
         binding.imei2Invoice.setText(barcode);
-        binding.serialInvoice.setText(serial);
         binding.modelInvoice.setText(model);
         binding.brandInvoice.setText(brand);
         binding.colorInvoice.setText(color);

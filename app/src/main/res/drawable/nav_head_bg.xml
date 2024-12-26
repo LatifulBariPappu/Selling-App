@@ -5,8 +5,5 @@
         android:startColor="@color/my_primary"
         android:centerColor="@color/my_primary"
         android:endColor="@color/white"/>
-    <stroke
-        android:width="2dp"
-        android:color="@color/my_primary"/>
 
 </shape>

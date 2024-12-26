@@ -67,7 +67,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         binding.tabDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 getDataOfDeviceContent();
             }
         });
@@ -396,7 +395,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
             }
         });
-
 
     }
     private void updateDefaultedAmount() {

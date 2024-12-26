@@ -76,7 +76,7 @@ public class NewSaleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String imeiInput = Objects.requireNonNull(binding.imeiEdt.getText()).toString();
-                getData(imeiInput);
+                addDevice(imeiInput);
             }
         });
 
@@ -96,72 +96,111 @@ public class NewSaleActivity extends AppCompatActivity {
             binding.imeiEdt.setText(result.getContents());
         }
     });
-
-    private void getData(String imeiInput){
-        binding.imeiProgress.setVisibility(View.VISIBLE);
-        binding.imeiInfoBtn.setVisibility(View.GONE);
-        //call get device api
-        Call<DeviceModel> call = ApiController
-                .getInstance()
-                .getapi()
-                .getDevice(imeiInput);
-
-        call.enqueue(new Callback<DeviceModel>() {
-            @Override
-            public void onResponse(@NonNull Call<DeviceModel> call, @NonNull Response<DeviceModel> response) {
-                binding.imeiProgress.setVisibility(View.GONE);
-                binding.imeiInfoBtn.setVisibility(View.VISIBLE);
-                if(response.isSuccessful() && response.body()!=null){
-                    String msg = response.body().getMessage();
-                    if("IMEI found".equals(msg)){
-                        int sell_status = response.body().getDevice().getSell_status();
-                        if(sell_status==1){
-                            Toast.makeText(NewSaleActivity.this, "IMEI already sold", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(getApplicationContext(),"IMEI Found",Toast.LENGTH_SHORT).show();
-
-                            SharedPreferences sp = getSharedPreferences("device_details",MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sp.edit();
-
-                            String imei1 = response.body().getDevice().getImei_1();
-                            editor.putString("imei1",imei1);
-                            String imei2 = response.body().getDevice().getImei_2();
-                            editor.putString("barcode",imei2);
-                            String brand = response.body().getDevice().getBrand();
-                            editor.putString("brand",brand);
-                            String color = response.body().getDevice().getColor();
-                            editor.putString("color",color);
-                            String model = response.body().getDevice().getDevice();
-                            editor.putString("model",model);
-                            int price =response.body().getDevice().getHire_sale_price();
-                            editor.putInt("price",price);
-                            String serial = response.body().getDevice().getSerial_number();
-                            editor.putString("serial",serial);
-                            int distribitorId = response.body().getDevice().getDistributor_id();
-                            editor.putInt("distributorId",distribitorId);
-                            String distributorName = response.body().getDevice().getDistributor_name();
-                            editor.putString("distributorName",distributorName);
-                            editor.putInt("sell_status",sell_status);
-                            editor.apply();
-                            startActivity(new Intent(NewSaleActivity.this,DeviceInfoActivity.class));
-                        }
-                    } else if ("IMEI not found".equals(msg)) {
-                        Toast.makeText(getApplicationContext(), "IMEI not found", Toast.LENGTH_SHORT).show();
-                        binding.imeiEdt.setText("");
-                    } else if ("Validation errors".equals(msg)) {
-                        Toast.makeText(getApplicationContext(), "The imei number must be exactly 15 digits.", Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                    Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
-                    binding.imeiEdt.setText("");
+private void addDevice(String imei){
+    binding.imeiProgress.setVisibility(View.VISIBLE);
+    binding.imeiInfoBtn.setVisibility(View.GONE);
+    Call<DeviceModel> call = ApiController
+            .getInstance()
+            .getapi()
+            .getDevice(imei);
+    call.enqueue(new Callback<DeviceModel>() {
+        @Override
+        public void onResponse(Call<DeviceModel> call, Response<DeviceModel> response) {
+            binding.imeiProgress.setVisibility(View.GONE);
+            binding.imeiInfoBtn.setVisibility(View.VISIBLE);
+            if(response.isSuccessful() && response.body()!=null){
+                String msg = response.body().getMessage();
+                if("Successful".equals(msg)){
+                    Toast.makeText(getApplicationContext(), "Device Added Successfully", Toast.LENGTH_SHORT).show();
+                    SharedPreferences sp = getSharedPreferences("add_device",MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("imei",imei);
+                    editor.apply();
+                    startActivity(new Intent(NewSaleActivity.this,SaleCustomerInfoActivity.class));
+                }else if("Validation errors".equals(msg)){
+                    Toast.makeText(getApplicationContext(), "The IMEI field is required.", Toast.LENGTH_SHORT).show();
+                }else if("Unsuccessful".equals(msg)){
+                    Toast.makeText(getApplicationContext(), "Add request not confirmed or IMEI not found", Toast.LENGTH_SHORT).show();
+                }else if("Error Occured".equals(msg)){
+                    Toast.makeText(getApplicationContext(), "Error Occurred", Toast.LENGTH_SHORT).show();
                 }
+            }else{
+                Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
             }
-            @Override
-            public void onFailure(@NonNull Call<DeviceModel> call, @NonNull Throwable t) {
-                binding.imeiProgress.setVisibility(View.GONE);
-                binding.imeiInfoBtn.setVisibility(View.VISIBLE);
-                Toast.makeText(getApplicationContext(),"Failed: " + t.getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+        }
+
+        @Override
+        public void onFailure(Call<DeviceModel> call, Throwable t) {
+            Toast.makeText(getApplicationContext(),"Failed: " + t.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    });
+}
+
+//    private void getData(String imeiInput){
+//        binding.imeiProgress.setVisibility(View.VISIBLE);
+//        binding.imeiInfoBtn.setVisibility(View.GONE);
+//        //call get device api
+//        Call<DeviceModel> call = ApiController
+//                .getInstance()
+//                .getapi()
+//                .getDevice(imeiInput);
+//
+//        call.enqueue(new Callback<DeviceModel>() {
+//            @Override
+//            public void onResponse(@NonNull Call<DeviceModel> call, @NonNull Response<DeviceModel> response) {
+//                binding.imeiProgress.setVisibility(View.GONE);
+//                binding.imeiInfoBtn.setVisibility(View.VISIBLE);
+//                if(response.isSuccessful() && response.body()!=null){
+//                    String msg = response.body().getMessage();
+//                    if("IMEI found".equals(msg)){
+//                        int sell_status = response.body().getDevice().getSell_status();
+//                        if(sell_status==1){
+//                            Toast.makeText(NewSaleActivity.this, "IMEI already sold", Toast.LENGTH_SHORT).show();
+//                        }else{
+//                            Toast.makeText(getApplicationContext(),"IMEI Found",Toast.LENGTH_SHORT).show();
+//
+//                            SharedPreferences sp = getSharedPreferences("device_details",MODE_PRIVATE);
+//                            SharedPreferences.Editor editor = sp.edit();
+//
+//                            String imei1 = response.body().getDevice().getImei_1();
+//                            editor.putString("imei1",imei1);
+//                            String imei2 = response.body().getDevice().getImei_2();
+//                            editor.putString("barcode",imei2);
+//                            String brand = response.body().getDevice().getBrand();
+//                            editor.putString("brand",brand);
+//                            String color = response.body().getDevice().getColor();
+//                            editor.putString("color",color);
+//                            String model = response.body().getDevice().getDevice();
+//                            editor.putString("model",model);
+//                            int price =response.body().getDevice().getHire_sale_price();
+//                            editor.putInt("price",price);
+//                            String serial = response.body().getDevice().getSerial_number();
+//                            editor.putString("serial",serial);
+//                            int distribitorId = response.body().getDevice().getDistributor_id();
+//                            editor.putInt("distributorId",distribitorId);
+//                            String distributorName = response.body().getDevice().getDistributor_name();
+//                            editor.putString("distributorName",distributorName);
+//                            editor.putInt("sell_status",sell_status);
+//                            editor.apply();
+//                            startActivity(new Intent(NewSaleActivity.this,DeviceInfoActivity.class));
+//                        }
+//                    } else if ("IMEI not found".equals(msg)) {
+//                        Toast.makeText(getApplicationContext(), "IMEI not found", Toast.LENGTH_SHORT).show();
+//                        binding.imeiEdt.setText("");
+//                    } else if ("Validation errors".equals(msg)) {
+//                        Toast.makeText(getApplicationContext(), "The imei number must be exactly 15 digits.", Toast.LENGTH_SHORT).show();
+//                    }
+//                }else{
+//                    Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
+//                    binding.imeiEdt.setText("");
+//                }
+//            }
+//            @Override
+//            public void onFailure(@NonNull Call<DeviceModel> call, @NonNull Throwable t) {
+//                binding.imeiProgress.setVisibility(View.GONE);
+//                binding.imeiInfoBtn.setVisibility(View.VISIBLE);
+//                Toast.makeText(getApplicationContext(),"Failed: " + t.getMessage(),Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 }

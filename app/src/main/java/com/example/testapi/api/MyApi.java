@@ -1,5 +1,6 @@
 package com.example.testapi.api;
 
+import com.example.testapi.models.AddDevice;
 import com.example.testapi.models.DeviceListModel;
 import com.example.testapi.models.DeviceModel;
 import com.example.testapi.models.EmiScheduleModel;
@@ -65,6 +66,10 @@ public interface MyApi {
     );
     @POST("emischedule/imei")
     Call<EmiScheduleModel> getEmiSchedule(
+            @Query("imei") String imei
+    );
+    @POST("add-device")
+    Call<AddDevice> addDevice(
             @Query("imei") String imei
     );
 
