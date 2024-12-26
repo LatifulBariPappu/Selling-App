@@ -19,10 +19,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
+                android:weightSum="5"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:id="@+id/modeIcon"
                     android:src="@drawable/defaulticon"
@@ -30,52 +32,52 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="4.1"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="name"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:id="@+id/defaulterNameTv"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="mobile"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:id="@+id/defaulterMobileTv"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="IMEI1"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:id="@+id/defaulterImei1Tv"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="total defaulted amount"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:id="@+id/defaultedAmountTv"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="down pay date"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:id="@+id/downPayTv"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="defaulted date"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:id="@+id/defaultedDateTv"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="remaining"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:id="@+id/remainingToPayTv"/>
                 </LinearLayout>
                 <Button
@@ -83,6 +85,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/deviceActiveBtn"
                     android:backgroundTint="#9FF8A3"
+                    android:textSize="14sp"
                     android:hint="Active"/>
             </LinearLayout>
             <LinearLayout
@@ -98,7 +101,7 @@
                     android:id="@+id/deviceDetailBtn"
                     android:hint="Details"
                     android:layout_marginEnd="10dp"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textColorHint="@color/white"/>
                 <Button
                     android:layout_width="0dp"
@@ -108,7 +111,7 @@
                     android:id="@+id/deviceLockBtn"
                     android:layout_marginStart="10dp"
                     android:hint="Lock"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textColorHint="@color/white"/>
             </LinearLayout>
 

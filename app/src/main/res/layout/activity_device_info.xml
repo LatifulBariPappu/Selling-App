@@ -17,8 +17,8 @@
 
         <!-- Back Arrow -->
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/ic_back"
             android:contentDescription="Back"
             android:layout_gravity="start" />
@@ -54,7 +54,7 @@
                     android:padding="5dp"
                     android:text="IMEI1"
                     android:layout_weight="1"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
                 <TextView
                     android:id="@+id/imei_tv1"
                     android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                     android:padding="5dp"
                     android:text=""
                     android:layout_weight="1"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
             <View
@@ -82,7 +82,7 @@
                     android:padding="5dp"
                     android:text="IMEI2"
                     android:layout_weight="1"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
                 <TextView
                     android:id="@+id/imei_tv2"
                     android:layout_width="match_parent"
@@ -90,7 +90,7 @@
                     android:padding="5dp"
                     android:text=""
                     android:layout_weight="1"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
             <View
@@ -109,7 +109,7 @@
                     android:padding="5dp"
                     android:text="SERIAL NO."
                     android:layout_weight="1"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
                 <TextView
                     android:id="@+id/serial_tv"
                     android:layout_width="match_parent"
@@ -117,7 +117,7 @@
                     android:padding="5dp"
                     android:text=""
                     android:layout_weight="1"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
 
             </LinearLayout>
             <View
@@ -136,7 +136,7 @@
                     android:padding="5dp"
                     android:text="MODEL"
                     android:layout_weight="1"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
                 <TextView
                     android:id="@+id/model_tv"
                     android:layout_width="match_parent"
@@ -144,7 +144,7 @@
                     android:padding="5dp"
                     android:text=""
                     android:layout_weight="1"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
             <View
@@ -163,7 +163,7 @@
                     android:padding="5dp"
                     android:text="BRAND"
                     android:layout_weight="1"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
                 <TextView
                     android:id="@+id/brand_tv"
                     android:layout_width="match_parent"
@@ -171,7 +171,7 @@
                     android:padding="5dp"
                     android:text=""
                     android:layout_weight="1"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
 
             </LinearLayout>
@@ -192,7 +192,7 @@
                     android:padding="5dp"
                     android:layout_weight="1"
                     android:text="COLOR"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
                 <TextView
                     android:id="@+id/color_tv"
                     android:layout_width="match_parent"
@@ -200,7 +200,7 @@
                     android:padding="5dp"
                     android:layout_weight="1"
                     android:text=""
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
             <View
@@ -220,7 +220,7 @@
                     android:padding="5dp"
                     android:text="DISTRIBUTOR ID"
                     android:layout_weight="1"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
                 <TextView
                     android:id="@+id/distributorId_tv"
                     android:layout_width="match_parent"
@@ -228,7 +228,7 @@
                     android:padding="5dp"
                     android:text=""
                     android:layout_weight="1"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
 
             </LinearLayout>
             <View
@@ -247,7 +247,7 @@
                     android:padding="5dp"
                     android:text="DISTRIBUTOR NAME"
                     android:layout_weight="1"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
                 <TextView
                     android:id="@+id/distributor_tv"
                     android:layout_width="match_parent"
@@ -255,7 +255,7 @@
                     android:padding="5dp"
                     android:text=""
                     android:layout_weight="1"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
 
             </LinearLayout>
             <View
@@ -273,7 +273,7 @@
                     android:padding="5dp"
                     android:layout_weight="1"
                     android:text="HIRE SALE PRICE"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
                 <TextView
                     android:id="@+id/price_tv"
                     android:layout_width="match_parent"
@@ -281,7 +281,7 @@
                     android:padding="5dp"
                     android:text=""
                     android:layout_weight="1"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -291,6 +291,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/foundToNext"
                 android:hint="@string/next_btn"
+                android:textSize="14sp"
                 android:textColorHint="@color/white"
                 android:backgroundTint="@color/my_primary"
                 android:layout_gravity="end"

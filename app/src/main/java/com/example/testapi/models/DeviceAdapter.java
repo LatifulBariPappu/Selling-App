@@ -45,7 +45,7 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
     @Override
     public void onBindViewHolder(@NonNull DeviceViewHolder holder, int position) {
         Devices devices = devicesList.get(position);
-        holder.binding.nameTv.setText(devices.getCustomer_name());
+        holder.binding.nameTv.setText("Name : "+devices.getCustomer_name());
         holder.binding.mobileTv.setText("Mobile : "+devices.getCustomer_mobile());
         holder.binding.imei1Tv.setText("IMEI1 : "+devices.getImei_1());
         holder.binding.imei2Tv.setText("IMEI2 : "+devices.getImei_2());

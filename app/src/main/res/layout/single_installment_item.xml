@@ -15,7 +15,7 @@
             android:text="Installments No."
             android:id="@+id/installmentNumberTv"
             android:layout_weight="1"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:gravity="center"/>
         <TextView
             android:layout_width="0dp"
@@ -24,7 +24,7 @@
             android:id="@+id/installmentAmount"
             android:gravity="center"
             android:layout_weight="1"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
             android:id="@+id/installmentDate"
             android:gravity="center"
             android:layout_weight="1"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"

@@ -1,4 +1,5 @@
 package com.example.testapi.activities;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -6,9 +7,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,8 +23,14 @@ import com.example.testapi.controller.ApiController;
 import com.example.testapi.databinding.ActivityDeviceDetailsBinding;
 import com.example.testapi.models.EmiScheduleModel;
 import com.example.testapi.models.InstallmentAdapter;
+import com.example.testapi.models.PaymentModel;
+import com.example.testapi.models.PaymentRequest;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,6 +44,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
     private TextView nameTv,mobileTv,dateTv,modelTv,imei1Tv,imei2Tv,lastSyncTv,totalDefaultedAmountTv,defaultedDateTv,remainingToPayTv,reminderImeiTv;
     private Button payBtn;
+    Boolean isDeviceClicked,isReminderClicked;
+    int paymentAmount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +67,14 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         binding.tabDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 getDataOfDeviceContent();
             }
         });
         payBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DeviceDetailsActivity.this,PaymentActivity.class));
+                showPaymentPopup();
             }
         });
         binding.tabReminder.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +108,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         initializeViews(contentView);
     }
     private void getDataOfDeviceContent(){
+        isDeviceClicked = true;
+        isReminderClicked = false;
         loadContentView(R.layout.device_content);
         binding.deviceTransiton.setVisibility(View.VISIBLE);
         binding.reminderTransiton.setVisibility(View.GONE);
@@ -126,9 +142,14 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             imei2Tv.setText("IMEI2 : "+defaulterImei2);
             mobileTv.setText(defaulterMobile);
             dateTv.setText("Defaulted on : "+defaultedDate);
+            if(paymentAmount>0){
+                totalDefaultedAmount-=paymentAmount;
+                remainingToPay-=paymentAmount;
+            }
             totalDefaultedAmountTv.setText("Total Defaulted Amount : "+totalDefaultedAmount);
             defaultedDateTv.setText("Defaulted downPay date : "+defaulterDownPaymentDate);
             remainingToPayTv.setText("Remaining To Pay : "+remainingToPay);
+
         }else if("no".equals(isDefaulter)){
             modelTv.setVisibility(View.VISIBLE);
             lastSyncTv.setVisibility(View.VISIBLE);
@@ -157,6 +178,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
     }
     private void getDataOfReminderContent(){
+        isReminderClicked = true;
+        isDeviceClicked = false;
         loadContentView(R.layout.reminder_content);
         binding.deviceTransiton.setVisibility(View.GONE);
         binding.reminderTransiton.setVisibility(View.VISIBLE);
@@ -223,13 +246,171 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         }
         payBtn = findViewById(R.id.paymentBtn);
     }
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if (binding.deviceTransiton.getVisibility() == View.VISIBLE) {
-//            getDataOfDeviceContent(); // Refresh device content
-//        } else if (binding.reminderTransiton.getVisibility() == View.VISIBLE) {
-//            getDataOfReminderContent(); // Refresh reminder content
-//        }
-//    }
+    private void showPaymentPopup() {
+        // Inflate the custom layout
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View popupView = inflater.inflate(R.layout.payment_popup, null);
+
+        String imei = "";
+        TextView paymentImeiTv = popupView.findViewById(R.id.paymentImeiTv);
+        TextView paymentDateTv = popupView.findViewById(R.id.paymentDateTv);
+        Button confirmPaymentBtn = popupView.findViewById(R.id.confirmPaymentBtn);
+        EditText paymentAmountEdt = popupView.findViewById(R.id.paymentAmountEdt);
+        ProgressBar confirmPaymentProgress = popupView.findViewById(R.id.confirmPaymentProgress);
+        // Create and show the dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(popupView);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        paymentDateTv.setText(currentDate);
+
+
+        SharedPreferences sp = getSharedPreferences("defaulters", Context.MODE_PRIVATE);
+        String isDefaulter = sp.getString("isDefaulter","");
+        if("yes".equals(isDefaulter)){
+            String defaulterImei1 = sp.getString("defaulterImei1","") ;
+            imei = defaulterImei1;
+            paymentImeiTv.setText("Make payment for IMEI1 ( "+defaulterImei1+" )");
+        }else if("no".equals(isDefaulter)){
+            String imei1 = sp.getString("imei1","");
+            imei = imei1;
+            paymentImeiTv.setText("Make payment for IMEI1 ( "+imei1+" )");
+        }
+        paymentDateTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                // Show DatePickerDialog
+                DatePickerDialog datePickerDialog = new DatePickerDialog(DeviceDetailsActivity.this,
+                        (view, selectedYear, selectedMonth, selectedDay) -> {
+                            // Update the TextView with the selected date
+                            String selectedDate = selectedYear + "-" + String.format("%02d", (selectedMonth + 1)) + "-" + String.format("%02d", selectedDay);
+                            paymentDateTv.setText(selectedDate);
+                        }, year, month, day);
+
+                // Set the maximum date to today
+                datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+                datePickerDialog.show();
+            }
+        });
+
+        String finalImei = imei;
+        confirmPaymentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String paymentAmountInput = paymentAmountEdt.getText().toString().trim();
+                // Validate if the payment amount field is empty
+                if (paymentAmountInput.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Please enter a payment amount", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                try {
+                    // Parse the input to an integer
+                    paymentAmount = Integer.parseInt(paymentAmountInput);
+
+                    // Check if payment amount is valid (e.g., not zero or negative)
+                    if (paymentAmount <= 0) {
+                        Toast.makeText(getApplicationContext(), "Payment amount must be greater than 0", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getApplicationContext(), "Invalid payment amount. Please enter a valid number.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                // Validate the payment date
+                String paymentDate = paymentDateTv.getText().toString();
+                if (paymentDate.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Please select a payment date", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                try {
+                    // Parse the selected payment date
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    Date selectedDate = sdf.parse(paymentDate);
+                    Date currentDate = new Date();
+
+                    // Check if the selected date is after the current date
+                    if (selectedDate != null && selectedDate.after(currentDate)) {
+                        Toast.makeText(getApplicationContext(), "Payment date cannot be in the future", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Invalid payment date format", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                // Create the payment request
+                PaymentRequest request = new PaymentRequest(finalImei,paymentAmount,paymentDate);
+                String authorization = "iF3PTw5zRS7JdKeu2ULE3A==";
+
+                // Call the payment API
+                confirmPaymentBtn.setVisibility(View.GONE);
+                confirmPaymentProgress.setVisibility(View.VISIBLE);
+                Call<PaymentModel> call = ApiController
+                        .getInstance()
+                        .getapi()
+                        .getPayment(authorization,request);
+                call.enqueue(new Callback<PaymentModel>() {
+                    @Override
+                    public void onResponse(Call<PaymentModel> call, Response<PaymentModel> response) {
+                        confirmPaymentBtn.setVisibility(View.VISIBLE);
+                        confirmPaymentProgress.setVisibility(View.GONE);
+                        if(response.isSuccessful() && response.body()!=null){
+                            String msg = response.body().getData().getMessage();
+                            if("Payment Successful".equals(msg)){
+                                Toast.makeText(getApplicationContext(),"Payment Successful",Toast.LENGTH_SHORT).show();
+                                updateDefaultedAmount();
+                                dialog.dismiss();
+
+                            } else if ("Device Dose not Exist".equals(msg)) {
+                                Toast.makeText(getApplicationContext(), "Device Dose not Exist", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            } else if ("Payment Unsuccessful".equals(msg)) {
+                                Toast.makeText(getApplicationContext(), "Payment amount and date is required", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        }else{
+                            Toast.makeText(getApplicationContext(),"response body is null",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PaymentModel> call, Throwable t) {
+                        confirmPaymentBtn.setVisibility(View.VISIBLE);
+                        confirmPaymentProgress.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(), "Failed : "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+
+            }
+        });
+
+
+    }
+    private void updateDefaultedAmount() {
+        // Retrieve the current amounts
+        int totalDefaultedAmount = Integer.parseInt(totalDefaultedAmountTv.getText().toString().replaceAll("[^\\d]", ""));
+        int remainingToPay = Integer.parseInt(remainingToPayTv.getText().toString().replaceAll("[^\\d]", ""));
+
+        // Subtract the payment amount
+        totalDefaultedAmount -= paymentAmount;
+        remainingToPay -= paymentAmount;
+
+        // Update the TextViews
+        totalDefaultedAmountTv.setText("Total Defaulted Amount : " + totalDefaultedAmount);
+        remainingToPayTv.setText("Remaining To Pay : " + remainingToPay);
+    }
+
 }
