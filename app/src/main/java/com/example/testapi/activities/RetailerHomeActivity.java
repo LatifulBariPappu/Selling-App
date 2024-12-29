@@ -89,6 +89,67 @@ public class RetailerHomeActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),DeviceListsActivity.class));
             }
         });
+        findViewById(R.id.navCustomers).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), CustomersListActivity.class));
+            }
+        });
+        findViewById(R.id.navBalance).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), BalanceActivity.class));
+            }
+        });
+        findViewById(R.id.navCreditScore).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), CreditScoreActivity.class));
+            }
+        });
+        findViewById(R.id.navDashboard).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+            }
+        });
+        findViewById(R.id.navReport).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ReportActivity.class));
+            }
+        });
+        
+        binding.customerListCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), CustomersListActivity.class));
+            }
+        });
+        binding.balanceCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), BalanceActivity.class));
+            }
+        });
+        binding.creditScoreCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), CreditScoreActivity.class));
+            }
+        });
+        binding.dashboardCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+            }
+        });
+        binding.reportCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ReportActivity.class));
+            }
+        });
         binding.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
