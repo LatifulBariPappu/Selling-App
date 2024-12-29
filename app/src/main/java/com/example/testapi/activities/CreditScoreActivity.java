@@ -2,7 +2,6 @@ package com.example.testapi.activities;
 
 import android.os.Bundle;
 import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.testapi.databinding.ActivityCreditScoreBinding;
 

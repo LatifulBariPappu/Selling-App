@@ -13,13 +13,16 @@
         android:orientation="vertical">
         <include
             layout="@layout/toolbar"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/retailerHomeGridLayout"
             android:columnCount="2"
             android:padding="30dp"
-            android:rowCount="4">
+            android:rowCount="5">
             <androidx.cardview.widget.CardView
                 android:id="@+id/newSaleCardView"
                 android:layout_width="0dp"
@@ -111,7 +114,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:id="@+id/balanceCardView"
+                android:id="@+id/dashboardCardView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_row="1"
@@ -130,16 +133,17 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginTop="15dp"
-                        android:src="@drawable/balance"/>
+                        android:src="@drawable/dashboard"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:padding="10dp"
-                        android:text="Balance"
+                        android:text="Dashboard"
                         android:textSize="14sp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/creditScoreCardView"
                 android:layout_width="0dp"
@@ -171,7 +175,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:id="@+id/dashboardCardView"
+                android:id="@+id/balanceCardView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_row="2"
@@ -190,16 +194,17 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginTop="15dp"
-                        android:src="@drawable/dashboard"/>
+                        android:src="@drawable/balance"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:padding="10dp"
-                        android:text="Dashboard"
+                        android:text="Balance"
                         android:textSize="14sp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/reportCardView"
                 android:layout_width="0dp"
@@ -260,7 +265,38 @@
                         android:textSize="14sp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/logoutCardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_row="4"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                app:cardUseCompatPadding="true">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@drawable/logout"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:padding="10dp"
+                        android:text="Logout"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </GridLayout>
+        </ScrollView>
     </LinearLayout>
     <RelativeLayout
         android:layout_width="250dp"

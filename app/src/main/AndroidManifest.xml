@@ -45,9 +45,6 @@
             android:name=".activities.InvoiceActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.DeviceInfoActivity"
-            android:exported="false" />
-        <activity
             android:name=".activities.DeviceDetailsActivity"
             android:exported="false" />
         <activity

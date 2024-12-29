@@ -2,8 +2,8 @@ package com.example.testapi.api;
 
 import com.example.testapi.models.AddDevice;
 import com.example.testapi.models.DeviceListModel;
-import com.example.testapi.models.DeviceModel;
 import com.example.testapi.models.EmiScheduleModel;
+import com.example.testapi.models.HistoryModel;
 import com.example.testapi.models.LockDeviceModel;
 import com.example.testapi.models.PaymentModel;
 import com.example.testapi.models.PaymentRequest;
@@ -31,11 +31,6 @@ public interface MyApi {
     Call<RetailerModel> retailerLogin(
             @Query("mobile") String mobile,
             @Query("password") String password
-    );
-    //device model api
-    @POST("devicemodel/imei")
-    Call<DeviceModel> getDevice(
-            @Query("imei") String imei
     );
     //hire sale price api
     @POST("hire-sale")
@@ -70,6 +65,11 @@ public interface MyApi {
     );
     @POST("add-device")
     Call<AddDevice> addDevice(
+            @Query("imei") String imei
+    );
+
+    @POST("payment-history")
+    Call<HistoryModel> getPaymentHistory(
             @Query("imei") String imei
     );
 

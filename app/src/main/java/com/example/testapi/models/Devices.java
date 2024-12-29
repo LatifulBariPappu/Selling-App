@@ -40,18 +40,33 @@ public  class Devices{
     private String distributor_name;
     @SerializedName("hire_sale_price")
     private int hire_sale_price;
-    @SerializedName("sell_status")
-    private int sell_status;
+    @SerializedName("number_of_installment")
+    private int number_of_installment;
+    @SerializedName("down_payment")
+    private int down_payment;
+    @SerializedName("total_payment")
+    private int total_payment;
+    @SerializedName("total_due")
+    private int total_due;
+    @SerializedName("emi_status")
+    private int emi_status;
+    @SerializedName("acknowledgment")
+    private int acknowledgment;
+
+    @SerializedName("device_status")
+    private String device_status;
+    @SerializedName("device_lock")
+    private int device_lock;
+    @SerializedName("lock_status")
+    private String lock_status;
+    @SerializedName("sale_status")
+    private int sale_status;
     @SerializedName("last_sync")
     private String last_sync;
     @SerializedName("down_payment_date")
     private String down_payment_date;
-    @SerializedName("defaulted_amount")
-    private double defaulted_amount;
-    @SerializedName("last_payment_date")
-    private String last_payment_date;
 
-    public Devices(String imei_1, String imei_2, String serial_number, String customer_id, String customer_name, long customer_nid, String customer_address, String customer_mobile, String sales_by, String sales_person_name, String retail_id, String retail_name, String pos_invoice_number, String model, String brand, String color, int distributor_id, String distributor_name, int hire_sale_price, int sell_status, String last_sync, String down_payment_date, double defaulted_amount, String last_payment_date) {
+    public Devices(String imei_1, String imei_2, String serial_number, String customer_id, String customer_name, long customer_nid, String customer_address, String customer_mobile, String sales_by, String sales_person_name, String retail_id, String retail_name, String pos_invoice_number, String model, String brand, String color, int distributor_id, String distributor_name, int hire_sale_price, int number_of_installment, int down_payment, int total_payment, int total_due, int emi_status, int acknowledgment, String device_status, int device_lock, String lock_status, int sale_status, String last_sync, String down_payment_date) {
         this.imei_1 = imei_1;
         this.imei_2 = imei_2;
         this.serial_number = serial_number;
@@ -71,11 +86,18 @@ public  class Devices{
         this.distributor_id = distributor_id;
         this.distributor_name = distributor_name;
         this.hire_sale_price = hire_sale_price;
-        this.sell_status = sell_status;
+        this.number_of_installment = number_of_installment;
+        this.down_payment = down_payment;
+        this.total_payment = total_payment;
+        this.total_due = total_due;
+        this.emi_status = emi_status;
+        this.acknowledgment = acknowledgment;
+        this.device_status = device_status;
+        this.device_lock = device_lock;
+        this.lock_status = lock_status;
+        this.sale_status = sale_status;
         this.last_sync = last_sync;
         this.down_payment_date = down_payment_date;
-        this.defaulted_amount = defaulted_amount;
-        this.last_payment_date = last_payment_date;
     }
 
     public String getImei_1() {
@@ -230,12 +252,84 @@ public  class Devices{
         this.hire_sale_price = hire_sale_price;
     }
 
-    public int getSell_status() {
-        return sell_status;
+    public int getNumber_of_installment() {
+        return number_of_installment;
     }
 
-    public void setSell_status(int sell_status) {
-        this.sell_status = sell_status;
+    public void setNumber_of_installment(int number_of_installment) {
+        this.number_of_installment = number_of_installment;
+    }
+
+    public int getDown_payment() {
+        return down_payment;
+    }
+
+    public void setDown_payment(int down_payment) {
+        this.down_payment = down_payment;
+    }
+
+    public int getTotal_payment() {
+        return total_payment;
+    }
+
+    public void setTotal_payment(int total_payment) {
+        this.total_payment = total_payment;
+    }
+
+    public int getTotal_due() {
+        return total_due;
+    }
+
+    public void setTotal_due(int total_due) {
+        this.total_due = total_due;
+    }
+
+    public int getEmi_status() {
+        return emi_status;
+    }
+
+    public void setEmi_status(int emi_status) {
+        this.emi_status = emi_status;
+    }
+
+    public int getAcknowledgment() {
+        return acknowledgment;
+    }
+
+    public void setAcknowledgment(int acknowledgment) {
+        this.acknowledgment = acknowledgment;
+    }
+
+    public String getDevice_status() {
+        return device_status;
+    }
+
+    public void setDevice_status(String device_status) {
+        this.device_status = device_status;
+    }
+
+    public int getDevice_lock() {
+        return device_lock;
+    }
+
+    public void setDevice_lock(int device_lock) {
+        this.device_lock = device_lock;
+    }
+
+    public String getLock_status() {
+        return lock_status;
+    }
+
+    public void setLock_status(String lock_status) {
+        this.lock_status = lock_status;
+    }
+
+    public int getSale_status() {
+        return sale_status;
+    }
+
+    public void setSale_status(int sale_status) {
+        this.sale_status = sale_status;
     }
 
     public String getLast_sync() {
@@ -252,21 +346,5 @@ public  class Devices{
 
     public void setDown_payment_date(String down_payment_date) {
         this.down_payment_date = down_payment_date;
-    }
-
-    public double getDefaulted_amount() {
-        return defaulted_amount;
-    }
-
-    public void setDefaulted_amount(double defaulted_amount) {
-        this.defaulted_amount = defaulted_amount;
-    }
-
-    public String getLast_payment_date() {
-        return last_payment_date;
-    }
-
-    public void setLast_payment_date(String last_payment_date) {
-        this.last_payment_date = last_payment_date;
     }
 }

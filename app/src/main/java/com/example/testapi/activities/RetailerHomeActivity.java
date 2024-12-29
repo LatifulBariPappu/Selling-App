@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -40,10 +43,8 @@ public class RetailerHomeActivity extends AppCompatActivity {
         findViewById(R.id.navLogout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
-                sp.edit().remove("logged").apply();
-                startActivity(new Intent(getApplicationContext(), FirstActivity.class));
-                finish();
+                closeDrawer(binding.drawerLayout);
+                showLogoutDialog();
             }
         });
         findViewById(R.id.navHome).setOnClickListener(new View.OnClickListener() {
@@ -150,6 +151,12 @@ public class RetailerHomeActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), ReportActivity.class));
             }
         });
+        binding.logoutCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLogoutDialog();
+            }
+        });
         binding.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -191,5 +198,25 @@ public class RetailerHomeActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         closeDrawer(binding.drawerLayout);
+    }
+    private void showLogoutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Logout Confirmation");
+        builder.setMessage("Oh no! You're about to log out.\nAre you sure?");
+        builder.setCancelable(true);
+
+        builder.setPositiveButton("Yes", (dialog, which) -> {
+            Toast.makeText(getApplicationContext(), "Logged out successfully", Toast.LENGTH_SHORT).show();
+            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
+            sp.edit().remove("logged").apply();
+            startActivity(new Intent(getApplicationContext(), FirstActivity.class));
+            finish();
+        });
+
+        builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

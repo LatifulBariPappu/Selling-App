@@ -20,6 +20,8 @@ import com.example.testapi.R;
 import com.example.testapi.controller.ApiController;
 import com.example.testapi.databinding.ActivityDeviceDetailsBinding;
 import com.example.testapi.models.EmiScheduleModel;
+import com.example.testapi.models.HistoryAdapter;
+import com.example.testapi.models.HistoryModel;
 import com.example.testapi.models.InstallmentAdapter;
 import com.example.testapi.models.PaymentModel;
 import com.example.testapi.models.PaymentRequest;
@@ -38,9 +40,9 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
     ActivityDeviceDetailsBinding binding;
     InstallmentAdapter installmentAdapter;
-    RecyclerView reminderRecView;
+    RecyclerView reminderRecView,devicePaymentRecView;
 
-    private TextView nameTv,mobileTv,dateTv,modelTv,imei1Tv,imei2Tv,lastSyncTv,totalDefaultedAmountTv,defaultedDateTv,remainingToPayTv,reminderImeiTv;
+    private TextView nidTv,totalPaymentTv,totalDueTv,nameTv,mobileTv,dateTv,modelTv,imei1Tv,imei2Tv,lastSyncTv,totalDefaultedAmountTv,defaultedDateTv,remainingToPayTv,reminderImeiTv,historyImeiTv;
     private Button payBtn;
     Boolean isDeviceClicked,isReminderClicked;
     int paymentAmount = 0;
@@ -51,7 +53,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         binding = ActivityDeviceDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.deviceTransiton.setVisibility(View.VISIBLE);
+        binding.deviceTransition.setVisibility(View.VISIBLE);
 
         getDataOfDeviceContent();
 
@@ -78,9 +80,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadContentView(R.layout.reminder_content);
-                binding.deviceTransiton.setVisibility(View.GONE);
-                binding.reminderTransiton.setVisibility(View.VISIBLE);
-                binding.agreementTransiton.setVisibility(View.GONE);
                 getDataOfReminderContent();
             }
         });
@@ -88,9 +87,17 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadContentView(R.layout.agreement_content);
-                binding.deviceTransiton.setVisibility(View.GONE);
-                binding.reminderTransiton.setVisibility(View.GONE);
+                binding.deviceTransition.setVisibility(View.GONE);
+                binding.reminderTransition.setVisibility(View.GONE);
+                binding.payHistoryTransition.setVisibility(View.GONE);
                 binding.agreementTransiton.setVisibility(View.VISIBLE);
+            }
+        });
+        binding.tabPayHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadContentView(R.layout.pay_history_content);
+                getDataOfPaymentHistory();
             }
         });
     }
@@ -108,9 +115,10 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         isDeviceClicked = true;
         isReminderClicked = false;
         loadContentView(R.layout.device_content);
-        binding.deviceTransiton.setVisibility(View.VISIBLE);
-        binding.reminderTransiton.setVisibility(View.GONE);
+        binding.deviceTransition.setVisibility(View.VISIBLE);
+        binding.reminderTransition.setVisibility(View.GONE);
         binding.agreementTransiton.setVisibility(View.GONE);
+        binding.payHistoryTransition.setVisibility(View.GONE);
 
         initializeViews(binding.frameLayout.getChildAt(0));
 
@@ -134,6 +142,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             String defaulterDownPaymentDate = getIntent().getStringExtra("defaulterDownPaymentDate");
             String defaultedDate = getIntent().getStringExtra("defaultedDate");
             int remainingToPay = getIntent().getIntExtra("remainingToPay",0);
+            long nid = getIntent().getLongExtra("nid",0);
             nameTv.setText(defaulterName);
             imei1Tv.setText("IMEI1 : "+defaulterImei1);
             imei2Tv.setText("IMEI2 : "+defaulterImei2);
@@ -143,6 +152,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                 totalDefaultedAmount-=paymentAmount;
                 remainingToPay-=paymentAmount;
             }
+            nidTv.setText("NID : "+nid);
             totalDefaultedAmountTv.setText("Total Defaulted Amount : "+totalDefaultedAmount);
             defaultedDateTv.setText("Defaulted downPay date : "+defaulterDownPaymentDate);
             remainingToPayTv.setText("Remaining To Pay : "+remainingToPay);
@@ -150,6 +160,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         }else if("no".equals(isDefaulter)){
             modelTv.setVisibility(View.VISIBLE);
             lastSyncTv.setVisibility(View.VISIBLE);
+            totalPaymentTv.setVisibility(View.VISIBLE);
+            totalDueTv.setVisibility(View.VISIBLE);
             totalDefaultedAmountTv.setVisibility(View.GONE);
             defaultedDateTv.setVisibility(View.GONE);
             remainingToPayTv.setVisibility(View.GONE);
@@ -163,6 +175,12 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             String date = getIntent().getStringExtra("downPayDate");
             String model = getIntent().getStringExtra("model");
             String lastSync = getIntent().getStringExtra("lastSync");
+            long nid = getIntent().getLongExtra("nid",0);
+            int totalPayment = getIntent().getIntExtra("totalPayment",0);
+            int totalDue = getIntent().getIntExtra("totalDue",0);
+            nidTv.setText("NID : "+nid);
+            totalPaymentTv.setText("Total Payment : "+totalPayment);
+            totalDueTv.setText("Total Due : "+totalDue);
             nameTv.setText(name);
             imei1Tv.setText("IMEI1 : "+imei1);
             imei2Tv.setText("IMEI2 : "+imei2);
@@ -174,12 +192,32 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         }
 
     }
+    private void  getDataOfPaymentHistory(){
+        binding.deviceTransition.setVisibility(View.GONE);
+        binding.reminderTransition.setVisibility(View.GONE);
+        binding.payHistoryTransition.setVisibility(View.VISIBLE);
+        binding.agreementTransiton.setVisibility(View.GONE);
+        initializeViews(binding.frameLayout.getChildAt(0));
+        SharedPreferences sp = getSharedPreferences("defaulters", Context.MODE_PRIVATE);
+        String isDefaulter = sp.getString("isDefaulter","");
+        if("yes".equals(isDefaulter)){
+            String defaulterImei1 = getIntent().getStringExtra("defaulterImei1");
+            //call reminder api according to defaulter imei1
+            getPayHistory(defaulterImei1);
+
+        }else if("no".equals(isDefaulter)){
+            String imei1 = getIntent().getStringExtra("imei1");
+            //call reminder api according to imei1
+            getPayHistory(imei1);
+        }
+    }
     private void getDataOfReminderContent(){
         isReminderClicked = true;
         isDeviceClicked = false;
         loadContentView(R.layout.reminder_content);
-        binding.deviceTransiton.setVisibility(View.GONE);
-        binding.reminderTransiton.setVisibility(View.VISIBLE);
+        binding.deviceTransition.setVisibility(View.GONE);
+        binding.reminderTransition.setVisibility(View.VISIBLE);
+        binding.payHistoryTransition.setVisibility(View.GONE);
         binding.agreementTransiton.setVisibility(View.GONE);
         initializeViews(binding.frameLayout.getChildAt(0));
         SharedPreferences sp = getSharedPreferences("defaulters", Context.MODE_PRIVATE);
@@ -237,7 +275,16 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         defaultedDateTv = findViewById(R.id.defaultedDateTV);
         remainingToPayTv = findViewById(R.id.remainingToPayTV);
         reminderImeiTv = findViewById(R.id.reminderImeiTv);
+        historyImeiTv = findViewById(R.id.historyImeiTv);
         reminderRecView = view.findViewById(R.id.reminderRecView);
+        nidTv = view.findViewById(R.id.customerNidTv);
+        totalPaymentTv = view.findViewById(R.id.totalPaymentTV);
+        totalDueTv = view.findViewById(R.id.totalDueTV);
+        devicePaymentRecView = view.findViewById(R.id.devicePaymentRecView);
+
+        if (devicePaymentRecView != null) {
+            devicePaymentRecView.setLayoutManager(new LinearLayoutManager(this));
+        }
         if (reminderRecView != null) {
             reminderRecView.setLayoutManager(new LinearLayoutManager(this));
         }
@@ -407,6 +454,32 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         // Update the TextViews
         totalDefaultedAmountTv.setText("Total Defaulted Amount : " + totalDefaultedAmount);
         remainingToPayTv.setText("Remaining To Pay : " + remainingToPay);
+    }
+    private void getPayHistory(String imei){
+        historyImeiTv.setText("Payments for IMEI1 ( "+imei+" ) listed below :");
+        Call<HistoryModel> call =
+                ApiController.getInstance()
+                        .getapi().getPaymentHistory(imei);
+        call.enqueue(new Callback<HistoryModel>() {
+            @Override
+            public void onResponse(Call<HistoryModel> call, Response<HistoryModel> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    String msg = response.body().getMessage();
+                    if("Payment history retrieved successfully.".equals(msg)){
+                        Toast.makeText(getApplicationContext(), "Payment history retrieved successfully.", Toast.LENGTH_SHORT).show();
+                        List<HistoryModel.data> data =response.body().getData();
+                        devicePaymentRecView.setAdapter(new HistoryAdapter(data));
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "Payment history response body is null", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<HistoryModel> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Failed : "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 }

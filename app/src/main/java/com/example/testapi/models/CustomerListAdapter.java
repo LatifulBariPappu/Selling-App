@@ -60,6 +60,8 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
                 intent.putExtra("id",devices.getCustomer_id());
                 intent.putExtra("nid",devices.getCustomer_nid());
                 intent.putExtra("address",devices.getCustomer_address());
+                intent.putExtra("totalPayment",devices.getTotal_payment());
+                intent.putExtra("totalDue",devices.getTotal_due());
                 context.startActivity(intent);
             }
         });

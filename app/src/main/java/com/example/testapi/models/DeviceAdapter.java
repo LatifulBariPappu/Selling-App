@@ -66,6 +66,9 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
                 intent.putExtra("model",devices.getModel());
                 intent.putExtra("name",devices.getCustomer_name());
                 intent.putExtra("mobile",devices.getCustomer_mobile());
+                intent.putExtra("nid",devices.getCustomer_nid());
+                intent.putExtra("totalPayment",devices.getTotal_payment());
+                intent.putExtra("totalDue",devices.getTotal_due());
                 intent.putExtra("lastSync",devices.getLast_sync());
                 context.startActivity(intent);
             }

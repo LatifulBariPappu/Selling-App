@@ -68,6 +68,7 @@ public class DefaulterAdapter extends RecyclerView.Adapter<DefaulterAdapter.Defa
                 intent.putExtra("defaulterDownPaymentDate",defaulter.getDown_payment_date());
                 intent.putExtra("defaultedDate",defaulter.getDefaulted_date());
                 intent.putExtra("remainingToPay",defaulter.getRemaining_to_pay());
+                intent.putExtra("nid",defaulter.getCustomer_nid());
                 context.startActivity(intent);
             }
         });

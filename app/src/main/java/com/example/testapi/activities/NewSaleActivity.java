@@ -9,12 +9,11 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.testapi.controller.ApiController;
 import com.example.testapi.databinding.ActivitySaleBinding;
+import com.example.testapi.models.AddDevice;
 import com.example.testapi.models.CaptureAct;
-import com.example.testapi.models.DeviceModel;
 import java.util.Objects;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
@@ -23,7 +22,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class NewSaleActivity extends AppCompatActivity {
-
     ActivitySaleBinding binding;
 
     @Override
@@ -99,13 +97,13 @@ public class NewSaleActivity extends AppCompatActivity {
     private void addDevice(String imei){
         binding.imeiProgress.setVisibility(View.VISIBLE);
         binding.imeiInfoBtn.setVisibility(View.GONE);
-        Call<DeviceModel> call = ApiController
+        Call<AddDevice> call = ApiController
                 .getInstance()
                 .getapi()
-                .getDevice(imei);
-        call.enqueue(new Callback<DeviceModel>() {
+                .addDevice(imei);
+        call.enqueue(new Callback<AddDevice>() {
             @Override
-            public void onResponse(Call<DeviceModel> call, Response<DeviceModel> response) {
+            public void onResponse(Call<AddDevice> call, Response<AddDevice> response) {
                 binding.imeiProgress.setVisibility(View.GONE);
                 binding.imeiInfoBtn.setVisibility(View.VISIBLE);
                 if(response.isSuccessful() && response.body()!=null){
@@ -130,7 +128,7 @@ public class NewSaleActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<DeviceModel> call, Throwable t) {
+            public void onFailure(Call<AddDevice> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Failed: " + t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });

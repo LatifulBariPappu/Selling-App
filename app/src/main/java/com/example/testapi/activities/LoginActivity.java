@@ -14,7 +14,6 @@ import com.example.testapi.controller.ApiController;
 import com.example.testapi.databinding.ActivityLoginBinding;
 import com.example.testapi.models.RetailerModel;
 import com.example.testapi.models.DistributorModel;
-import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

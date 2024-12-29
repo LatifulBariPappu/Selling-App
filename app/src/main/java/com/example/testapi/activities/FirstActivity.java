@@ -18,7 +18,6 @@ public class FirstActivity extends AppCompatActivity{
         binding = ActivityFirstBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         checkExistence();
 
         binding.distributor.setOnClickListener(new View.OnClickListener() {
@@ -29,6 +28,7 @@ public class FirstActivity extends AppCompatActivity{
                 editor.putString("user","Distributor");
                 editor.apply();
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
             }
         });
         binding.retailer.setOnClickListener(new View.OnClickListener() {
@@ -39,6 +39,7 @@ public class FirstActivity extends AppCompatActivity{
                 editor.putString("user","Retailer");
                 editor.apply();
                 startActivity(new Intent(FirstActivity.this, LoginActivity.class));
+                finish();
             }
         });
 
