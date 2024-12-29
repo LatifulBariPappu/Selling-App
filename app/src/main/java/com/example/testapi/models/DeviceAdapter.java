@@ -52,7 +52,6 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
         holder.binding.sellDateTv.setText("Sell date : "+devices.getDown_payment_date());
         holder.binding.lastSyncTv.setText("Last sync : "+devices.getLast_sync());
 
-
         holder.binding.deviceDetailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

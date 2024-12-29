@@ -1,7 +1,6 @@
 package com.example.testapi.activities;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -140,7 +138,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             imei1Tv.setText("IMEI1 : "+defaulterImei1);
             imei2Tv.setText("IMEI2 : "+defaulterImei2);
             mobileTv.setText(defaulterMobile);
-            dateTv.setText("Defaulted on : "+defaultedDate);
+            dateTv.setText("Defaulted on\n"+defaultedDate);
             if(paymentAmount>0){
                 totalDefaultedAmount-=paymentAmount;
                 remainingToPay-=paymentAmount;
@@ -169,7 +167,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             imei1Tv.setText("IMEI1 : "+imei1);
             imei2Tv.setText("IMEI2 : "+imei2);
             mobileTv.setText(mobile);
-            dateTv.setText("Down pay date : "+date);
+            dateTv.setText("Down pay date\n"+date);
             modelTv.setText("Model : "+model);
             lastSyncTv.setText("Last Sync : "+lastSync);
 

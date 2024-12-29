@@ -22,7 +22,6 @@ import com.example.testapi.models.Devices;
 import com.example.testapi.models.DefaulterResponse;
 
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
