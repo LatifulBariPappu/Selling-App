@@ -28,7 +28,6 @@ public class RetailerProfileActivity extends AppCompatActivity {
         String retailerAddress =sp.getString("retailerAddress","");
         String retailDistributorName =sp.getString("retailDistributorName","");
 
-
         binding.retailerIdTv.setText(String.valueOf(retailerId));
         binding.retailerNameTv.setText(retailerName);
         binding.retailerMobileTv.setText(retailerMobile);

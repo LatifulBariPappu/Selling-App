@@ -21,6 +21,21 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ReportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.DashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CreditScoreActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.BalanceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CustomersListActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.RetailerProfileActivity"
             android:exported="false" />
         <activity
