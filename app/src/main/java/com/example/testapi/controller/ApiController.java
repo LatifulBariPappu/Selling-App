@@ -8,7 +8,6 @@ public class ApiController {
     private static final String baseUrl="http://192.168.0.218:8000/api/";
     private static ApiController clientobj;
     private static Retrofit retrofit;
-
     ApiController(){
         retrofit=new Retrofit.Builder()
                 .baseUrl(baseUrl)

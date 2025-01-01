@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.testapi.R;
 import com.example.testapi.activities.DeviceDetailsActivity;
 import com.example.testapi.controller.ApiController;
 import com.example.testapi.databinding.SingleDeviceDesignBinding;
@@ -27,7 +29,6 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
 
     List<Devices> devicesList;
     List<Devices> fullList;
-
     private Context context;
 
     public DeviceAdapter(Context context,List<Devices> devicesList) {
@@ -51,6 +52,23 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
         holder.binding.imei2Tv.setText("IMEI2 : "+devices.getImei_2());
         holder.binding.sellDateTv.setText("Sell date : "+devices.getDown_payment_date());
         holder.binding.lastSyncTv.setText("Last sync : "+devices.getLast_sync());
+        int emi_status = devices.getEmi_status();
+        int enroll_status = devices.getAcknowledgment();
+        if (emi_status==1){
+            holder.binding.deviceEmiStatusTV.setText("Running");
+        }else if(emi_status==0){
+            holder.binding.deviceEmiStatusTV.setText("Completed");
+            holder.binding.deviceEmiStatusTV.setBackgroundResource(R.color.custom_blue);
+            holder.binding.deviceEmiStatusTV.setTextColor(Color.WHITE);
+        }
+        if(enroll_status==1){
+            holder.binding.deviceEnrollStatusTV.setText("Enroll");
+        } else if (enroll_status==0) {
+            holder.binding.deviceEnrollStatusTV.setText("UnEnroll");
+            holder.binding.deviceEnrollStatusTV.setBackgroundResource(R.color.custom_red);
+            holder.binding.deviceEnrollStatusTV.setTextColor(Color.WHITE);
+
+        }
 
         holder.binding.deviceDetailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +88,7 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
                 intent.putExtra("totalPayment",devices.getTotal_payment());
                 intent.putExtra("totalDue",devices.getTotal_due());
                 intent.putExtra("lastSync",devices.getLast_sync());
+                intent.putExtra("deviceStatus",devices.getDevice_status());
                 context.startActivity(intent);
             }
         });

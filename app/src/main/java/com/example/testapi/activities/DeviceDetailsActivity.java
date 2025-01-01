@@ -2,11 +2,13 @@ package com.example.testapi.activities;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,9 @@ import com.example.testapi.models.HistoryModel;
 import com.example.testapi.models.InstallmentAdapter;
 import com.example.testapi.models.PaymentModel;
 import com.example.testapi.models.PaymentRequest;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,8 +47,9 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     InstallmentAdapter installmentAdapter;
     RecyclerView reminderRecView,devicePaymentRecView;
 
-    private TextView nidTv,totalPaymentTv,totalDueTv,nameTv,mobileTv,dateTv,modelTv,imei1Tv,imei2Tv,lastSyncTv,totalDefaultedAmountTv,defaultedDateTv,remainingToPayTv,reminderImeiTv,historyImeiTv;
+    private TextView deviceStatusTv,nidTv,totalPaymentTv,totalDueTv,nameTv,mobileTv,dateTv,modelTv,imei1Tv,imei2Tv,lastSyncTv,totalDefaultedAmountTv,defaultedDateTv,remainingToPayTv,reminderImeiTv,historyImeiTv;
     private Button payBtn;
+    private ImageView qrCodeIV;
     Boolean isDeviceClicked,isReminderClicked;
     int paymentAmount = 0;
 
@@ -56,6 +62,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         binding.deviceTransition.setVisibility(View.VISIBLE);
 
         getDataOfDeviceContent();
+
+
 
 
         binding.toolbar.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +110,28 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         });
     }
 
+    private Bitmap generateQRCode(String data) {
+        QRCodeWriter writer = new QRCodeWriter();
+        try {
+            // Set dimensions and encoding format
+            int width = 512, height = 512;
+            com.google.zxing.common.BitMatrix bitMatrix = writer.encode(data, BarcodeFormat.QR_CODE, width, height);
+
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    bitmap.setPixel(x, y, bitMatrix.get(x, y) ? 0xFF000000 : 0xFFFFFFFF);
+                }
+            }
+            return bitmap;
+
+        } catch (WriterException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private void loadContentView(int layoutId) {
         LayoutInflater inflater = LayoutInflater.from(this);
         View contentView = inflater.inflate(layoutId, null);
@@ -127,6 +157,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         if("yes".equals(isDefaulter)){
             modelTv.setVisibility(View.GONE);
             lastSyncTv.setVisibility(View.GONE);
+            deviceStatusTv.setVisibility(View.GONE);
             totalDefaultedAmountTv.setVisibility(View.VISIBLE);
             defaultedDateTv.setVisibility(View.VISIBLE);
             remainingToPayTv.setVisibility(View.VISIBLE);
@@ -157,11 +188,18 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             defaultedDateTv.setText("Defaulted downPay date : "+defaulterDownPaymentDate);
             remainingToPayTv.setText("Remaining To Pay : "+remainingToPay);
 
+            Bitmap qrCodeBitmap = generateQRCode(defaulterImei1);
+            if (qrCodeBitmap != null) {
+                qrCodeIV.setImageBitmap(qrCodeBitmap);
+            }
+
         }else if("no".equals(isDefaulter)){
             modelTv.setVisibility(View.VISIBLE);
             lastSyncTv.setVisibility(View.VISIBLE);
             totalPaymentTv.setVisibility(View.VISIBLE);
             totalDueTv.setVisibility(View.VISIBLE);
+            deviceStatusTv.setVisibility(View.VISIBLE);
+
             totalDefaultedAmountTv.setVisibility(View.GONE);
             defaultedDateTv.setVisibility(View.GONE);
             remainingToPayTv.setVisibility(View.GONE);
@@ -178,6 +216,12 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             long nid = getIntent().getLongExtra("nid",0);
             int totalPayment = getIntent().getIntExtra("totalPayment",0);
             int totalDue = getIntent().getIntExtra("totalDue",0);
+            String deviceStatus = getIntent().getStringExtra("deviceStatus");
+            if ("Unlock".equals(deviceStatus)){
+                deviceStatusTv.setText("Device Status : Unlock");
+            }else{
+                deviceStatusTv.setText("Device Status : Lock");
+            }
             nidTv.setText("NID : "+nid);
             totalPaymentTv.setText("Total Payment : "+totalPayment);
             totalDueTv.setText("Total Due : "+totalDue);
@@ -188,6 +232,10 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             dateTv.setText("Down pay date\n"+date);
             modelTv.setText("Model : "+model);
             lastSyncTv.setText("Last Sync : "+lastSync);
+            Bitmap qrCodeBitmap = generateQRCode(imei1);
+            if (qrCodeBitmap != null) {
+                qrCodeIV.setImageBitmap(qrCodeBitmap);
+            }
 
         }
 
@@ -281,6 +329,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         totalPaymentTv = view.findViewById(R.id.totalPaymentTV);
         totalDueTv = view.findViewById(R.id.totalDueTV);
         devicePaymentRecView = view.findViewById(R.id.devicePaymentRecView);
+        deviceStatusTv=view.findViewById(R.id.deviceStatusTV);
+        qrCodeIV = view.findViewById(R.id.deviceQrCodeIV);
 
         if (devicePaymentRecView != null) {
             devicePaymentRecView.setLayoutManager(new LinearLayoutManager(this));

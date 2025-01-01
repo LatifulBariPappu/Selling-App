@@ -20,6 +20,10 @@ import com.example.testapi.models.DeviceAdapter;
 import com.example.testapi.models.DeviceListModel;
 import com.example.testapi.models.Devices;
 import com.example.testapi.models.DefaulterResponse;
+import com.example.testapi.models.GoodCustomerAdapter;
+import com.example.testapi.models.GoodCustomerModel;
+import com.example.testapi.models.HappyCustomerAdapter;
+import com.example.testapi.models.HappyCustomerModel;
 
 import java.util.List;
 
@@ -31,8 +35,12 @@ public class DeviceListsActivity extends AppCompatActivity {
     ActivityDeviceListsBinding binding;
     DeviceAdapter deviceAdapter;
     DefaulterAdapter defaulterAdapter;
+    GoodCustomerAdapter goodCustomerAdapter;
+    HappyCustomerAdapter happyCustomerAdapter;
     Boolean allIsClicked;
     Boolean defaulterIsClicked;
+    Boolean goodIsClicked;
+    Boolean happyIsClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +74,18 @@ public class DeviceListsActivity extends AppCompatActivity {
 
             }
         });
+        binding.goodCustomerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goodBtnClicked(true);
+            }
+        });
+        binding.happyCustomerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                happyBtnClicked(true);
+            }
+        });
 
         
         binding.searchEdt.addTextChangedListener(new TextWatcher() {
@@ -86,6 +106,10 @@ public class DeviceListsActivity extends AppCompatActivity {
                     deviceAdapter.filter(query);
                 } else if (defaulterIsClicked && defaulterAdapter != null) {
                     defaulterAdapter.filter(query);
+                }else if (goodIsClicked && goodCustomerAdapter != null) {
+                    goodCustomerAdapter.filter(query);
+                }else if (happyIsClicked && happyCustomerAdapter != null) {
+                    happyCustomerAdapter.filter(query);
                 } else {
                     Log.e("FilterError", "No adapter initialized or adapter is null.");
                 }
@@ -171,29 +195,130 @@ public class DeviceListsActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void getGoodCustomerList(int retailId){
+        Call<GoodCustomerModel> call = ApiController
+                .getInstance()
+                .getapi()
+                .getGoodCustomers(retailId);
+        call.enqueue(new Callback<GoodCustomerModel>() {
+            @Override
+            public void onResponse(Call<GoodCustomerModel> call, Response<GoodCustomerModel> response) {
+                if(response.isSuccessful() && response.body()!=null){
+                    String msg = response.body().getMessage();
+                    if("Good customer list retrieved successfully.".equals(msg)){
+                        Toast.makeText(getApplicationContext(),"Good customer list retrieved successfully.",Toast.LENGTH_SHORT).show();
+                        List<GoodCustomerModel.defaulters> defaulters = response.body().getDefaultersList();
+                        goodCustomerAdapter = new GoodCustomerAdapter(DeviceListsActivity.this,defaulters);
+                        binding.deviceListsRecView.setAdapter(goodCustomerAdapter);
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<GoodCustomerModel> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Failed : "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void getHappyCustomersList(int retailId){
+        Call<HappyCustomerModel> call = ApiController
+                .getInstance()
+                .getapi()
+                .getHappyCustomers(retailId);
+        call.enqueue(new Callback<HappyCustomerModel>() {
+            @Override
+            public void onResponse(Call<HappyCustomerModel> call, Response<HappyCustomerModel> response) {
+                if(response.isSuccessful() && response.body()!=null){
+                    String msg = response.body().getMessage();
+                    if("Happy customer list retrieved successfully.".equals(msg)){
+                        Toast.makeText(getApplicationContext(),"Happy customer list retrieved successfully.",Toast.LENGTH_SHORT).show();
+                        List<HappyCustomerModel.happyCustomer> happyCustomerList = response.body().getHappyCustomerList();
+                        happyCustomerAdapter = new HappyCustomerAdapter(DeviceListsActivity.this,happyCustomerList);
+                        binding.deviceListsRecView.setAdapter(happyCustomerAdapter);
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HappyCustomerModel> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Failed : "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void allBtnClicked(Boolean isClicked){
         if(isClicked){
             allIsClicked = true;
             defaulterIsClicked = false;
+            goodIsClicked = false;
+            happyIsClicked = false;
+
             binding.allBtn.setCardBackgroundColor(Color.parseColor("#8692f7"));
             binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.lockedBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            binding.happyCustomerBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            binding.goodCustomerBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
 //            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
 //            int retailId =sp.getInt("retailerId",0);
             defaulterAdapter=null;
             refreshAllList();
         }
     }
+    private void goodBtnClicked(Boolean isClicked){
+        if(isClicked){
+            allIsClicked = false;
+            defaulterIsClicked = false;
+            goodIsClicked = true;
+            happyIsClicked = false;
+            binding.allBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            binding.lockedBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            binding.happyCustomerBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            binding.goodCustomerBtn.setCardBackgroundColor(Color.parseColor("#8692f7"));
+//            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
+//            int retailId =sp.getInt("retailerId",0);
+            goodCustomerAdapter=null;
+            refreshGoodList();
+        }
+    }
+    private void happyBtnClicked(Boolean isClicked){
+        if(isClicked){
+            allIsClicked = false;
+            defaulterIsClicked = false;
+            goodIsClicked = false;
+            happyIsClicked = true;
+
+            binding.allBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            binding.lockedBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            binding.happyCustomerBtn.setCardBackgroundColor(Color.parseColor("#8692f7"));
+            binding.goodCustomerBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+//            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
+//            int retailId =sp.getInt("retailerId",0);
+            happyCustomerAdapter=null;
+            refreshHappyList();
+        }
+    }
     private void defaulterBtnClicked(Boolean isClicked){
         if(isClicked){
             defaulterIsClicked = true;
             allIsClicked = false;
+            goodIsClicked = false;
+            happyIsClicked = false;
             binding.allBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#8692f7"));
             binding.lockedBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            binding.happyCustomerBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            binding.goodCustomerBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
 //            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
 //            int retailId =sp.getInt("retailerId",0);
-            deviceAdapter = null;
+            defaulterAdapter = null;
             refreshDefaulterList();
         }
     }
@@ -210,7 +335,6 @@ public class DeviceListsActivity extends AppCompatActivity {
         popupMenu.getMenu().add(Menu.NONE, 1, Menu.NONE, "name");
         popupMenu.getMenu().add(Menu.NONE, 2, Menu.NONE, "mobile");
         popupMenu.getMenu().add(Menu.NONE, 3, Menu.NONE, "imei1");
-        popupMenu.getMenu().add(Menu.NONE, 4, Menu.NONE, "imei2");
 
         popupMenu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -222,9 +346,6 @@ public class DeviceListsActivity extends AppCompatActivity {
                     break;
                 case 3:
                     binding.dropDownTV.setText("IMEI1");
-                    break;
-                case 4:
-                    binding.dropDownTV.setText("IMEI2");
                     break;
                 default:
                     binding.searchEdt.setHint("search here");
@@ -249,6 +370,20 @@ public class DeviceListsActivity extends AppCompatActivity {
             getDefaulterList(retailId);
         }
     }
+    private void refreshGoodList() {
+        if (goodIsClicked) {
+            SharedPreferences sp = getSharedPreferences("saved_login", MODE_PRIVATE);
+            int retailId = sp.getInt("retailerId", 0);
+            getGoodCustomerList(retailId);
+        }
+    }
+    private void refreshHappyList() {
+        if (happyIsClicked) {
+            SharedPreferences sp = getSharedPreferences("saved_login", MODE_PRIVATE);
+            int retailId = sp.getInt("retailerId", 0);
+            getHappyCustomersList(retailId);
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -256,6 +391,10 @@ public class DeviceListsActivity extends AppCompatActivity {
             refreshAllList();
         } else if (defaulterIsClicked) {
             refreshDefaulterList();
+        } else if (happyIsClicked) {
+            refreshHappyList();
+        } else if (goodIsClicked) {
+            refreshGoodList();
         }
     }
 }

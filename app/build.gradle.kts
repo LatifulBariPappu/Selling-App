@@ -47,6 +47,7 @@ dependencies {
     implementation (libs.retrofit2.retrofit)
     implementation (libs.retrofit2.converter.gson)
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation("com.google.zxing:core:3.5.2")
     implementation ("com.google.android.material:material:1.9.0")
 
 }

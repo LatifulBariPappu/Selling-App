@@ -49,17 +49,17 @@ public class RetailerModel {
         private String mobile;
         @SerializedName("address")
         private String address;
-        @SerializedName("dc_id")
-        private String dc_id;
+        @SerializedName("distributor_id")
+        private int distributor_id;
         @SerializedName("distributor_name")
         private String distributor_name;
 
-        public Retail(int id, String name, String mobile, String address, String dc_id, String distributor_name) {
+        public Retail(int id, String name, String mobile, String address, int distributor_id, String distributor_name) {
             this.id = id;
             this.name = name;
             this.mobile = mobile;
             this.address = address;
-            this.dc_id = dc_id;
+            this.distributor_id = distributor_id;
             this.distributor_name = distributor_name;
         }
 
@@ -95,12 +95,12 @@ public class RetailerModel {
             this.address = address;
         }
 
-        public String getDc_id() {
-            return dc_id;
+        public int getDistributor_id() {
+            return distributor_id;
         }
 
-        public void setDc_id(String dc_id) {
-            this.dc_id = dc_id;
+        public void setDistributor_id(int distributor_id) {
+            this.distributor_id = distributor_id;
         }
 
         public String getDistributor_name() {

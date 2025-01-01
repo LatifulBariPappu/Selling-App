@@ -12,6 +12,7 @@ public class DistributorModel {
     @SerializedName("distributor")
     Distributor distributorObject;
 
+
     public DistributorModel(String message, int status, Distributor distributorObject) {
         this.message = message;
         this.status = status;
@@ -55,6 +56,7 @@ public class DistributorModel {
         private String address;
         @SerializedName("no_of_subscription")
         private int no_of_subscription;
+
 
         public Distributor(int id, String name, String mobile, String email, String address, int no_of_subscription) {
             this.id = id;

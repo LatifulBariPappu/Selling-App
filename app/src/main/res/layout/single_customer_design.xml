@@ -22,6 +22,7 @@
                 android:weightSum="5"
                 android:orientation="horizontal">
                 <ImageView
+                    android:id="@+id/customerListIV"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"

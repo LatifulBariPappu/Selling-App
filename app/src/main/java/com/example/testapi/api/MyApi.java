@@ -3,6 +3,8 @@ package com.example.testapi.api;
 import com.example.testapi.models.AddDevice;
 import com.example.testapi.models.DeviceListModel;
 import com.example.testapi.models.EmiScheduleModel;
+import com.example.testapi.models.GoodCustomerModel;
+import com.example.testapi.models.HappyCustomerModel;
 import com.example.testapi.models.HistoryModel;
 import com.example.testapi.models.LockDeviceModel;
 import com.example.testapi.models.PaymentModel;
@@ -65,12 +67,19 @@ public interface MyApi {
     );
     @POST("add-device")
     Call<AddDevice> addDevice(
-            @Query("imei") String imei
+            @Query("imei") String imei,
+            @Query("retail_id") int retail_id
     );
 
     @POST("payment-history")
     Call<HistoryModel> getPaymentHistory(
             @Query("imei") String imei
     );
+    @POST("happy-customers")
+    Call<HappyCustomerModel> getHappyCustomers(
+            @Query("retail_id") int retail_id);
+    @POST("good-customers")
+    Call<GoodCustomerModel> getGoodCustomers(
+            @Query("retail_id") int retail_id);
 
 }

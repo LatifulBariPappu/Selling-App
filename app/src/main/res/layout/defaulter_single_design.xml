@@ -7,7 +7,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="8dp"
+        app:cardElevation="4dp"
         app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true">
         <LinearLayout
@@ -80,13 +80,16 @@
                         android:textSize="14sp"
                         android:id="@+id/remainingToPayTv"/>
                 </LinearLayout>
-                <Button
-                    android:layout_width="65dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/deviceActiveBtn"
-                    android:backgroundTint="#9FF8A3"
-                    android:textSize="14sp"
-                    android:hint="Active"/>
+                    android:id="@+id/defaulterEmiStatusTV"
+                    android:background="#9FF8A3"
+                    android:text="Running"
+                    android:textStyle="bold"
+                    android:padding="5dp"
+                    android:layout_margin="10dp"
+                    android:textSize="12sp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -100,16 +103,17 @@
                     android:backgroundTint="@color/my_primary"
                     android:id="@+id/deviceDetailBtn"
                     android:hint="Details"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="15dp"
                     android:textSize="14sp"
                     android:textColorHint="@color/white"/>
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/my_primary"
+                    android:backgroundTint="#FF4D4D"
                     android:id="@+id/deviceLockBtn"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="15dp"
+                    android:drawableRight="@drawable/baseline_lock_24"
                     android:hint="Lock"
                     android:textSize="14sp"
                     android:textColorHint="@color/white"/>

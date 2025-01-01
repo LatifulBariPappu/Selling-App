@@ -74,10 +74,11 @@ public class NewSaleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String imeiInput = Objects.requireNonNull(binding.imeiEdt.getText()).toString();
-                addDevice(imeiInput);
+                SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
+                int retailerId = sp.getInt("retailerId",0);
+                addDevice(imeiInput,retailerId);
             }
         });
-
     }
 
     private void scancode() {
@@ -94,13 +95,13 @@ public class NewSaleActivity extends AppCompatActivity {
             binding.imeiEdt.setText(result.getContents());
         }
     });
-    private void addDevice(String imei){
+    private void addDevice(String imei,int retailerId){
         binding.imeiProgress.setVisibility(View.VISIBLE);
         binding.imeiInfoBtn.setVisibility(View.GONE);
         Call<AddDevice> call = ApiController
                 .getInstance()
                 .getapi()
-                .addDevice(imei);
+                .addDevice(imei,retailerId);
         call.enqueue(new Callback<AddDevice>() {
             @Override
             public void onResponse(Call<AddDevice> call, Response<AddDevice> response) {
@@ -108,7 +109,7 @@ public class NewSaleActivity extends AppCompatActivity {
                 binding.imeiInfoBtn.setVisibility(View.VISIBLE);
                 if(response.isSuccessful() && response.body()!=null){
                     String msg = response.body().getMessage();
-                    if("Successful".equals(msg)){
+                    if("Device Added Successfully".equals(msg)){
                         Toast.makeText(getApplicationContext(), "Device Added Successfully", Toast.LENGTH_SHORT).show();
                         SharedPreferences sp = getSharedPreferences("add_device",MODE_PRIVATE);
                         SharedPreferences.Editor editor = sp.edit();
@@ -117,10 +118,14 @@ public class NewSaleActivity extends AppCompatActivity {
                         startActivity(new Intent(NewSaleActivity.this,SaleCustomerInfoActivity.class));
                     }else if("Validation errors".equals(msg)){
                         Toast.makeText(getApplicationContext(), "The IMEI field is required.", Toast.LENGTH_SHORT).show();
-                    }else if("Unsuccessful".equals(msg)){
-                        Toast.makeText(getApplicationContext(), "Add request not confirmed or IMEI not found", Toast.LENGTH_SHORT).show();
-                    }else if("Error Occured".equals(msg)){
-                        Toast.makeText(getApplicationContext(), "Error Occurred", Toast.LENGTH_SHORT).show();
+                    }else if("Add request not confirmed".equals(msg)){
+                        Toast.makeText(getApplicationContext(), "Add request not confirmed", Toast.LENGTH_SHORT).show();
+                    }else if("Retailer not found".equals(msg)){
+                        Toast.makeText(getApplicationContext(), "Retailer not found", Toast.LENGTH_SHORT).show();
+                    }else if("Error message".equals(msg)){
+                        Toast.makeText(getApplicationContext(), "Error message", Toast.LENGTH_SHORT).show();
+                    }else if("Invalid response from confirmation service".equals(msg)){
+                        Toast.makeText(getApplicationContext(), "Invalid response from confirmation service", Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
@@ -130,6 +135,8 @@ public class NewSaleActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<AddDevice> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Failed: " + t.getMessage(),Toast.LENGTH_SHORT).show();
+                binding.imeiProgress.setVisibility(View.GONE);
+                binding.imeiInfoBtn.setVisibility(View.VISIBLE);
             }
         });
     }

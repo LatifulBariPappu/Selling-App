@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:padding="5dp"
         android:layout_marginStart="10dp"
         android:orientation="horizontal">
@@ -71,6 +72,86 @@
                             android:textStyle="bold"
                             android:textSize="14sp"/>
                     </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imei1TV"
+                        android:text="imei1 "
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="10dp"
+                        android:textSize="14sp"
+                        android:padding="2dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imei2TV"
+                        android:text="imei2"
+                        android:textStyle="bold"
+                        android:layout_marginStart="10dp"
+                        android:textSize="14sp"
+                        android:padding="2dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/modelTV"
+                        android:text="model : walton"
+                        android:layout_marginStart="10dp"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:layout_marginTop="10dp"
+                        android:padding="2dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/totalPaymentTV"
+                        android:visibility="gone"
+                        android:text="total payment"
+                        android:textStyle="bold"
+                        android:layout_marginStart="10dp"
+                        android:textSize="14sp"
+                        android:padding="2dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/totalDueTV"
+                        android:text="total due"
+                        android:visibility="gone"
+                        android:textStyle="bold"
+                        android:layout_marginStart="10dp"
+                        android:textSize="14sp"
+                        android:padding="2dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/lastSyncTV"
+                        android:text="lastSync"
+                        android:layout_marginStart="10dp"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:padding="2dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/totalDefaultedAmountTV"
+                        android:text="total defaulted amount"
+                        android:layout_marginStart="10dp"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        android:textSize="14sp"
+                        android:padding="2dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/remainingToPayTV"
+                        android:text="remainingToPay"
+                        android:layout_marginStart="10dp"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        android:textSize="14sp"
+                        android:padding="2dp"/>
+
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -82,103 +163,60 @@
                         android:id="@+id/dateTV"
                         android:layout_marginEnd="8dp"
                         android:textSize="14sp"
+                        android:gravity="center"
                         android:text="01/01/2024"
                         android:textStyle="bold"/>
+                    <ImageView
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/deviceQrCodeIV"/>
                 </LinearLayout>
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/modelTV"
-                android:text="model : walton"
-                android:layout_marginStart="10dp"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:layout_marginTop="10dp"
-                android:padding="5dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/imei1TV"
-                android:text="imei1 "
-                android:textStyle="bold"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"
-                android:textSize="14sp"
-                android:padding="5dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/imei2TV"
-                android:text="imei2"
-                android:textStyle="bold"
-                android:layout_marginStart="10dp"
-                android:textSize="14sp"
-                android:padding="5dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/totalPaymentTV"
-                android:visibility="gone"
-                android:text="total payment"
-                android:textStyle="bold"
-                android:layout_marginStart="10dp"
-                android:textSize="14sp"
-                android:padding="5dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/totalDueTV"
-                android:text="total due"
-                android:visibility="gone"
-                android:textStyle="bold"
-                android:layout_marginStart="10dp"
-                android:textSize="14sp"
-                android:padding="5dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/lastSyncTV"
-                android:text="lastSync"
-                android:layout_marginStart="10dp"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:padding="5dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/totalDefaultedAmountTV"
-                android:text="total defaulted amount"
-                android:layout_marginStart="10dp"
-                android:textStyle="bold"
-                android:visibility="gone"
-                android:textSize="14sp"
-                android:padding="5dp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/defaultedDateTV"
                 android:text="defaultedDate"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="15dp"
                 android:textStyle="bold"
                 android:visibility="gone"
                 android:textSize="14sp"
-                android:padding="5dp"/>
+                android:padding="2dp"/>
+
             <TextView
+                android:id="@+id/deviceStatusTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/remainingToPayTV"
-                android:text="remainingToPay"
-                android:layout_marginStart="10dp"
-                android:textStyle="bold"
-                android:textSize="14sp"
+                android:layout_marginStart="15dp"
+                android:padding="2dp"
+                android:text="status"
                 android:visibility="gone"
-                android:padding="5dp"/>
+                android:textSize="14sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/nextPayDataTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:padding="2dp"
+                android:text="nextPayDate"
+                android:visibility="gone"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/nextPayAmountTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:padding="2dp"
+                android:text="nextPayAmount"
+                android:visibility="gone"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -213,7 +251,7 @@
             android:hint="Lock"
             android:layout_margin="5dp"
             android:textSize="14sp"
-            android:backgroundTint="@color/my_primary"
+            android:backgroundTint="#FF4D4D"
             android:textColorHint="@color/white"
             android:id="@+id/lockBtn"/>
         <Button
