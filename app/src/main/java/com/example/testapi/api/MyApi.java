@@ -2,7 +2,9 @@ package com.example.testapi.api;
 
 import com.example.testapi.models.AddDevice;
 import com.example.testapi.models.DashboardSaleResponse;
+import com.example.testapi.models.DefaulterStatus;
 import com.example.testapi.models.DeviceListModel;
+import com.example.testapi.models.EmiDataResponse;
 import com.example.testapi.models.EmiScheduleModel;
 import com.example.testapi.models.GoodCustomerModel;
 import com.example.testapi.models.HappyCustomerModel;
@@ -92,5 +94,9 @@ public interface MyApi {
     );
     @GET("retailer/dashboard")
     Call<DashboardSaleResponse> getDashboardData(@Query("retail_id") int retailId);
+    @GET("dashboard-defaulters")
+    Call<DefaulterStatus> getDefaulterStatus(@Query("retail_id") int retailId);
+    @GET("dashboard-emi-status")
+    Call<EmiDataResponse> getEmiStatus(@Query("retail_id") int retailId);
 
 }

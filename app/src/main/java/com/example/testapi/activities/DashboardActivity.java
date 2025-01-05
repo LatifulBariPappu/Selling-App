@@ -3,11 +3,16 @@ package com.example.testapi.activities;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.testapi.R;
 import com.example.testapi.controller.ApiController;
 import com.example.testapi.databinding.ActivityDashboardBinding;
 import com.example.testapi.models.DashboardSaleResponse;
+import com.example.testapi.models.DefaulterStatus;
+import com.example.testapi.models.EmiDataResponse;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -36,10 +41,15 @@ public class DashboardActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
         int retailerId = sp.getInt("retailerId",0);
         getDashboardSale(retailerId);
+        getDefaulterStatus(retailerId);
+        getEmistatus(retailerId);
     }
 
     private void getDashboardSale(int retailerId) {
-        Call<DashboardSaleResponse> call = ApiController.getInstance().getapi().getDashboardData(retailerId);
+        Call<DashboardSaleResponse> call = ApiController
+                .getInstance()
+                .getapi()
+                .getDashboardData(retailerId);
         call.enqueue(new Callback<DashboardSaleResponse>() {
             @Override
             public void onResponse(Call<DashboardSaleResponse> call, Response<DashboardSaleResponse> response) {
@@ -71,7 +81,7 @@ public class DashboardActivity extends AppCompatActivity {
         series.setTitle(title);
 
         // Customize graph appearance
-        series.setColor(getResources().getColor(android.R.color.holo_blue_dark));
+        series.setColor(R.color.my_primary);
         series.setDrawDataPoints(true);
         series.setDataPointsRadius(10f);
         series.setThickness(8);
@@ -92,6 +102,58 @@ public class DashboardActivity extends AppCompatActivity {
         // Set graph title
         graph.setTitle(title);
         graph.setTitleTextSize(48);
-        graph.setTitleColor(getResources().getColor(android.R.color.holo_red_dark));
+        graph.setTitleColor(R.color.my_primary);
+    }
+    private void getDefaulterStatus(int retailId){
+        Call<DefaulterStatus> call = ApiController
+                .getInstance()
+                .getapi()
+                .getDefaulterStatus(retailId);
+        call.enqueue(new Callback<DefaulterStatus>() {
+            @Override
+            public void onResponse(Call<DefaulterStatus> call, Response<DefaulterStatus> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if(response.body().getStatus()==200){
+                        binding.totalDefaultersTv.setText("Total Defaulters : "+response.body().getTotal_defaulters());
+                        binding.totalDefaultedAmountTv.setText("Total Defaulted Amount : "+response.body().getTotal_defaulted_amount()+" BDT");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DefaulterStatus> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Failed to show data", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+    private void getEmistatus(int retailId){
+        Call<EmiDataResponse> call = ApiController
+                .getInstance()
+                .getapi()
+                .getEmiStatus(retailId);
+        call.enqueue(new Callback<EmiDataResponse>() {
+            @Override
+            public void onResponse(Call<EmiDataResponse> call, Response<EmiDataResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    EmiDataResponse emiDataResponse = response.body();
+                    EmiDataResponse.EmiData data = emiDataResponse.getData();
+
+                    binding.emiRunningTv.setText("Total Running : "+data.getEmiStatus().getEmiRunning());
+                    binding.emiCompletedTv.setText("Total Completed : "+data.getEmiStatus().getEmiCompleted());
+
+                    binding.totalCollectionsTv.setText("Total Collections : "+data.getCollections().getTotalCollection()+" BDT");
+                    binding.totalDueTv.setText("Total Due : "+data.getCollections().getTotalDue()+" BDT");
+
+                    binding.totalUnlockedTv.setText("Total Unlocked : "+data.getLocked().getTotalUnlocked());
+                    binding.totalLockedTv.setText("Total Locked : "+data.getLocked().getTotalLocked());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EmiDataResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Failed to show data", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
