@@ -1,24 +1,27 @@
 package com.example.testapi.models;
 
-
 import com.google.gson.annotations.SerializedName;
+import java.util.Map;
+import java.util.List;
 
 public class DistributorModel {
-    //distributor model class
     @SerializedName("message")
     private String message;
     @SerializedName("status")
     private int status;
     @SerializedName("distributor")
-    Distributor distributorObject;
+    private Distributor distributorObject;
+    @SerializedName("errors")
+    private Map<String, List<String>> errors; // For handling validation errors
 
-
-    public DistributorModel(String message, int status, Distributor distributorObject) {
+    public DistributorModel(String message, int status, Distributor distributorObject, Map<String, List<String>> errors) {
         this.message = message;
         this.status = status;
         this.distributorObject = distributorObject;
+        this.errors = errors;
     }
 
+    // Getters and Setters
     public String getMessage() {
         return message;
     }
@@ -43,6 +46,14 @@ public class DistributorModel {
         this.distributorObject = distributorObject;
     }
 
+    public Map<String, List<String>> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(Map<String, List<String>> errors) {
+        this.errors = errors;
+    }
+
     public static class Distributor {
         @SerializedName("id")
         private int id;
@@ -57,7 +68,6 @@ public class DistributorModel {
         @SerializedName("no_of_subscription")
         private int no_of_subscription;
 
-
         public Distributor(int id, String name, String mobile, String email, String address, int no_of_subscription) {
             this.id = id;
             this.name = name;
@@ -67,6 +77,7 @@ public class DistributorModel {
             this.no_of_subscription = no_of_subscription;
         }
 
+        // Getters and Setters
         public int getId() {
             return id;
         }
@@ -115,5 +126,4 @@ public class DistributorModel {
             this.no_of_subscription = no_of_subscription;
         }
     }
-
 }

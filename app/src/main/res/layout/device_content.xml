@@ -3,8 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="10dp"
     android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +41,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="8dp"
+        app:cardElevation="4dp"
         app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true">
         <LinearLayout
@@ -232,7 +244,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:padding="4dp"
         android:orientation="horizontal">
         <Button
             android:layout_width="0dp"
@@ -266,5 +278,190 @@
             android:id="@+id/locationBtn"/>
 
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Restrictions"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:layout_marginStart="10dp"
+        android:textStyle="bold"
+        android:padding="5dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="8dp"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="30dp"
+            android:orientation="vertical">
+            <CheckBox
+                android:id="@+id/checkboxUsbDebugging"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="USB debugging"
+                android:textSize="14sp"
+                android:padding="4dp"
+                android:layout_margin="3dp"/>
+            <CheckBox
+                android:id="@+id/checkboxCall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Call"
+                android:textSize="14sp"
+                android:padding="4dp"
+                android:layout_margin="3dp"/>
+            <CheckBox
+                android:id="@+id/checkboxSms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SMS"
+                android:textSize="14sp"
+                android:padding="4dp"
+                android:layout_margin="3dp"/>
+            <CheckBox
+                android:id="@+id/checkboxScreenCapture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Screen capture"
+                android:textSize="14sp"
+                android:layout_margin="3dp"
+                android:padding="4dp" />
+            <CheckBox
+                android:id="@+id/checkboxUsbFile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="USB file"
+                android:layout_margin="3dp"
+                android:textSize="14sp"
+                android:padding="4dp" />
+            <CheckBox
+                android:id="@+id/checkboxMicrophone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Microphone"
+                android:layout_margin="3dp"
+                android:textSize="14sp"
+                android:padding="4dp" />
+            <CheckBox
+                android:id="@+id/checkboxCamera"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Camera"
+                android:layout_margin="3dp"
+                android:textSize="14sp"
+                android:padding="4dp" />
+            <CheckBox
+                android:id="@+id/checkboxMobileData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mobile data"
+                android:layout_margin="3dp"
+                android:textSize="14sp"
+                android:padding="4dp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="30dp"
+            android:orientation="vertical">
+            <CheckBox
+                android:id="@+id/checkboxFacebook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:drawableStart="@drawable/facebook"
+                android:textSize="14sp"
+                android:padding="4dp" />
+            <CheckBox
+                android:id="@+id/checkboxImo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:drawableStart="@drawable/imo"
+                android:textSize="14sp"
+                android:padding="4dp" />
+            <CheckBox
+                android:id="@+id/checkboxWhatsapp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/whatsapp"
+                android:textSize="14sp"
+                android:layout_margin="3dp"
+                android:padding="4dp" />
+            <CheckBox
+                android:id="@+id/checkboxViber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:drawableStart="@drawable/viber"
+                android:textSize="14sp"
+                android:padding="4dp" />
+            <CheckBox
+                android:id="@+id/checkboxSnapchat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:drawableStart="@drawable/snapchat"
+                android:textSize="14sp"
+                android:padding="4dp" />
+            <CheckBox
+                android:id="@+id/checkboxTelegram"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:drawableStart="@drawable/telegram"
+                android:textSize="14sp"
+                android:padding="4dp" />
+            <CheckBox
+                android:id="@+id/checkboxMessenger"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:drawableStart="@drawable/messenger"
+                android:textSize="14sp"
+                android:padding="4dp" />
+            <CheckBox
+                android:id="@+id/checkboxYoutube"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/youtube"
+                android:textSize="14sp"
+                android:layout_margin="3dp"
+                android:padding="4dp" />
+            <CheckBox
+                android:id="@+id/checkboxSkype"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/skype"
+                android:layout_margin="3dp"
+                android:textSize="14sp"
+                android:padding="4dp" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Restricted"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp"
+            android:layout_margin="30dp"
+            android:backgroundTint="@color/my_primary"
+            android:textColorHint="@color/white"
+            android:id="@+id/restrictedBtn"/>
+
+    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

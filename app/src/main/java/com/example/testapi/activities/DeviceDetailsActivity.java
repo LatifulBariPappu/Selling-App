@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -25,17 +26,22 @@ import com.example.testapi.models.EmiScheduleModel;
 import com.example.testapi.models.HistoryAdapter;
 import com.example.testapi.models.HistoryModel;
 import com.example.testapi.models.InstallmentAdapter;
+import com.example.testapi.models.LockDeviceModel;
 import com.example.testapi.models.PaymentModel;
 import com.example.testapi.models.PaymentRequest;
+import com.example.testapi.models.PolicyResponseModel;
+import com.example.testapi.models.RestrictedPolicyRequestModel;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,10 +53,11 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     InstallmentAdapter installmentAdapter;
     RecyclerView reminderRecView,devicePaymentRecView;
 
-    private TextView deviceStatusTv,nidTv,totalPaymentTv,totalDueTv,nameTv,mobileTv,dateTv,modelTv,imei1Tv,imei2Tv,lastSyncTv,totalDefaultedAmountTv,defaultedDateTv,remainingToPayTv,reminderImeiTv,historyImeiTv;
-    private Button payBtn;
+    private TextView nextPayAmountTv,nextPayDateTv,deviceStatusTv,nidTv,totalPaymentTv,totalDueTv,nameTv,mobileTv,dateTv,modelTv,imei1Tv,imei2Tv,lastSyncTv,totalDefaultedAmountTv,defaultedDateTv,remainingToPayTv,reminderImeiTv,historyImeiTv;
+    private Button payBtn, restrictedBtn,lockBtn;
     private ImageView qrCodeIV;
     Boolean isDeviceClicked,isReminderClicked;
+    CheckBox checkboxUsbDebugging,checkboxCall,checkboxSms,checkboxScreenCapture,checkboxUsbFile,checkboxMicrophone,checkboxCamera,checkboxMobileData,checkboxFacebook,checkboxWhatsapp,checkboxImo,checkboxViber,checkboxSnapchat,checkboxTelegram,checkboxMessenger,checkboxYoutube,checkboxSkype;
     int paymentAmount = 0;
 
     @Override
@@ -64,6 +71,13 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         getDataOfDeviceContent();
 
 
+//        checkboxUsbDebugging.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            if (isChecked) {
+//                Toast.makeText(this, "Option One Checked", Toast.LENGTH_SHORT).show();
+//            } else {
+//                Toast.makeText(this, "Option One Unchecked", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
 
         binding.toolbar.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +122,99 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                 getDataOfPaymentHistory();
             }
         });
+
+        restrictedBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getRestricted();
+            }
+        });
+        lockBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sp = getSharedPreferences("defaulters", Context.MODE_PRIVATE);
+                String isDefaulter = sp.getString("isDefaulter","");
+                if("yes".equals(isDefaulter)){
+                    String defaulterImei1 = getIntent().getStringExtra("defaulterImei1");
+                    lock_device(defaulterImei1);
+                }else if("no".equals(isDefaulter)){
+                    String imei1 = getIntent().getStringExtra("imei1");
+                    lock_device(imei1);
+                }
+
+            }
+        });
     }
+
+    private void getRestricted(){
+        SharedPreferences sp = getSharedPreferences("defaulters", Context.MODE_PRIVATE);
+        String isDefaulter = sp.getString("isDefaulter","");
+        if("yes".equals(isDefaulter)){
+            String defaulterImei1 = getIntent().getStringExtra("defaulterImei1");
+            RestrictedPolicyRequestModel model = setModelValues(defaulterImei1);
+            callRestrictedApi(defaulterImei1,model);
+        }else if("no".equals(isDefaulter)){
+            String imei1 = getIntent().getStringExtra("imei1");
+            RestrictedPolicyRequestModel model = setModelValues(imei1);
+            callRestrictedApi(imei1,model);
+        }
+    }
+
+    private void callRestrictedApi(String imei,RestrictedPolicyRequestModel model){
+        Call<PolicyResponseModel> call = ApiController
+                .getInstance()
+                .getapi()
+                .applyDeviceWisePolicy(imei, model);
+
+        call.enqueue(new Callback<PolicyResponseModel>() {
+            @Override
+            public void onResponse(Call<PolicyResponseModel> call, Response<PolicyResponseModel> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    PolicyResponseModel responseBody = response.body();
+                    int statusCode = responseBody.getStatusCode();
+
+                    switch (statusCode) {
+                        case 200: // Success
+                            Toast.makeText(getApplicationContext(), "Restriction applied successfully", Toast.LENGTH_SHORT).show();
+                            break;
+                        case 404: // Device Not Found
+                            Toast.makeText(getApplicationContext(), "Device Not Found!", Toast.LENGTH_SHORT).show();
+                            break;
+
+                        case 500: // Internal Server Error
+                            Toast.makeText(getApplicationContext(), "Error Occurred: " + responseBody.getMessage(), Toast.LENGTH_SHORT).show();
+                            break;
+
+                        case 422: // Validation Errors
+                            Map<String, List<String>> validationErrors = responseBody.getValidationErrors();
+                            if (validationErrors != null && !validationErrors.isEmpty()) {
+                                StringBuilder errorMessage = new StringBuilder("Validation Errors:\n");
+                                for (Map.Entry<String, List<String>> entry : validationErrors.entrySet()) {
+                                    errorMessage.append(entry.getKey()).append(": ").append(entry.getValue().get(0)).append("\n");
+                                }
+                                Toast.makeText(getApplicationContext(), errorMessage.toString().trim(), Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Validation errors occurred.", Toast.LENGTH_SHORT).show();
+                            }
+                            break;
+
+                        default: // Other cases
+                            Toast.makeText(getApplicationContext(), "Unexpected status: " + responseBody.getStatus(), Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                } else {
+                    // Response was not successful or body was null
+                    Toast.makeText(getApplicationContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PolicyResponseModel> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     private Bitmap generateQRCode(String data) {
         QRCodeWriter writer = new QRCodeWriter();
@@ -158,6 +264,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             modelTv.setVisibility(View.GONE);
             lastSyncTv.setVisibility(View.GONE);
             deviceStatusTv.setVisibility(View.GONE);
+            nextPayAmountTv.setVisibility(View.GONE);
+            nextPayDateTv.setVisibility(View.GONE);
             totalDefaultedAmountTv.setVisibility(View.VISIBLE);
             defaultedDateTv.setVisibility(View.VISIBLE);
             remainingToPayTv.setVisibility(View.VISIBLE);
@@ -199,6 +307,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             totalPaymentTv.setVisibility(View.VISIBLE);
             totalDueTv.setVisibility(View.VISIBLE);
             deviceStatusTv.setVisibility(View.VISIBLE);
+            nextPayAmountTv.setVisibility(View.VISIBLE);
+            nextPayDateTv.setVisibility(View.VISIBLE);
 
             totalDefaultedAmountTv.setVisibility(View.GONE);
             defaultedDateTv.setVisibility(View.GONE);
@@ -217,6 +327,10 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             int totalPayment = getIntent().getIntExtra("totalPayment",0);
             int totalDue = getIntent().getIntExtra("totalDue",0);
             String deviceStatus = getIntent().getStringExtra("deviceStatus");
+            String nextPayDate = getIntent().getStringExtra("nextPayDate");
+            String nextPayAmount = getIntent().getStringExtra("nextPayAmount");
+            nextPayAmountTv.setText("Next Payment Amount : "+nextPayAmount);
+            nextPayDateTv.setText("Next Payment Date : "+nextPayDate);
             if ("Unlock".equals(deviceStatus)){
                 deviceStatusTv.setText("Device Status : Unlock");
             }else{
@@ -331,6 +445,10 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         devicePaymentRecView = view.findViewById(R.id.devicePaymentRecView);
         deviceStatusTv=view.findViewById(R.id.deviceStatusTV);
         qrCodeIV = view.findViewById(R.id.deviceQrCodeIV);
+        nextPayAmountTv = view.findViewById(R.id.nextPayAmountTV);
+        nextPayDateTv = view.findViewById(R.id.nextPayDataTV);
+        restrictedBtn = view.findViewById(R.id.restrictedBtn);
+        lockBtn=view.findViewById(R.id.lockBtn);
 
         if (devicePaymentRecView != null) {
             devicePaymentRecView.setLayoutManager(new LinearLayoutManager(this));
@@ -339,6 +457,24 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             reminderRecView.setLayoutManager(new LinearLayoutManager(this));
         }
         payBtn = findViewById(R.id.paymentBtn);
+
+        checkboxUsbDebugging = view.findViewById(R.id.checkboxUsbDebugging);
+        checkboxCall = view.findViewById(R.id.checkboxCall);
+        checkboxSms = view.findViewById(R.id.checkboxSms);
+        checkboxScreenCapture = view.findViewById(R.id.checkboxScreenCapture);
+        checkboxUsbFile = view.findViewById(R.id.checkboxUsbFile);
+        checkboxMicrophone = view.findViewById(R.id.checkboxMicrophone);
+        checkboxCamera = view.findViewById(R.id.checkboxCamera);
+        checkboxMobileData = view.findViewById(R.id.checkboxMobileData);
+        checkboxFacebook = view.findViewById(R.id.checkboxFacebook);
+        checkboxWhatsapp = view.findViewById(R.id.checkboxWhatsapp);
+        checkboxImo = view.findViewById(R.id.checkboxImo);
+        checkboxViber = view.findViewById(R.id.checkboxViber);
+        checkboxSnapchat = view.findViewById(R.id.checkboxSnapchat);
+        checkboxTelegram = view.findViewById(R.id.checkboxTelegram);
+        checkboxMessenger = view.findViewById(R.id.checkboxMessenger);
+        checkboxYoutube = view.findViewById(R.id.checkboxYoutube);
+        checkboxSkype = view.findViewById(R.id.checkboxSkype);
     }
     private void showPaymentPopup() {
         // Inflate the custom layout
@@ -529,7 +665,252 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Failed : "+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private RestrictedPolicyRequestModel setModelValues(String imei) {
+        RestrictedPolicyRequestModel policyConfig = new RestrictedPolicyRequestModel();
 
+        List<RestrictedPolicyRequestModel.Policy> policies = new ArrayList<>();
+        List<RestrictedPolicyRequestModel.AppPolicy> appPolicies = new ArrayList<>();
+        List<RestrictedPolicyRequestModel.NetworkPolicy> networkPolicies = new ArrayList<>();
+        //handle policy
+        if (checkboxUsbDebugging.isChecked()) {
+            RestrictedPolicyRequestModel.Policy usbPolicy = new RestrictedPolicyRequestModel.Policy();
+            usbPolicy.setPolicyName("usbdebugging1");
+            usbPolicy.setImei(imei);
+            policies.add(usbPolicy);
+        }else if (!checkboxUsbDebugging.isChecked()){
+            RestrictedPolicyRequestModel.Policy usbPolicy = new RestrictedPolicyRequestModel.Policy();
+            usbPolicy.setPolicyName("usbdebugging");
+            usbPolicy.setImei(imei);
+            policies.add(usbPolicy);
+        }
+        if (checkboxScreenCapture.isChecked()) {
+            RestrictedPolicyRequestModel.Policy screenPolicy = new RestrictedPolicyRequestModel.Policy();
+            screenPolicy.setPolicyName("screencapture");
+            screenPolicy.setImei(imei);
+            policies.add(screenPolicy);
+        }
+
+        if (checkboxCall.isChecked()) {
+            RestrictedPolicyRequestModel.Policy callPolicy = new RestrictedPolicyRequestModel.Policy();
+            callPolicy.setPolicyName("outgoingcall");
+            callPolicy.setImei(imei);
+            policies.add(callPolicy);
+        }
+
+        if (checkboxSms.isChecked()) {
+            RestrictedPolicyRequestModel.Policy callPolicy = new RestrictedPolicyRequestModel.Policy();
+            callPolicy.setPolicyName("sms");
+            callPolicy.setImei(imei);
+            policies.add(callPolicy);
+        }
+        if (checkboxMicrophone.isChecked()) {
+            RestrictedPolicyRequestModel.Policy microphonePolicy = new RestrictedPolicyRequestModel.Policy();
+            microphonePolicy.setPolicyName("microphone");
+            microphonePolicy.setImei(imei);
+            policies.add(microphonePolicy);
+        }
+        if (checkboxUsbFile.isChecked()) {
+            RestrictedPolicyRequestModel.Policy usbFilePolicy = new RestrictedPolicyRequestModel.Policy();
+            usbFilePolicy.setPolicyName("filetransfer");
+            usbFilePolicy.setImei(imei);
+            policies.add(usbFilePolicy);
+        }else if(!checkboxUsbFile.isChecked()){
+            RestrictedPolicyRequestModel.Policy usbFilePolicy = new RestrictedPolicyRequestModel.Policy();
+            usbFilePolicy.setPolicyName("filetransfer1");
+            usbFilePolicy.setImei(imei);
+            policies.add(usbFilePolicy);
+        }
+
+        if (checkboxCamera.isChecked()) {
+            RestrictedPolicyRequestModel.Policy cameraPolicy = new RestrictedPolicyRequestModel.Policy();
+            cameraPolicy.setPolicyName("camera");
+            cameraPolicy.setImei(imei);
+            policies.add(cameraPolicy);
+        }
+        // Handle app policies
+        if (checkboxFacebook.isChecked()) {
+            RestrictedPolicyRequestModel.AppPolicy facebookPolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            facebookPolicy.setAppName("facebook");
+            facebookPolicy.setPackageName("com.facebook.katana");
+            facebookPolicy.setImei(imei);
+            facebookPolicy.setAppStatus("BLOCKED");
+            appPolicies.add(facebookPolicy);
+        }else if (!checkboxFacebook.isChecked()) {
+            RestrictedPolicyRequestModel.AppPolicy facebookPolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            facebookPolicy.setAppName("facebook");
+            facebookPolicy.setPackageName("com.facebook.katana");
+            facebookPolicy.setImei(imei);
+            facebookPolicy.setAppStatus("FORCE_INSTALLED");
+            appPolicies.add(facebookPolicy);
+        }
+
+        if (checkboxImo.isChecked()) {
+            RestrictedPolicyRequestModel.AppPolicy imoPolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            imoPolicy.setAppName("imo");
+            imoPolicy.setPackageName("com.imo.android.imoim");
+            imoPolicy.setImei(imei);
+            imoPolicy.setAppStatus("BLOCKED");
+            appPolicies.add(imoPolicy);
+        }else if (!checkboxImo.isChecked()){
+            RestrictedPolicyRequestModel.AppPolicy imoPolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            imoPolicy.setAppName("imo");
+            imoPolicy.setPackageName("com.imo.android.imoim");
+            imoPolicy.setImei(imei);
+            imoPolicy.setAppStatus("FORCE_INSTALLED");
+            appPolicies.add(imoPolicy);
+        }
+        if (checkboxWhatsapp.isChecked()) {
+            RestrictedPolicyRequestModel.AppPolicy whatsappPolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            whatsappPolicy.setAppName("whatsapp");
+            whatsappPolicy.setPackageName("com.whatsapp");
+            whatsappPolicy.setImei(imei);
+            whatsappPolicy.setAppStatus("BLOCKED");
+            appPolicies.add(whatsappPolicy);
+        }else if (!checkboxWhatsapp.isChecked()){
+            RestrictedPolicyRequestModel.AppPolicy whatsappPolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            whatsappPolicy.setAppName("whatsapp");
+            whatsappPolicy.setPackageName("com.whatsapp");
+            whatsappPolicy.setImei(imei);
+            whatsappPolicy.setAppStatus("FORCE_INSTALLED");
+            appPolicies.add(whatsappPolicy);
+        }
+
+        if (checkboxViber.isChecked()) {
+            RestrictedPolicyRequestModel.AppPolicy viberPolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            viberPolicy.setAppName("viber");
+            viberPolicy.setPackageName("com.viber.voip");
+            viberPolicy.setImei(imei);
+            viberPolicy.setAppStatus("BLOCKED");
+            appPolicies.add(viberPolicy);
+        }else if (!checkboxViber.isChecked()){
+            RestrictedPolicyRequestModel.AppPolicy viberPolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            viberPolicy.setAppName("viber");
+            viberPolicy.setPackageName("com.viber.voip");
+            viberPolicy.setImei(imei);
+            viberPolicy.setAppStatus("FORCE_INSTALLED");
+            appPolicies.add(viberPolicy);
+        }
+        if (checkboxSnapchat.isChecked()) {
+            RestrictedPolicyRequestModel.AppPolicy snapchatPolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            snapchatPolicy.setAppName("snapchat");
+            snapchatPolicy.setPackageName("com.snapchat.android");
+            snapchatPolicy.setImei(imei);
+            snapchatPolicy.setAppStatus("BLOCKED");
+            appPolicies.add(snapchatPolicy);
+        }else if (!checkboxSnapchat.isChecked()){
+            RestrictedPolicyRequestModel.AppPolicy snapchatPolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            snapchatPolicy.setAppName("snapchat");
+            snapchatPolicy.setPackageName("com.snapchat.android");
+            snapchatPolicy.setImei(imei);
+            snapchatPolicy.setAppStatus("FORCE_INSTALLED");
+            appPolicies.add(snapchatPolicy);
+        }
+        if (checkboxTelegram.isChecked()) {
+            RestrictedPolicyRequestModel.AppPolicy telegramPolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            telegramPolicy.setAppName("telegram");
+            telegramPolicy.setPackageName("org.telegram.messenger");
+            telegramPolicy.setImei(imei);
+            telegramPolicy.setAppStatus("BLOCKED");
+            appPolicies.add(telegramPolicy);
+        }else if (!checkboxTelegram.isChecked()){
+            RestrictedPolicyRequestModel.AppPolicy telegramPolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            telegramPolicy.setAppName("telegram");
+            telegramPolicy.setPackageName("org.telegram.messenger");
+            telegramPolicy.setImei(imei);
+            telegramPolicy.setAppStatus("FORCE_INSTALLED");
+            appPolicies.add(telegramPolicy);
+        }
+
+        if (checkboxMessenger.isChecked()) {
+            RestrictedPolicyRequestModel.AppPolicy messengerPolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            messengerPolicy.setAppName("messenger");
+            messengerPolicy.setPackageName("com.facebook.orca");
+            messengerPolicy.setImei(imei);
+            messengerPolicy.setAppStatus("BLOCKED");
+            appPolicies.add(messengerPolicy);
+        }else if (!checkboxMessenger.isChecked()){
+            RestrictedPolicyRequestModel.AppPolicy messengerPolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            messengerPolicy.setAppName("messenger");
+            messengerPolicy.setPackageName("com.facebook.orca");
+            messengerPolicy.setImei(imei);
+            messengerPolicy.setAppStatus("FORCE_INSTALLED");
+            appPolicies.add(messengerPolicy);
+        }
+        if (checkboxYoutube.isChecked()) {
+            RestrictedPolicyRequestModel.AppPolicy youtubePolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            youtubePolicy.setAppName("youtube");
+            youtubePolicy.setPackageName("com.google.android.youtube");
+            youtubePolicy.setImei(imei);
+            youtubePolicy.setAppStatus("BLOCKED");
+            appPolicies.add(youtubePolicy);
+        }else if (!checkboxYoutube.isChecked()){
+            RestrictedPolicyRequestModel.AppPolicy youtubePolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            youtubePolicy.setAppName("youtube");
+            youtubePolicy.setPackageName("com.google.android.youtube");
+            youtubePolicy.setImei(imei);
+            youtubePolicy.setAppStatus("FORCE_INSTALLED");
+            appPolicies.add(youtubePolicy);
+        }
+        if (checkboxSkype.isChecked()) {
+            RestrictedPolicyRequestModel.AppPolicy skypePolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            skypePolicy.setAppName("skype");
+            skypePolicy.setPackageName("com.skype.raider");
+            skypePolicy.setImei(imei);
+            skypePolicy.setAppStatus("BLOCKED");
+            appPolicies.add(skypePolicy);
+        }else if (!checkboxSkype.isChecked()){
+            RestrictedPolicyRequestModel.AppPolicy skypePolicy = new RestrictedPolicyRequestModel.AppPolicy();
+            skypePolicy.setAppName("skype");
+            skypePolicy.setPackageName("com.skype.raider");
+            skypePolicy.setImei(imei);
+            skypePolicy.setAppStatus("FORCE_INSTALLED");
+            appPolicies.add(skypePolicy);
+        }
+
+        //handle network policy
+
+        if (checkboxMobileData.isChecked()){
+            RestrictedPolicyRequestModel.NetworkPolicy mobilePolicy = new RestrictedPolicyRequestModel.NetworkPolicy();
+            mobilePolicy.setPolicyName("mobilenet");
+            mobilePolicy.setImei(imei);
+            networkPolicies.add(mobilePolicy);
+        }
+
+        policyConfig.setPolicy(policies);
+        policyConfig.setApppolicy(appPolicies);
+        policyConfig.setNetworkpolicy(networkPolicies);
+
+        return policyConfig;
+    }
+    private void lock_device(String imei1){
+        Call<LockDeviceModel> call = ApiController
+                .getInstance()
+                .getapi()
+                .lockDevice(imei1);
+
+        call.enqueue(new Callback<LockDeviceModel>() {
+            @Override
+            public void onResponse(Call<LockDeviceModel> call, Response<LockDeviceModel> response) {
+                if(response.isSuccessful() && response.body()!=null){
+                    String status = response.body().getStatus();
+                    if("Successful".equals(status)){
+                        Toast.makeText(getApplicationContext(),"Device Locked Successfully",Toast.LENGTH_SHORT).show();
+                    } else if ("Unsuccessful".equals(status)) {
+                        Toast.makeText(getApplicationContext(),"Lock request not confirmed",Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Error Occurred", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LockDeviceModel> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Failed : "+ t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

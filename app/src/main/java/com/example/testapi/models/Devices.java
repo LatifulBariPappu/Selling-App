@@ -52,7 +52,6 @@ public  class Devices{
     private int emi_status;
     @SerializedName("acknowledgment")
     private int acknowledgment;
-
     @SerializedName("device_status")
     private String device_status;
     @SerializedName("device_lock")
@@ -65,8 +64,14 @@ public  class Devices{
     private String last_sync;
     @SerializedName("down_payment_date")
     private String down_payment_date;
+    @SerializedName("next_payment_date")
+    private String next_payment_date;
+    @SerializedName("next_payment_amount")
+    private String next_payment_amount;
+    @SerializedName("installment_complete")
+    private int installment_complete;
 
-    public Devices(String imei_1, String imei_2, String serial_number, String customer_id, String customer_name, long customer_nid, String customer_address, String customer_mobile, String sales_by, String sales_person_name, String retail_id, String retail_name, String pos_invoice_number, String model, String brand, String color, int distributor_id, String distributor_name, int hire_sale_price, int number_of_installment, int down_payment, int total_payment, int total_due, int emi_status, int acknowledgment, String device_status, int device_lock, String lock_status, int sale_status, String last_sync, String down_payment_date) {
+    public Devices(String imei_1, String imei_2, String serial_number, String customer_id, String customer_name, long customer_nid, String customer_address, String customer_mobile, String sales_by, String sales_person_name, String retail_id, String retail_name, String pos_invoice_number, String model, String brand, String color, int distributor_id, String distributor_name, int hire_sale_price, int number_of_installment, int down_payment, int total_payment, int total_due, int emi_status, int acknowledgment, String device_status, int device_lock, String lock_status, int sale_status, String last_sync, String down_payment_date, String next_payment_date, String next_payment_amount, int installment_complete) {
         this.imei_1 = imei_1;
         this.imei_2 = imei_2;
         this.serial_number = serial_number;
@@ -98,6 +103,9 @@ public  class Devices{
         this.sale_status = sale_status;
         this.last_sync = last_sync;
         this.down_payment_date = down_payment_date;
+        this.next_payment_date = next_payment_date;
+        this.next_payment_amount = next_payment_amount;
+        this.installment_complete = installment_complete;
     }
 
     public String getImei_1() {
@@ -346,5 +354,29 @@ public  class Devices{
 
     public void setDown_payment_date(String down_payment_date) {
         this.down_payment_date = down_payment_date;
+    }
+
+    public String getNext_payment_date() {
+        return next_payment_date;
+    }
+
+    public void setNext_payment_date(String next_payment_date) {
+        this.next_payment_date = next_payment_date;
+    }
+
+    public String getNext_payment_amount() {
+        return next_payment_amount;
+    }
+
+    public void setNext_payment_amount(String next_payment_amount) {
+        this.next_payment_amount = next_payment_amount;
+    }
+
+    public int getInstallment_complete() {
+        return installment_complete;
+    }
+
+    public void setInstallment_complete(int installment_complete) {
+        this.installment_complete = installment_complete;
     }
 }

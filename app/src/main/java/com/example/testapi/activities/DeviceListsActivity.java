@@ -41,6 +41,7 @@ public class DeviceListsActivity extends AppCompatActivity {
     Boolean defaulterIsClicked;
     Boolean goodIsClicked;
     Boolean happyIsClicked;
+    Boolean lockIsClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +87,12 @@ public class DeviceListsActivity extends AppCompatActivity {
                 happyBtnClicked(true);
             }
         });
+//        binding.lockedBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                lockBtnClicked(true);
+//            }
+//        });
 
         
         binding.searchEdt.addTextChangedListener(new TextWatcher() {
@@ -143,7 +150,7 @@ public class DeviceListsActivity extends AppCompatActivity {
                 if(response.isSuccessful() && response.body()!=null){
                     String msg = response.body().getMessage();
                     if("Defaulter list retrieved successfully.".equals(msg)){
-                        Toast.makeText(getApplicationContext(),"Defaulter list retrieved successfully.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Defaulters list.",Toast.LENGTH_SHORT).show();
                         List<DefaulterResponse.Defaulter> defaulterDevices = response.body().getDefaultersList();
                         defaulterAdapter= new DefaulterAdapter(DeviceListsActivity.this,defaulterDevices);
                         binding.deviceListsRecView.setAdapter(defaulterAdapter);
@@ -207,10 +214,14 @@ public class DeviceListsActivity extends AppCompatActivity {
                 if(response.isSuccessful() && response.body()!=null){
                     String msg = response.body().getMessage();
                     if("Good customer list retrieved successfully.".equals(msg)){
-                        Toast.makeText(getApplicationContext(),"Good customer list retrieved successfully.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Good customers.",Toast.LENGTH_SHORT).show();
                         List<GoodCustomerModel.defaulters> defaulters = response.body().getDefaultersList();
                         goodCustomerAdapter = new GoodCustomerAdapter(DeviceListsActivity.this,defaulters);
                         binding.deviceListsRecView.setAdapter(goodCustomerAdapter);
+                    } else if ("No good customers found for the provided retailer.".equals(msg)) {
+                        Toast.makeText(getApplicationContext(),"No good customers found for the provided retailer.",Toast.LENGTH_SHORT).show();
+                    } else if ("No device found for the provided retailer.".equals(msg)) {
+                        Toast.makeText(getApplicationContext(),"No device found for the provided retailer.",Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
@@ -235,10 +246,14 @@ public class DeviceListsActivity extends AppCompatActivity {
                 if(response.isSuccessful() && response.body()!=null){
                     String msg = response.body().getMessage();
                     if("Happy customer list retrieved successfully.".equals(msg)){
-                        Toast.makeText(getApplicationContext(),"Happy customer list retrieved successfully.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Happy customers.",Toast.LENGTH_SHORT).show();
                         List<HappyCustomerModel.happyCustomer> happyCustomerList = response.body().getHappyCustomerList();
                         happyCustomerAdapter = new HappyCustomerAdapter(DeviceListsActivity.this,happyCustomerList);
                         binding.deviceListsRecView.setAdapter(happyCustomerAdapter);
+                    } else if ("No happy customers found for the provided retailer.".equals(msg)) {
+                        Toast.makeText(getApplicationContext(),"No happy customers found for the provided retailer.",Toast.LENGTH_SHORT).show();
+                    } else if ("No device found for the provided retailer.".equals(msg)) {
+                        Toast.makeText(getApplicationContext(),"No device found for the provided retailer.",Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
@@ -264,8 +279,7 @@ public class DeviceListsActivity extends AppCompatActivity {
             binding.lockedBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.happyCustomerBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.goodCustomerBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
-//            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
-//            int retailId =sp.getInt("retailerId",0);
+
             defaulterAdapter=null;
             refreshAllList();
         }
@@ -276,13 +290,13 @@ public class DeviceListsActivity extends AppCompatActivity {
             defaulterIsClicked = false;
             goodIsClicked = true;
             happyIsClicked = false;
+
             binding.allBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.lockedBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.happyCustomerBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.goodCustomerBtn.setCardBackgroundColor(Color.parseColor("#8692f7"));
-//            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
-//            int retailId =sp.getInt("retailerId",0);
+
             goodCustomerAdapter=null;
             refreshGoodList();
         }
@@ -293,14 +307,14 @@ public class DeviceListsActivity extends AppCompatActivity {
             defaulterIsClicked = false;
             goodIsClicked = false;
             happyIsClicked = true;
+            lockIsClicked = false;
 
             binding.allBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.lockedBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.happyCustomerBtn.setCardBackgroundColor(Color.parseColor("#8692f7"));
             binding.goodCustomerBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
-//            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
-//            int retailId =sp.getInt("retailerId",0);
+
             happyCustomerAdapter=null;
             refreshHappyList();
         }
@@ -311,25 +325,20 @@ public class DeviceListsActivity extends AppCompatActivity {
             allIsClicked = false;
             goodIsClicked = false;
             happyIsClicked = false;
+            lockIsClicked = false;
+
             binding.allBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#8692f7"));
             binding.lockedBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.happyCustomerBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
             binding.goodCustomerBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
-//            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
-//            int retailId =sp.getInt("retailerId",0);
+
             defaulterAdapter = null;
             refreshDefaulterList();
         }
     }
 
-    private void lockBtnClicked(Boolean isClicked){
-        if(isClicked){
-            binding.allBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
-            binding.defaulterBtn.setCardBackgroundColor(Color.parseColor("#ffffff"));
-            binding.lockedBtn.setCardBackgroundColor(Color.parseColor("#8692f7"));
-        }
-    }
+
     private void showDropDownMenu() {
         PopupMenu popupMenu = new PopupMenu(this, binding.ivDropdown);
         popupMenu.getMenu().add(Menu.NONE, 1, Menu.NONE, "name");
@@ -396,5 +405,6 @@ public class DeviceListsActivity extends AppCompatActivity {
         } else if (goodIsClicked) {
             refreshGoodList();
         }
+
     }
 }

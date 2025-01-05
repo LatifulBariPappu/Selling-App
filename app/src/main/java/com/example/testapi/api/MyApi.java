@@ -9,6 +9,8 @@ import com.example.testapi.models.HistoryModel;
 import com.example.testapi.models.LockDeviceModel;
 import com.example.testapi.models.PaymentModel;
 import com.example.testapi.models.PaymentRequest;
+import com.example.testapi.models.PolicyResponseModel;
+import com.example.testapi.models.RestrictedPolicyRequestModel;
 import com.example.testapi.models.RetailerModel;
 import com.example.testapi.models.SaleRequestModel;
 import com.example.testapi.models.SaleResponseModel;
@@ -48,7 +50,7 @@ public interface MyApi {
     //lock device api
     @POST("lock-device-by-retail")
     Call<LockDeviceModel> lockDevice(
-            @Query("imei1") String imei1
+            @Query("imei") String imei
     );
 
     //defaulters list api
@@ -81,5 +83,10 @@ public interface MyApi {
     @POST("good-customers")
     Call<GoodCustomerModel> getGoodCustomers(
             @Query("retail_id") int retail_id);
+    @POST("apply-devicewise-policy/{imei}")
+    Call<PolicyResponseModel> applyDeviceWisePolicy(
+            @retrofit2.http.Path("imei") String imei,
+            @Body RestrictedPolicyRequestModel request
+    );
 
 }

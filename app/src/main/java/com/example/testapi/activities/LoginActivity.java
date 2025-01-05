@@ -14,6 +14,10 @@ import com.example.testapi.controller.ApiController;
 import com.example.testapi.databinding.ActivityLoginBinding;
 import com.example.testapi.models.RetailerModel;
 import com.example.testapi.models.DistributorModel;
+
+import java.util.List;
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,51 +87,69 @@ public class LoginActivity extends AppCompatActivity {
             call.enqueue(new Callback<DistributorModel>() {
                 @Override
                 public void onResponse(@NonNull Call<DistributorModel> call, @NonNull Response<DistributorModel> response) {
+                    // Reset UI elements
                     binding.loginbtn.setVisibility(View.VISIBLE);
                     binding.loginProgress.setVisibility(View.GONE);
-                    if(response.isSuccessful() && response.body()!=null){
-                        String msg=response.body().getMessage();
-                        if("Login successful".equals(msg)){
-                            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
+
+                    if (response.isSuccessful() && response.body() != null) {
+                        DistributorModel distributorModel = response.body();
+                        String msg = distributorModel.getMessage();
+
+                        if ("Login successful".equals(msg)) {
+                            // Save distributor details in SharedPreferences
+                            SharedPreferences sp = getSharedPreferences("saved_login", MODE_PRIVATE);
                             SharedPreferences.Editor editor = sp.edit();
-                            editor.putString("logged","Distributor");
-                            int distributorId = response.body().getDistributorObject().getId();
-                            editor.putInt("distributorId",distributorId);
-                            String distributorName = response.body().getDistributorObject().getName();
-                            editor.putString("distributorName",distributorName);
-                            String distributorMobile = response.body().getDistributorObject().getMobile();
-                            editor.putString("distributorMobile",distributorMobile);
-                            String distributorEmail = response.body().getDistributorObject().getEmail();
-                            editor.putString("distributorEmail",distributorEmail);
-                            String distributorAddress = response.body().getDistributorObject().getAddress();
-                            editor.putString("distributorAddress",distributorAddress);
-                            int noOfSubscription = response.body().getDistributorObject().getNo_of_subscription();
-                            editor.putInt("noOfSubscription",noOfSubscription);
-                            int distributorStatus = response.body().getStatus();
-                            editor.putInt("distributorStatus",distributorStatus);
+                            DistributorModel.Distributor distributor = distributorModel.getDistributorObject();
+
+                            if (distributor != null) {
+                                editor.putString("logged", "Distributor");
+                                editor.putInt("distributorId", distributor.getId());
+                                editor.putString("distributorName", distributor.getName());
+                                editor.putString("distributorMobile", distributor.getMobile());
+                                editor.putString("distributorEmail", distributor.getEmail());
+                                editor.putString("distributorAddress", distributor.getAddress());
+                                editor.putInt("noOfSubscription", distributor.getNo_of_subscription());
+                            }
+                            editor.putInt("distributorStatus", distributorModel.getStatus());
                             editor.apply();
-                            Toast.makeText(getApplicationContext(),"Welcome "+distributorName,Toast.LENGTH_SHORT).show();
+
+                            Toast.makeText(getApplicationContext(), "Welcome " + distributor.getName(), Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LoginActivity.this, DistributorHomeActivity.class));
                             finish();
-                        } else if ("Validation errors".equals(msg)){
-                            Toast.makeText(getApplicationContext(), "The mobile number must be exactly 11 digits Or The password field is required.", Toast.LENGTH_SHORT).show();
+                        } else if ("Validation errors".equals(msg)) {
+                            // Handle validation errors dynamically
+                            Map<String, List<String>> errors = distributorModel.getErrors();
+                            if (errors != null) {
+                                StringBuilder errorMessage = new StringBuilder();
+                                for (Map.Entry<String, List<String>> entry : errors.entrySet()) {
+                                    for (String error : entry.getValue()) {
+                                        errorMessage.append(error).append("\n");
+                                    }
+                                }
+                                Toast.makeText(getApplicationContext(), errorMessage.toString().trim(), Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Validation errors occurred.", Toast.LENGTH_SHORT).show();
+                            }
                         } else if ("Incorrect password".equals(msg)) {
                             Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
                         } else if ("Mobile number not found".equals(msg)) {
                             Toast.makeText(getApplicationContext(), "Mobile number not found", Toast.LENGTH_SHORT).show();
                         }
-                    }else {
-                        Toast.makeText(getApplicationContext(), "check credentials", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Handle unsuccessful responses (e.g., server errors)
+                        Toast.makeText(getApplicationContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<DistributorModel> call, @NonNull Throwable t) {
+                    // Reset UI elements and display failure message
                     binding.loginbtn.setVisibility(View.VISIBLE);
                     binding.loginProgress.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(),"Failed : "+t.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Request failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+
         }
 
 
@@ -142,48 +164,67 @@ public class LoginActivity extends AppCompatActivity {
             call.enqueue(new Callback<RetailerModel>() {
                 @Override
                 public void onResponse(@NonNull Call<RetailerModel> call, @NonNull Response<RetailerModel> response) {
-
+                    // Reset UI elements
                     binding.loginbtn.setVisibility(View.VISIBLE);
                     binding.loginProgress.setVisibility(View.GONE);
 
-                    if(response.isSuccessful() && response.body()!=null){
-                        String msg=response.body().getMessage();
-                        if("Login successful".equals(msg)){
-                            SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
+                    if (response.isSuccessful() && response.body() != null) {
+                        RetailerModel retailerModel = response.body();
+                        String msg = retailerModel.getMessage();
+
+                        if ("Login successful".equals(msg)) {
+                            // Save retailer details in SharedPreferences
+                            SharedPreferences sp = getSharedPreferences("saved_login", MODE_PRIVATE);
                             SharedPreferences.Editor editor = sp.edit();
-                            editor.putString("logged","Retailer");
-                            int retailerId= response.body().getRetailObject().getId();
-                            editor.putInt("retailerId",retailerId);
-                            String retailerName=response.body().getRetailObject().getName();
-                            editor.putString("retailerName",retailerName);
-                            String retailerMobile = response.body().getRetailObject().getMobile();
-                            editor.putString("retailerMobile",retailerMobile);
-                            String retailerAddress = response.body().getRetailObject().getAddress();
-                            editor.putString("retailerAddress",retailerAddress);
-                            String distributorName= response.body().getRetailObject().getDistributor_name();
-                            editor.putString("retailDistributorName",distributorName);
+                            RetailerModel.Retail retail = retailerModel.getRetailObject();
+
+                            if (retail != null) {
+                                editor.putString("logged", "Retailer");
+                                editor.putInt("retailerId", retail.getId());
+                                editor.putString("retailerName", retail.getName());
+                                editor.putString("retailerMobile", retail.getMobile());
+                                editor.putString("retailerAddress", retail.getAddress());
+                                editor.putString("retailDistributorName", retail.getDistributor_name());
+                            }
                             editor.apply();
-                            Toast.makeText(getApplicationContext(),"Welcome "+retailerName,Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this,RetailerHomeActivity.class));
+
+                            Toast.makeText(getApplicationContext(), "Welcome " + (retail != null ? retail.getName() : ""), Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this, RetailerHomeActivity.class));
                             finish();
-                        }else if ("Validation errors".equals(msg)){
-                            Toast.makeText(getApplicationContext(), "The mobile number must be exactly 11 digits Or The password field is required.", Toast.LENGTH_SHORT).show();
+                        } else if ("Validation errors".equals(msg)) {
+                            // Handle validation errors dynamically
+                            Map<String, List<String>> errors = retailerModel.getErrors();
+                            if (errors != null) {
+                                StringBuilder errorMessage = new StringBuilder();
+                                for (Map.Entry<String, List<String>> entry : errors.entrySet()) {
+                                    for (String error : entry.getValue()) {
+                                        errorMessage.append(error).append("\n");
+                                    }
+                                }
+                                Toast.makeText(getApplicationContext(), errorMessage.toString().trim(), Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Validation errors occurred.", Toast.LENGTH_SHORT).show();
+                            }
                         } else if ("Incorrect password".equals(msg)) {
                             Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
                         } else if ("Mobile number not found".equals(msg)) {
                             Toast.makeText(getApplicationContext(), "Mobile number not found", Toast.LENGTH_SHORT).show();
                         }
-                    }else{
-                        Toast.makeText(getApplicationContext(), "check credentials", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Handle unsuccessful responses (e.g., server errors)
+                        Toast.makeText(getApplicationContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                     }
                 }
+
                 @Override
                 public void onFailure(@NonNull Call<RetailerModel> call, @NonNull Throwable t) {
+                    // Reset UI elements and display failure message
                     binding.loginbtn.setVisibility(View.VISIBLE);
                     binding.loginProgress.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(),"Failed : "+t.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Request failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+
         }
     }
 }

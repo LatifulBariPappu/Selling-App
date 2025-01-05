@@ -64,10 +64,9 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
         if(enroll_status==1){
             holder.binding.deviceEnrollStatusTV.setText("Enroll");
         } else if (enroll_status==0) {
-            holder.binding.deviceEnrollStatusTV.setText("UnEnroll");
+            holder.binding.deviceEnrollStatusTV.setText("NotEnroll");
             holder.binding.deviceEnrollStatusTV.setBackgroundResource(R.color.custom_red);
             holder.binding.deviceEnrollStatusTV.setTextColor(Color.WHITE);
-
         }
 
         holder.binding.deviceDetailBtn.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +88,8 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
                 intent.putExtra("totalDue",devices.getTotal_due());
                 intent.putExtra("lastSync",devices.getLast_sync());
                 intent.putExtra("deviceStatus",devices.getDevice_status());
+                intent.putExtra("nextPayDate",devices.getNext_payment_date());
+                intent.putExtra("nextPayAmount",devices.getNext_payment_amount());
                 context.startActivity(intent);
             }
         });
@@ -134,6 +135,16 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
         }
         notifyDataSetChanged(); // Notify the adapter to refresh the RecyclerView
     }
+    @SuppressLint("NotifyDataSetChanged")
+    public void filterLockedDevices() {
+        devicesList.clear();
+        for (Devices device : fullList) {
+            if (device.getDevice_lock() == 1) {
+                devicesList.add(device);
+            }
+        }
+        notifyDataSetChanged(); // Refresh the RecyclerView
+    }
     private void lock_device(String imei1){
         Call<LockDeviceModel> call = ApiController
                 .getInstance()
@@ -148,12 +159,12 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
                     if("Successful".equals(status)){
                         Toast.makeText(context,"Device Locked Successfully",Toast.LENGTH_SHORT).show();
                     } else if ("Unsuccessful".equals(status)) {
-                        Toast.makeText(context,"Device Not Found!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,"Lock request not confirmed",Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(context, "Error Occurred", Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(context, "response body is null", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 

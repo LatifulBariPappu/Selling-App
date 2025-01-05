@@ -36,7 +36,6 @@ public class CustomersListActivity extends AppCompatActivity {
         binding=ActivityCustomersListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         binding.backCustomersList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

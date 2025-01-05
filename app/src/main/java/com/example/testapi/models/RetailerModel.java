@@ -1,6 +1,8 @@
 package com.example.testapi.models;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.Map;
+import java.util.List;
 
 public class RetailerModel {
     @SerializedName("message")
@@ -8,14 +10,18 @@ public class RetailerModel {
     @SerializedName("status")
     private int status;
     @SerializedName("retail")
-    Retail retailObject;
+    private Retail retailObject;
+    @SerializedName("errors")
+    private Map<String, List<String>> errors; // For handling validation errors
 
-    public RetailerModel(String message, int status, Retail retailObject) {
+    public RetailerModel(String message, int status, Retail retailObject, Map<String, List<String>> errors) {
         this.message = message;
         this.status = status;
         this.retailObject = retailObject;
+        this.errors = errors;
     }
 
+    // Getters and Setters
     public String getMessage() {
         return message;
     }
@@ -40,7 +46,15 @@ public class RetailerModel {
         this.retailObject = retailObject;
     }
 
-    public static class Retail{
+    public Map<String, List<String>> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(Map<String, List<String>> errors) {
+        this.errors = errors;
+    }
+
+    public static class Retail {
         @SerializedName("id")
         private int id;
         @SerializedName("name")
@@ -63,6 +77,7 @@ public class RetailerModel {
             this.distributor_name = distributor_name;
         }
 
+        // Getters and Setters
         public int getId() {
             return id;
         }
@@ -111,5 +126,4 @@ public class RetailerModel {
             this.distributor_name = distributor_name;
         }
     }
-
 }
