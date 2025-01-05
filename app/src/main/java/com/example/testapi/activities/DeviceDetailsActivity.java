@@ -180,11 +180,9 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                         case 404: // Device Not Found
                             Toast.makeText(getApplicationContext(), "Device Not Found!", Toast.LENGTH_SHORT).show();
                             break;
-
                         case 500: // Internal Server Error
                             Toast.makeText(getApplicationContext(), "Error Occurred: " + responseBody.getMessage(), Toast.LENGTH_SHORT).show();
                             break;
-
                         case 422: // Validation Errors
                             Map<String, List<String>> validationErrors = responseBody.getValidationErrors();
                             if (validationErrors != null && !validationErrors.isEmpty()) {
@@ -197,7 +195,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Validation errors occurred.", Toast.LENGTH_SHORT).show();
                             }
                             break;
-
                         default: // Other cases
                             Toast.makeText(getApplicationContext(), "Unexpected status: " + responseBody.getStatus(), Toast.LENGTH_SHORT).show();
                             break;
@@ -214,7 +211,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private Bitmap generateQRCode(String data) {
         QRCodeWriter writer = new QRCodeWriter();

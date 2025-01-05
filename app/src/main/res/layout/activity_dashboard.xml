@@ -31,17 +31,92 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
+        android:padding="5dp">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sales Overview"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:padding="3dp"
+        android:layout_marginTop="10dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
         <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/totalQuantity"
+            android:text="Total quantity"
+            android:textSize="14sp"
+            android:padding="3dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/totalSale"
+            android:text="Total sale"
+            android:textSize="14sp"
+            android:padding="3dp"/>
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        tools:ignore="ScrollViewSize">
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Feature coming soon ..."
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            />
+            app:cardElevation="8dp"
+            app:cardCornerRadius="10dp"
+            android:layout_margin="10dp">
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/chartMonth"
+            android:layout_width="250dp"
+            android:layout_height="200dp"
+            android:layout_margin="8dp" />
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="10dp"
+            android:layout_margin="10dp">
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/chartWeek"
+            android:layout_width="250dp"
+            android:layout_height="200dp"
+            android:layout_margin="8dp" />
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="10dp"
+            android:layout_margin="10dp">
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/chartToday"
+            android:layout_width="250dp"
+            android:layout_height="200dp"
+            android:layout_margin="8dp" />
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+    </HorizontalScrollView>
+
     </LinearLayout>
 
 </LinearLayout>

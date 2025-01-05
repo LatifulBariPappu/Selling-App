@@ -1,6 +1,7 @@
 package com.example.testapi.api;
 
 import com.example.testapi.models.AddDevice;
+import com.example.testapi.models.DashboardSaleResponse;
 import com.example.testapi.models.DeviceListModel;
 import com.example.testapi.models.EmiScheduleModel;
 import com.example.testapi.models.GoodCustomerModel;
@@ -19,6 +20,7 @@ import com.example.testapi.models.DefaulterResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -88,5 +90,7 @@ public interface MyApi {
             @retrofit2.http.Path("imei") String imei,
             @Body RestrictedPolicyRequestModel request
     );
+    @GET("retailer/dashboard")
+    Call<DashboardSaleResponse> getDashboardData(@Query("retail_id") int retailId);
 
 }

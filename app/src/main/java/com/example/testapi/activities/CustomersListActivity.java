@@ -130,7 +130,7 @@ public class CustomersListActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"The retail is field is required.",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error occurred", Toast.LENGTH_SHORT).show();
                 }
             }
 

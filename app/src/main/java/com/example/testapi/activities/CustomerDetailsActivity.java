@@ -123,7 +123,7 @@ public class CustomerDetailsActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Validation errors", Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(), "Payment history response body is null", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error occurred", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
