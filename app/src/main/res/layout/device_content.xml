@@ -256,16 +256,27 @@
             android:backgroundTint="@color/my_primary"
             android:textColorHint="@color/white"
             android:id="@+id/paymentBtn"/>
-        <Button
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Lock"
-            android:layout_margin="5dp"
-            android:textSize="14sp"
-            android:backgroundTint="#FF4D4D"
-            android:textColorHint="@color/white"
-            android:id="@+id/lockBtn"/>
+            android:orientation="vertical">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Lock"
+                android:layout_margin="5dp"
+                android:textSize="14sp"
+                android:backgroundTint="#FF4D4D"
+                android:textColorHint="@color/white"
+                android:id="@+id/lockBtn"/>
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/deviceContentLockProgress"
+                android:visibility="gone"/>
+        </LinearLayout>
+
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -451,16 +462,18 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Restricted"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginTop="10dp"
+            android:hint="Apply Restrictions"
             android:textSize="14sp"
             android:layout_margin="30dp"
             android:backgroundTint="@color/my_primary"
             android:textColorHint="@color/white"
             android:id="@+id/restrictedBtn"/>
-
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/restrictionProgress"
+            android:visibility="gone"
+            android:layout_margin="30dp"/>
     </LinearLayout>
     </ScrollView>
 

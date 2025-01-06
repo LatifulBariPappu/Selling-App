@@ -150,7 +150,6 @@ public class DeviceListsActivity extends AppCompatActivity {
                 if(response.isSuccessful() && response.body()!=null){
                     String msg = response.body().getMessage();
                     if("Defaulter list retrieved successfully.".equals(msg)){
-                        Toast.makeText(getApplicationContext(),"Defaulters list.",Toast.LENGTH_SHORT).show();
                         List<DefaulterResponse.Defaulter> defaulterDevices = response.body().getDefaultersList();
                         defaulterAdapter= new DefaulterAdapter(DeviceListsActivity.this,defaulterDevices);
                         binding.deviceListsRecView.setAdapter(defaulterAdapter);
@@ -160,7 +159,7 @@ public class DeviceListsActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"No device found for the provided retailer.",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -192,7 +191,7 @@ public class DeviceListsActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"The retail is field is required.",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -214,7 +213,6 @@ public class DeviceListsActivity extends AppCompatActivity {
                 if(response.isSuccessful() && response.body()!=null){
                     String msg = response.body().getMessage();
                     if("Good customer list retrieved successfully.".equals(msg)){
-                        Toast.makeText(getApplicationContext(),"Good customers.",Toast.LENGTH_SHORT).show();
                         List<GoodCustomerModel.defaulters> defaulters = response.body().getDefaultersList();
                         goodCustomerAdapter = new GoodCustomerAdapter(DeviceListsActivity.this,defaulters);
                         binding.deviceListsRecView.setAdapter(goodCustomerAdapter);
@@ -224,7 +222,7 @@ public class DeviceListsActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"No device found for the provided retailer.",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -246,7 +244,6 @@ public class DeviceListsActivity extends AppCompatActivity {
                 if(response.isSuccessful() && response.body()!=null){
                     String msg = response.body().getMessage();
                     if("Happy customer list retrieved successfully.".equals(msg)){
-                        Toast.makeText(getApplicationContext(),"Happy customers.",Toast.LENGTH_SHORT).show();
                         List<HappyCustomerModel.happyCustomer> happyCustomerList = response.body().getHappyCustomerList();
                         happyCustomerAdapter = new HappyCustomerAdapter(DeviceListsActivity.this,happyCustomerList);
                         binding.deviceListsRecView.setAdapter(happyCustomerAdapter);
@@ -256,7 +253,7 @@ public class DeviceListsActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"No device found for the provided retailer.",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(), "response body is null", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 

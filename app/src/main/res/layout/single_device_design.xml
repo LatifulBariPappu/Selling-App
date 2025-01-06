@@ -119,27 +119,49 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:orientation="horizontal">
-                <Button
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/my_primary"
-                    android:id="@+id/deviceDetailBtn"
-                    android:hint="Details"
-                    android:layout_marginEnd="15dp"
-                    android:textSize="14sp"
-                    android:textColorHint="@color/white"/>
-                <Button
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/my_primary"
+                        android:id="@+id/deviceDetailBtn"
+                        android:hint="Details"
+                        android:layout_marginEnd="15dp"
+                        android:textSize="14sp"
+                        android:textColorHint="@color/white"/>
+                    <ProgressBar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:id="@+id/deviceDetailProgress"/>
+
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="#FF4D4D"
-                    android:id="@+id/deviceLockBtn"
-                    android:layout_marginStart="15dp"
-                    android:hint="Lock"
-                    android:drawableRight="@drawable/baseline_lock_24"
-                    android:textSize="14sp"
-                    android:textColorHint="@color/white"/>
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#FF4D4D"
+                        android:id="@+id/deviceLockBtn"
+                        android:layout_marginStart="15dp"
+                        android:hint="Lock"
+                        android:drawableRight="@drawable/baseline_lock_24"
+                        android:textSize="14sp"
+                        android:textColorHint="@color/white"/>
+                    <ProgressBar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:id="@+id/deviceLockProgress"/>
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>

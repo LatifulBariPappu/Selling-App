@@ -34,197 +34,460 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="8dp">
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SALES OVERVIEW"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:padding="3dp"
-            android:layout_marginTop="5dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
-            <TextView
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#BDBDBD" />
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/totalQuantity"
-                android:text="Total quantity"
-                android:textSize="14sp"
-                android:padding="3dp"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/totalSale"
-                android:text="Total sale"
-                android:textSize="14sp"
-                android:padding="3dp"/>
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="SALES OVERVIEW"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:padding="3dp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:text="Time Period"
+                        android:textSize="14sp"/>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#BDBDBD"
+                        android:layout_marginHorizontal="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Qunatity"
+                        android:textStyle="bold"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:textSize="14sp"/>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#BDBDBD"
+                        android:layout_marginHorizontal="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:text="Sale Amount"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:text="Today"
+                        android:textSize="14sp"/>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#BDBDBD"
+                        android:layout_marginHorizontal="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:text="0"
+                        android:id="@+id/todayQuantity"
+                        android:textSize="14sp"/>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#BDBDBD"
+                        android:layout_marginHorizontal="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:id="@+id/todaySaleAmount"
+                        android:text="0"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:text="This week"
+                        android:textSize="14sp"/>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#BDBDBD"
+                        android:layout_marginHorizontal="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="0"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:id="@+id/weekQuantity"
+                        android:textSize="14sp"/>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#BDBDBD"
+                        android:layout_marginHorizontal="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:id="@+id/weekSaleAmount"
+                        android:text="0"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:text="This month"
+                        android:textSize="14sp"/>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#BDBDBD"
+                        android:layout_marginHorizontal="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="0"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:id="@+id/monthQuantity"
+                        android:textSize="14sp"/>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#BDBDBD"
+                        android:layout_marginHorizontal="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/monthSaleAmount"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:text="Total"
+                        android:textSize="14sp"/>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#BDBDBD"
+                        android:layout_marginHorizontal="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="0"
+                        android:id="@+id/totalQuantity"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:textSize="14sp"/>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#BDBDBD"
+                        android:layout_marginHorizontal="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/totalSaleAmount"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"/>
+
+
+            </LinearLayout>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#BDBDBD" />
+
         </LinearLayout>
 
-        <HorizontalScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none">
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/black"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                tools:ignore="ScrollViewSize">
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
+                android:layout_marginTop="5dp">
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:cardElevation="8dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_margin="5dp">
-                    <com.jjoe64.graphview.GraphView
-                        android:id="@+id/chartMonth"
-                        android:layout_width="250dp"
-                        android:layout_height="200dp" />
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="COLLECTIONS"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Total collections"
+                        android:textSize="14sp"
+                        android:padding="3dp"
+                        android:layout_marginStart="10dp"
+                        android:id="@+id/totalCollectionsTv"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Total due"
+                        android:padding="3dp"
+                        android:layout_marginStart="10dp"
+                        android:textSize="14sp"
+                        android:id="@+id/totalDueTv"/>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#BDBDBD" />
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:cardElevation="8dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_margin="5dp">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="EMI STATUS"
+                        android:textSize="14sp"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="emi running"
+                        android:padding="3dp"
+                        android:layout_marginStart="10dp"
+                        android:textSize="14sp"
+                        android:id="@+id/emiRunningTv"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="emi completed"
+                        android:textSize="14sp"
+                        android:padding="3dp"
+                        android:layout_marginStart="10dp"
+                        android:id="@+id/emiCompletedTv"/>
 
-                    <com.jjoe64.graphview.GraphView
-                        android:id="@+id/chartWeek"
-                        android:layout_width="250dp"
-                        android:layout_height="200dp" />
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardElevation="8dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_margin="5dp">
+                </LinearLayout>
 
-                    <com.jjoe64.graphview.GraphView
-                        android:id="@+id/chartToday"
-                        android:layout_width="250dp"
-                        android:layout_height="200dp" />
-
-                </androidx.cardview.widget.CardView>
             </LinearLayout>
-        </HorizontalScrollView>
-        <View
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/black"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="LOCKED"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Total unlocked"
+                        android:padding="3dp"
+                        android:layout_marginStart="10dp"
+                        android:textSize="14sp"
+                        android:id="@+id/totalUnlockedTv"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Total locked"
+                        android:padding="3dp"
+                        android:layout_marginStart="10dp"
+                        android:textSize="14sp"
+                        android:id="@+id/totalLockedTv"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#BDBDBD" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TODAY'S DEFAULTERS"
+                        android:textSize="14sp"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Defaulters"
+                        android:layout_marginStart="10dp"
+                        android:padding="3dp"
+                        android:textSize="14sp"
+                        android:id="@+id/todayDefaultersTv"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="DefaultedAmount"
+                        android:padding="3dp"
+                        android:layout_marginStart="10dp"
+                        android:textSize="14sp"
+                        android:id="@+id/todayDefaultedAmountTv"/>
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/black"/>
+        </LinearLayout>
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/black"/>
+            android:layout_height="wrap_content"
+            android:text="today's defaulters"
+            android:padding="5dp"
+            android:layout_margin="3dp"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:id="@+id/todayDefaulterHeadingTv"/>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="DEFAULTERS"
-                    android:layout_marginTop="8dp"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Total defaulters"
-                    android:textSize="14sp"
-                    android:id="@+id/totalDefaultersTv"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Total defaulted amount"
-                    android:textSize="14sp"
-                    android:id="@+id/totalDefaultedAmountTv"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/black"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="EMI STATUS"
-                    android:layout_marginTop="8dp"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="emi running"
-                    android:textSize="14sp"
-                    android:id="@+id/emiRunningTv"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="emi completed"
-                    android:textSize="14sp"
-                    android:id="@+id/emiCompletedTv"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/black"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="COLLECTIONS"
-                    android:layout_marginTop="8dp"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Total collections"
-                    android:textSize="14sp"
-                    android:id="@+id/totalCollectionsTv"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Total due"
-                    android:textSize="14sp"
-                    android:id="@+id/totalDueTv"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/black"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="LOCKED"
-                    android:layout_marginTop="8dp"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Total unlocked"
-                    android:textSize="14sp"
-                    android:id="@+id/totalUnlockedTv"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Total locked"
-                    android:textSize="14sp"
-                    android:id="@+id/totalLockedTv"/>
-            </LinearLayout>
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/todayDefaultersRv"/>
         </ScrollView>
-
-
-
     </LinearLayout>
 
 </LinearLayout>

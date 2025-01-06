@@ -55,6 +55,8 @@ public class DefaulterAdapter extends RecyclerView.Adapter<DefaulterAdapter.Defa
         holder.binding.deviceDetailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                holder.binding.defaulterProgress.setVisibility(View.VISIBLE);
+                holder.binding.deviceDetailBtn.setVisibility(View.GONE);
                 SharedPreferences sp = context.getSharedPreferences("defaulters",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putString("isDefaulter","yes");
@@ -76,7 +78,40 @@ public class DefaulterAdapter extends RecyclerView.Adapter<DefaulterAdapter.Defa
         holder.binding.deviceLockBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lock_device(defaulter.getImei_1());
+                holder.binding.defaulterLockProgress.setVisibility(View.VISIBLE);
+                holder.binding.deviceLockBtn.setVisibility(View.GONE);
+
+                Call<LockDeviceModel> call = ApiController
+                        .getInstance()
+                        .getapi()
+                        .lockDevice(defaulter.getImei_1());
+
+                call.enqueue(new Callback<LockDeviceModel>() {
+                    @Override
+                    public void onResponse(Call<LockDeviceModel> call, Response<LockDeviceModel> response) {
+                        holder.binding.defaulterLockProgress.setVisibility(View.GONE);
+                        holder.binding.deviceLockBtn.setVisibility(View.VISIBLE);
+                        if(response.isSuccessful() && response.body()!=null){
+                            String status = response.body().getStatus();
+                            if("Successful".equals(status)){
+                                Toast.makeText(context,"Device Locked Successfully",Toast.LENGTH_SHORT).show();
+                            } else if ("Unsuccessful".equals(status)) {
+                                Toast.makeText(context,"Device Not Found!",Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(context, "Error Occurred", Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LockDeviceModel> call, Throwable t) {
+                        holder.binding.defaulterLockProgress.setVisibility(View.GONE);
+                        holder.binding.deviceLockBtn.setVisibility(View.VISIBLE);
+                        Toast.makeText(context, "Failed : "+ t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
@@ -111,34 +146,5 @@ public class DefaulterAdapter extends RecyclerView.Adapter<DefaulterAdapter.Defa
             defaulterList.addAll(filteredList); // Add filtered results
         }
         notifyDataSetChanged(); // Notify the adapter to refresh the RecyclerView
-    }
-    private void lock_device(String imei1){
-        Call<LockDeviceModel> call = ApiController
-                .getInstance()
-                .getapi()
-                .lockDevice(imei1);
-
-        call.enqueue(new Callback<LockDeviceModel>() {
-            @Override
-            public void onResponse(Call<LockDeviceModel> call, Response<LockDeviceModel> response) {
-                if(response.isSuccessful() && response.body()!=null){
-                    String status = response.body().getStatus();
-                    if("Successful".equals(status)){
-                        Toast.makeText(context,"Device Locked Successfully",Toast.LENGTH_SHORT).show();
-                    } else if ("Unsuccessful".equals(status)) {
-                        Toast.makeText(context,"Device Not Found!",Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(context, "Error Occurred", Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                    Toast.makeText(context, "response body is null", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LockDeviceModel> call, Throwable t) {
-                Toast.makeText(context, "Failed : "+ t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

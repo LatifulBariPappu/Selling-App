@@ -5,5 +5,5 @@
     <color name="my_primary">#8692f7</color>
     <color name="custom_blue">#6161FF</color>
     <color name="custom_red">#FA576F</color>
-    //#6B1BB6
+    <color name="custom_green">#9FF8A3</color>
 </resources>

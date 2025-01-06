@@ -59,6 +59,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     Boolean isDeviceClicked,isReminderClicked;
     CheckBox checkboxUsbDebugging,checkboxCall,checkboxSms,checkboxScreenCapture,checkboxUsbFile,checkboxMicrophone,checkboxCamera,checkboxMobileData,checkboxFacebook,checkboxWhatsapp,checkboxImo,checkboxViber,checkboxSnapchat,checkboxTelegram,checkboxMessenger,checkboxYoutube,checkboxSkype;
     int paymentAmount = 0;
+    ProgressBar restrictionProgress,deviceContentLockProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,77 +72,35 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         getDataOfDeviceContent();
 
 
-//        checkboxUsbDebugging.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//            if (isChecked) {
-//                Toast.makeText(this, "Option One Checked", Toast.LENGTH_SHORT).show();
-//            } else {
-//                Toast.makeText(this, "Option One Unchecked", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-
-        binding.toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
+        binding.toolbar.setOnClickListener(v -> finish());
+        binding.tabDevice.setOnClickListener(v -> getDataOfDeviceContent());
+        payBtn.setOnClickListener(v -> showPaymentPopup());
+        binding.tabReminder.setOnClickListener(v -> {
+            loadContentView(R.layout.reminder_content);
+            getDataOfReminderContent();
         });
-        binding.tabDevice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getDataOfDeviceContent();
-            }
+        binding.tabAgreement.setOnClickListener(v -> {
+            loadContentView(R.layout.agreement_content);
+            binding.deviceTransition.setVisibility(View.GONE);
+            binding.reminderTransition.setVisibility(View.GONE);
+            binding.payHistoryTransition.setVisibility(View.GONE);
+            binding.agreementTransiton.setVisibility(View.VISIBLE);
         });
-        payBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPaymentPopup();
-            }
-        });
-        binding.tabReminder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadContentView(R.layout.reminder_content);
-                getDataOfReminderContent();
-            }
-        });
-        binding.tabAgreement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadContentView(R.layout.agreement_content);
-                binding.deviceTransition.setVisibility(View.GONE);
-                binding.reminderTransition.setVisibility(View.GONE);
-                binding.payHistoryTransition.setVisibility(View.GONE);
-                binding.agreementTransiton.setVisibility(View.VISIBLE);
-            }
-        });
-        binding.tabPayHistory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadContentView(R.layout.pay_history_content);
-                getDataOfPaymentHistory();
-            }
+        binding.tabPayHistory.setOnClickListener(v -> {
+            loadContentView(R.layout.pay_history_content);
+            getDataOfPaymentHistory();
         });
 
-        restrictedBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getRestricted();
-            }
-        });
-        lockBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences sp = getSharedPreferences("defaulters", Context.MODE_PRIVATE);
-                String isDefaulter = sp.getString("isDefaulter","");
-                if("yes".equals(isDefaulter)){
-                    String defaulterImei1 = getIntent().getStringExtra("defaulterImei1");
-                    lock_device(defaulterImei1);
-                }else if("no".equals(isDefaulter)){
-                    String imei1 = getIntent().getStringExtra("imei1");
-                    lock_device(imei1);
-                }
-
+        restrictedBtn.setOnClickListener(v -> getRestricted());
+        lockBtn.setOnClickListener(v -> {
+            SharedPreferences sp = getSharedPreferences("defaulters", Context.MODE_PRIVATE);
+            String isDefaulter = sp.getString("isDefaulter","");
+            if("yes".equals(isDefaulter)){
+                String defaulterImei1 = getIntent().getStringExtra("defaulterImei1");
+                lock_device(defaulterImei1);
+            }else if("no".equals(isDefaulter)){
+                String imei1 = getIntent().getStringExtra("imei1");
+                lock_device(imei1);
             }
         });
     }
@@ -161,6 +120,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     }
 
     private void callRestrictedApi(String imei,RestrictedPolicyRequestModel model){
+        restrictionProgress.setVisibility(View.VISIBLE);
+        restrictedBtn.setVisibility(View.GONE);
         Call<PolicyResponseModel> call = ApiController
                 .getInstance()
                 .getapi()
@@ -169,6 +130,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         call.enqueue(new Callback<PolicyResponseModel>() {
             @Override
             public void onResponse(Call<PolicyResponseModel> call, Response<PolicyResponseModel> response) {
+                restrictionProgress.setVisibility(View.GONE);
+                restrictedBtn.setVisibility(View.VISIBLE);
                 if (response.isSuccessful() && response.body() != null) {
                     PolicyResponseModel responseBody = response.body();
                     int statusCode = responseBody.getStatusCode();
@@ -206,7 +169,9 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<PolicyResponseModel> call, Throwable t) {
+            public void onFailure(Call<PolicyResponseModel> call, Throwable t) {restrictionProgress.setVisibility(View.GONE);
+                restrictedBtn.setVisibility(View.VISIBLE);
+
                 Toast.makeText(getApplicationContext(), "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -445,6 +410,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         nextPayDateTv = view.findViewById(R.id.nextPayDataTV);
         restrictedBtn = view.findViewById(R.id.restrictedBtn);
         lockBtn=view.findViewById(R.id.lockBtn);
+        restrictionProgress=findViewById(R.id.restrictionProgress);
+        deviceContentLockProgress=findViewById(R.id.deviceContentLockProgress);
 
         if (devicePaymentRecView != null) {
             devicePaymentRecView.setLayoutManager(new LinearLayoutManager(this));
@@ -880,6 +847,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         return policyConfig;
     }
     private void lock_device(String imei1){
+        lockBtn.setVisibility(View.GONE);
+        deviceContentLockProgress.setVisibility(View.VISIBLE);
         Call<LockDeviceModel> call = ApiController
                 .getInstance()
                 .getapi()
@@ -888,6 +857,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         call.enqueue(new Callback<LockDeviceModel>() {
             @Override
             public void onResponse(Call<LockDeviceModel> call, Response<LockDeviceModel> response) {
+                lockBtn.setVisibility(View.VISIBLE);
+                deviceContentLockProgress.setVisibility(View.GONE);
                 if(response.isSuccessful() && response.body()!=null){
                     String status = response.body().getStatus();
                     if("Successful".equals(status)){
@@ -904,6 +875,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LockDeviceModel> call, Throwable t) {
+                lockBtn.setVisibility(View.VISIBLE);
+                deviceContentLockProgress.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "Failed : "+ t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

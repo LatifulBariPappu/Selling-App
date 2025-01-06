@@ -307,6 +307,11 @@
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:text="Item"/>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#BDBDBD"
+                    android:layout_marginHorizontal="8dp" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -314,6 +319,11 @@
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:text="Quantity"/>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#BDBDBD"
+                    android:layout_marginHorizontal="8dp" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -321,6 +331,11 @@
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:text="Tax"/>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#BDBDBD"
+                    android:layout_marginHorizontal="8dp" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -347,18 +362,33 @@
                     android:id="@+id/model2Invoice"
                     android:textSize="14sp"
                     android:text="model"/>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#BDBDBD"
+                    android:layout_marginHorizontal="8dp" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="14sp"
                     android:text="1"/>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#BDBDBD"
+                    android:layout_marginHorizontal="8dp" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="14sp"
                     android:text="0.00"/>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#BDBDBD"
+                    android:layout_marginHorizontal="8dp" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

@@ -94,9 +94,9 @@ public interface MyApi {
     );
     @GET("retailer/dashboard")
     Call<DashboardSaleResponse> getDashboardData(@Query("retail_id") int retailId);
-    @GET("dashboard-defaulters")
+    @GET("retailer/dashboard-defaulters")
     Call<DefaulterStatus> getDefaulterStatus(@Query("retail_id") int retailId);
-    @GET("dashboard-emi-status")
+    @GET("retailer/dashboard-emi-status")
     Call<EmiDataResponse> getEmiStatus(@Query("retail_id") int retailId);
 
 }

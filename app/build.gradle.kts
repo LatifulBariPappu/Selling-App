@@ -49,5 +49,4 @@ dependencies {
     implementation (libs.retrofit2.converter.gson)
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation("com.google.zxing:core:3.5.2")
-    implementation ("com.jjoe64:graphview:4.2.2")
 }
