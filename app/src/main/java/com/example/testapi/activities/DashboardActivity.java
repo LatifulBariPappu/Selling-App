@@ -97,20 +97,17 @@ public class DashboardActivity extends AppCompatActivity {
         call.enqueue(new Callback<DefaulterStatus>() {
             @Override
             public void onResponse(Call<DefaulterStatus> call, Response<DefaulterStatus> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful()  && response.body() != null) {
                     DefaulterStatus obj = response.body();
                     if(obj.getStatus()==200){
                         binding.todayDefaultedAmountTv.setText("Amount : "+obj.getTotal_defaulted_amount());
                         binding.todayDefaultersTv.setText("Defaulters : "+obj.getTotal_defaulters());
 
                         List<DefaulterStatus.TodayDefaulters> todayDefaultersList = obj.getTodays_defaulters();
-                        if(todayDefaultersList.isEmpty()){
-                            binding.todayDefaulterHeadingTv.setText("Hurray ! No defaulters today.");
-                            binding.todayDefaulterHeadingTv.setTextColor(getResources().getColor(R.color.custom_green));
-                        }else{
-                            binding.todayDefaulterHeadingTv.setText("Today's defaulters listed below");
-                            binding.todayDefaulterHeadingTv.setTextColor(getResources().getColor(R.color.custom_red));
-                        }
+
+                        binding.todayDefaulterHeadingTv.setText("Today's defaulters listed below");
+                        binding.todayDefaulterHeadingTv.setTextColor(getResources().getColor(R.color.custom_red));
+
                         TodayDefaulterAdapter adapter = new TodayDefaulterAdapter(todayDefaultersList);
                         binding.todayDefaultersRv.setAdapter(adapter);
                     }

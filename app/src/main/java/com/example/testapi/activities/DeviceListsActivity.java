@@ -138,7 +138,7 @@ public class DeviceListsActivity extends AppCompatActivity {
             }
         });
     }
-    private void getDefaulterList(int retailId){
+    private void getDefaulterList(int retailId) {
         Call<DefaulterResponse> call = ApiController
                 .getInstance()
                 .getapi()
@@ -147,30 +147,41 @@ public class DeviceListsActivity extends AppCompatActivity {
         call.enqueue(new Callback<DefaulterResponse>() {
             @Override
             public void onResponse(Call<DefaulterResponse> call, Response<DefaulterResponse> response) {
-                if(response.isSuccessful() && response.body()!=null){
-                    String msg = response.body().getMessage();
-                    if("Defaulter list retrieved successfully.".equals(msg)){
-                        List<DefaulterResponse.Defaulter> defaulterDevices = response.body().getDefaultersList();
-                        defaulterAdapter= new DefaulterAdapter(DeviceListsActivity.this,defaulterDevices);
-                        binding.deviceListsRecView.setAdapter(defaulterAdapter);
-                    }else if ("No defaulters with outstanding amounts for the provided retailer.".equals(msg)){
-                        Toast.makeText(getApplicationContext(),"No defaulters with outstanding amounts for the provided retailer.",Toast.LENGTH_SHORT).show();
-                    }else if ("No device found for the provided retailer.".equals(msg)){
-                        Toast.makeText(getApplicationContext(),"No device found for the provided retailer.",Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful() && response.body() != null) {
+                    DefaulterResponse defaulterResponse = response.body();
+                    String msg = defaulterResponse.getMessage();
+                    int status = defaulterResponse.getStatus();
+
+                    if (status == 200 && "Defaulter list retrieved successfully.".equals(msg)) {
+                        List<DefaulterResponse.Defaulter> defaulterDevices = defaulterResponse.getDefaultersList();
+
+                        if (defaulterDevices != null && !defaulterDevices.isEmpty()) {
+                            defaulterAdapter = new DefaulterAdapter(DeviceListsActivity.this, defaulterDevices);
+                            binding.deviceListsRecView.setAdapter(defaulterAdapter);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "No defaulters found.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else if (status == 404 && "No defaulters with outstanding amounts for the provided retailer.".equals(msg)) {
+                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                    } else if (status == 404 && "No device found for the provided retailer.".equals(msg)) {
+                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Unexpected response: " + msg, Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<DefaulterResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Failed : "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Request failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void getDeiceListApi(int retailId) {
+
+    private void getDeviceListApi(int retailId) {
         Call<DeviceListModel> call = ApiController
                 .getInstance()
                 .getapi()
@@ -179,28 +190,36 @@ public class DeviceListsActivity extends AppCompatActivity {
         call.enqueue(new Callback<DeviceListModel>() {
             @Override
             public void onResponse(Call<DeviceListModel> call, Response<DeviceListModel> response) {
-                if(response.isSuccessful() && response.body()!=null){
-                    String msg = response.body().getMessage();
-                    if("Request Successful".equals(msg)){
-                        List<Devices> devices = response.body().getDevicesList();
-                        deviceAdapter = new DeviceAdapter(DeviceListsActivity.this,devices);
-                        binding.deviceListsRecView.setAdapter(deviceAdapter);
-                    } else if ("No devices found for the provided retailer.".equals(msg)) {
-                        Toast.makeText(getApplicationContext(),"No devices found for the provided retailer.",Toast.LENGTH_SHORT).show();
-                    } else if ("Validation errors".equals(msg)) {
-                        Toast.makeText(getApplicationContext(),"The retail is field is required.",Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful() && response.body() != null) {
+                    DeviceListModel deviceListModel = response.body();
+                    String msg = deviceListModel.getMessage();
+                    int status = deviceListModel.getStatus();
+
+                    if (status == 200 && "Request Successful".equals(msg)) {
+                        List<Devices> devices = deviceListModel.getDevicesList();
+                        if (devices != null && !devices.isEmpty()) {
+                            deviceAdapter = new DeviceAdapter(DeviceListsActivity.this, devices);
+                            binding.deviceListsRecView.setAdapter(deviceAdapter);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "No devices found for the provided retailer.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else if (status == 404 && "No devices found for the provided retailer.".equals(msg)) {
+                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Unexpected response: " + msg, Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<DeviceListModel> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Failed : "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Request failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
     private void getGoodCustomerList(int retailId){
         Call<GoodCustomerModel> call = ApiController
@@ -366,7 +385,7 @@ public class DeviceListsActivity extends AppCompatActivity {
         if (allIsClicked) {
             SharedPreferences sp = getSharedPreferences("saved_login", MODE_PRIVATE);
             int retailId = sp.getInt("retailerId", 0);
-            getDeiceListApi(retailId);
+            getDeviceListApi(retailId);
         }
     }
     private void refreshDefaulterList() {

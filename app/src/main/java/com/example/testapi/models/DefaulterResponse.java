@@ -1,5 +1,6 @@
 package com.example.testapi.models;
 
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

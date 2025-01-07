@@ -169,14 +169,5 @@ public class DeviceAdapter  extends RecyclerView.Adapter<DeviceAdapter.DeviceVie
         }
         notifyDataSetChanged(); // Notify the adapter to refresh the RecyclerView
     }
-    @SuppressLint("NotifyDataSetChanged")
-    public void filterLockedDevices() {
-        devicesList.clear();
-        for (Devices device : fullList) {
-            if (device.getDevice_lock() == 1) {
-                devicesList.add(device);
-            }
-        }
-        notifyDataSetChanged(); // Refresh the RecyclerView
-    }
+
 }

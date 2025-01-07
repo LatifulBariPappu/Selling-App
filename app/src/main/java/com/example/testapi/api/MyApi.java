@@ -1,6 +1,7 @@
 package com.example.testapi.api;
 
 import com.example.testapi.models.AddDevice;
+import com.example.testapi.models.BalanceModel;
 import com.example.testapi.models.DashboardSaleResponse;
 import com.example.testapi.models.DefaulterStatus;
 import com.example.testapi.models.DeviceListModel;
@@ -98,5 +99,6 @@ public interface MyApi {
     Call<DefaulterStatus> getDefaulterStatus(@Query("retail_id") int retailId);
     @GET("retailer/dashboard-emi-status")
     Call<EmiDataResponse> getEmiStatus(@Query("retail_id") int retailId);
-
+    @GET("retailer/dashboard-balance")
+    Call<BalanceModel> getBalance(@Query("retail_id") int retailId);
 }

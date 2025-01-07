@@ -23,7 +23,7 @@
     <string name="payment_date">Payment Date</string>
     <string name="invoice_number">Invoice Number</string>
     <string name="scan_barcode_here">SCAN BARCODE</string>
-    <string name="get_info">Get info</string>
+    <string name="get_info">Add device</string>
     <string name="sales_person_name">Sales Person Name</string>
     <string name="hire_sale_price">Hire Sale Price</string>
     <string name="new_sale_btn">New Sale</string>

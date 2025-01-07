@@ -240,49 +240,57 @@ public class SaleCustomerInfoActivity extends AppCompatActivity {
         }
     }
 
-    private void getInvoiceSuccess(String auth, SaleRequestModel req){
+    private void getInvoiceSuccess(String auth, SaleRequestModel req) {
         binding.confirmSaleBtn.setVisibility(View.GONE);
         binding.confirmSaleProgess.setVisibility(View.VISIBLE);
+
         Call<SaleResponseModel> call = ApiController
                 .getInstance()
                 .getapi()
-                .sendRequest(auth,req);
+                .sendRequest(auth, req);
+
         call.enqueue(new Callback<SaleResponseModel>() {
             @Override
             public void onResponse(Call<SaleResponseModel> call, Response<SaleResponseModel> response) {
-
                 binding.confirmSaleProgess.setVisibility(View.GONE);
                 binding.confirmSaleBtn.setVisibility(View.VISIBLE);
 
                 if (response.isSuccessful() && response.body() != null) {
                     SaleResponseModel responseData = response.body();
-                    if ("Action Successful".equals(responseData.getDataObject().getMessage())) {
-                        String nextInstallmentDate = responseData.getDataObject().getNext_installment_date();
-                        SharedPreferences sp = getSharedPreferences("add_device",MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putString("nextInstallmentDate",nextInstallmentDate);
-                        editor.apply();
-                        Toast.makeText(getApplicationContext(), "Action Successful", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(SaleCustomerInfoActivity.this,InvoiceActivity.class));
-                        finish();
-                    } else if ("Action Unsuccessful".equals(responseData.getDataObject().getMessage())) {
-                        Toast.makeText(getApplicationContext(), "IMEI should have 15 digits.", Toast.LENGTH_SHORT).show();
-                    }else if ("Device Already Sold".equals(responseData.getDataObject().getMessage())) {
-                        Toast.makeText(getApplicationContext(), "Device Already Sold", Toast.LENGTH_SHORT).show();
-                    } else if ("Device Dose not Exist".equals(responseData.getDataObject().getMessage())) {
-                        Toast.makeText(getApplicationContext(), "Device Dose not Exist", Toast.LENGTH_SHORT).show();
+
+                    if (responseData.getStatus() == 200) {  // Check for successful status
+                        String message = responseData.getDataObject().getMessage();
+                        if ("Action Successful".equals(message)) {
+                            String nextInstallmentDate = responseData.getDataObject().getNext_installment_date();
+                            SharedPreferences sp = getSharedPreferences("add_device", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString("nextInstallmentDate", nextInstallmentDate);
+                            editor.apply();
+
+                            Toast.makeText(getApplicationContext(), "Action Successful", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(SaleCustomerInfoActivity.this, InvoiceActivity.class));
+                            finish();
+                        } else if ("Device Already Sold".equals(message)) {
+                            Toast.makeText(getApplicationContext(), "Device Already Sold", Toast.LENGTH_SHORT).show();
+                        } else if ("Device Dose not Exist".equals(message)) {
+                            Toast.makeText(getApplicationContext(), "Device Does Not Exist", Toast.LENGTH_SHORT).show();
+                        } else if ("Please buy subscription".equals(message)) {
+                            Toast.makeText(getApplicationContext(), "Please buy subscription", Toast.LENGTH_SHORT).show();
+                        }
+                    } else if (responseData.getStatus() == 400) {  // Unauthorized Access
+                        Toast.makeText(getApplicationContext(), "Unauthorized Access", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), "response body is null." + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }
-
             }
             @Override
             public void onFailure(Call<SaleResponseModel> call, Throwable t) {
                 binding.confirmSaleProgess.setVisibility(View.GONE);
                 binding.confirmSaleBtn.setVisibility(View.VISIBLE);
-                Toast.makeText(SaleCustomerInfoActivity.this,  "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SaleCustomerInfoActivity.this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 }

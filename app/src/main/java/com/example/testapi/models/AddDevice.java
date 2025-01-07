@@ -1,25 +1,35 @@
 package com.example.testapi.models;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.Map;
 
 public class AddDevice {
+
     @SerializedName("status")
     private String status;
+
     @SerializedName("statusCode")
     private int statusCode;
+
     @SerializedName("message")
     private String message;
+
     @SerializedName("role")
     private String role;
+
     @SerializedName("data")
     private String data;
 
-    public AddDevice(String status, int statusCode, String message, String role, String data) {
+    @SerializedName("errors")
+    private Map<String, String[]> errors;
+
+    public AddDevice(String status, int statusCode, String message, String role, String data, Map<String, String[]> errors) {
         this.status = status;
         this.statusCode = statusCode;
         this.message = message;
         this.role = role;
         this.data = data;
+        this.errors = errors;
     }
 
     public String getStatus() {
@@ -60,5 +70,13 @@ public class AddDevice {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public Map<String, String[]> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(Map<String, String[]> errors) {
+        this.errors = errors;
     }
 }
