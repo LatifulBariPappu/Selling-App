@@ -31,7 +31,7 @@
             android:layout_gravity="center"
             android:text="Confirm Sale"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
     <ScrollView

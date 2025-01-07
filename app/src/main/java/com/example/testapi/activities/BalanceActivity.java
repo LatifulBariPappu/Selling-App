@@ -32,7 +32,11 @@ public class BalanceActivity extends AppCompatActivity {
         });
         SharedPreferences sp = getSharedPreferences("saved_login",MODE_PRIVATE);
         int retailerId = sp.getInt("retailerId",0);
+        String retailerName =sp.getString("retailerName","");
         setBalance(retailerId);
+
+        binding.retailerNameTv.setText(retailerName);
+        binding.retailerIdTv.setText(String.valueOf(retailerId));
 
     }
     private void setBalance(int retailerId) {
@@ -59,6 +63,7 @@ public class BalanceActivity extends AppCompatActivity {
                         binding.totalPurchasedTv.setText(String.valueOf(purchasedSubscription));
                         binding.consumedPurchasedTv.setText(String.valueOf(consumedSubscription));
                         binding.balanceSubscriptionTv.setText(String.valueOf(balance));
+                        binding.mainBalancetv.setText(String.valueOf(balance));
                     } else {
                         Toast.makeText(getApplicationContext(), "No balance data available", Toast.LENGTH_SHORT).show();
                     }

@@ -114,58 +114,45 @@ public class NewSaleActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     AddDevice responseBody = response.body();
                     String message = responseBody.getMessage();
-                    String status = responseBody.getStatus();
 
-                    switch (message) {
-                        case "Device Added Successfully":
-                            Toast.makeText(getApplicationContext(), "Device Added Successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(NewSaleActivity.this, SaleCustomerInfoActivity.class));
-                            break;
-
-                        case "Validation errors":
-                            if (responseBody.getErrors() != null && responseBody.getErrors().containsKey("imei")) {
-                                String errorMsg = responseBody.getErrors().get("imei")[0];
-                                Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Validation errors occurred.", Toast.LENGTH_SHORT).show();
-                            }
-                            break;
-
-                        case "Add request not confirmed":
-                            Toast.makeText(getApplicationContext(), "Add request not confirmed", Toast.LENGTH_SHORT).show();
-                            break;
-
-                        case "Retailer not found":
-                            Toast.makeText(getApplicationContext(), "Retailer not found", Toast.LENGTH_SHORT).show();
-                            break;
-
-                        case "Error message":
-                            Toast.makeText(getApplicationContext(), "Error occurred: Error message", Toast.LENGTH_SHORT).show();
-                            break;
-
-                        case "Invalid response from confirmation service":
-                            Toast.makeText(getApplicationContext(), "Invalid response from confirmation service", Toast.LENGTH_SHORT).show();
-                            break;
-
-                        default:
-                            Toast.makeText(getApplicationContext(), "Unexpected response: " + message, Toast.LENGTH_SHORT).show();
-                            break;
+                    if ("Device Added Successfully".equals(message)) {
+                        Toast.makeText(getApplicationContext(), "Device Added Successfully", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(NewSaleActivity.this, SaleCustomerInfoActivity.class));
+                    } else if ("Validation errors".equals(message)) {
+                        if (responseBody.getErrors() != null && responseBody.getErrors().containsKey("imei")) {
+                            String errorMsg = responseBody.getErrors().get("imei")[0];
+                            Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Validation errors occurred.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else if ("Add request not confirmed".equals(message)) {
+                        Toast.makeText(getApplicationContext(), "Add request not confirmed", Toast.LENGTH_SHORT).show();
+                    } else if ("Retailer not found".equals(message)) {
+                        Toast.makeText(getApplicationContext(), "Retailer not found", Toast.LENGTH_SHORT).show();
+                    } else if ("Error message".equals(message)) {
+                        Toast.makeText(getApplicationContext(), "Error occurred: Error message", Toast.LENGTH_SHORT).show();
+                    } else if ("Invalid response from confirmation service".equals(message)) {
+                        Toast.makeText(getApplicationContext(), "Invalid response from confirmation service", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Unexpected response: " + message, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Log.d("addDevice2", "Response failed: " + response.message());
+                    Log.d("addDevice", "Response failed: " + response.message());
                     Toast.makeText(getApplicationContext(), "Response failed: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<AddDevice> call, Throwable t) {
-                Log.d("addDevice", t.getMessage());
+                Log.d("addDevice2", t.getMessage());
                 Toast.makeText(getApplicationContext(), "Request failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 binding.imeiProgress.setVisibility(View.GONE);
                 binding.imeiInfoBtn.setVisibility(View.VISIBLE);
             }
         });
     }
+
+
 
 
 }

@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Profile"
-            android:textSize="16sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/white"/>
     </LinearLayout>
@@ -44,6 +45,39 @@
         android:layout_height="wrap_content"
         android:padding="20dp"
         android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="DISTRIBUTOR NAME"
+                android:layout_weight="1"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/retailerDistributorNameTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text=""
+                android:layout_weight="1"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_marginTop="20dp"
+            android:text="Profile Details"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/my_primary"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -147,31 +181,9 @@
                 android:textSize="14sp" />
 
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/my_primary"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="DISTRIBUTOR NAME"
-                android:layout_weight="1"
-                android:textSize="14sp" />
-            <TextView
-                android:id="@+id/retailerDistributorNameTv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text=""
-                android:layout_weight="1"
-                android:textSize="14sp" />
-        </LinearLayout>
+
+
     </LinearLayout>
 
 

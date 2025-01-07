@@ -75,16 +75,16 @@ public class DashboardActivity extends AppCompatActivity {
                         binding.weekSaleAmount.setText(thisWeekSale+" BDT");
                         binding.monthQuantity.setText(String.valueOf(thisMonthQuantity));
                         binding.monthSaleAmount.setText(thisMonthSale+" BDT");
-
                         binding.totalQuantity.setText(String.valueOf(totalQuantity));
                         binding.totalSaleAmount.setText(totalSale+" BDT");
                     }
-
+                }else{
+                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
             public void onFailure(Call<DashboardSaleResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Failed to create line graph", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

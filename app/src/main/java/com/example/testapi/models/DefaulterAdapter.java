@@ -91,17 +91,28 @@ public class DefaulterAdapter extends RecyclerView.Adapter<DefaulterAdapter.Defa
                     public void onResponse(Call<LockDeviceModel> call, Response<LockDeviceModel> response) {
                         holder.binding.defaulterLockProgress.setVisibility(View.GONE);
                         holder.binding.deviceLockBtn.setVisibility(View.VISIBLE);
-                        if(response.isSuccessful() && response.body()!=null){
-                            String status = response.body().getStatus();
-                            if("Successful".equals(status)){
-                                Toast.makeText(context,"Device Locked Successfully",Toast.LENGTH_SHORT).show();
-                            } else if ("Unsuccessful".equals(status)) {
-                                Toast.makeText(context,"Device Not Found!",Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(context, "Error Occurred", Toast.LENGTH_SHORT).show();
+
+                        if (response.isSuccessful() && response.body() != null) {
+                            LockDeviceModel responseBody = response.body();
+                            int statusCode = responseBody.getStatusCode();
+                            String message = responseBody.getMessage();
+
+                            switch (statusCode) {
+                                case 200: // Success
+                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                                    break;
+                                case 404: // Not Found or Unsuccessful
+                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                                    break;
+                                case 500: // Error Occurred
+                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                                    break;
+                                default: // Unknown Response
+                                    Toast.makeText(context, "Unexpected response: " + message, Toast.LENGTH_SHORT).show();
+                                    break;
                             }
-                        }else{
-                            Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -109,7 +120,7 @@ public class DefaulterAdapter extends RecyclerView.Adapter<DefaulterAdapter.Defa
                     public void onFailure(Call<LockDeviceModel> call, Throwable t) {
                         holder.binding.defaulterLockProgress.setVisibility(View.GONE);
                         holder.binding.deviceLockBtn.setVisibility(View.VISIBLE);
-                        Toast.makeText(context, "Failed : "+ t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
